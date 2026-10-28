@@ -2,25 +2,27 @@ import type { Metadata } from "next";
 import TemplatesClient from "./TemplatesClient";
 
 export const metadata: Metadata = {
-  title: "PropTech Systems & Source Code | PropGrowth Lab",
+  title: "Sub-Second Next.js Website Templates & Full-Stack Systems | PropGrowth Lab",
   description:
-    "Production-ready Next.js 16 real estate & hospitality codebases. Direct-booking engines with 2-way iCal sync, multi-listing brokerage portals, and rental arbitrage OS. Buy code for $27 or order 48-hour turnkey deployment for $199.",
+    "Replace slow WordPress sites with sub-second Next.js platforms. High-converting templates for boutique hotels, luxury villas, real estate, clinics, and local services. Buy clean code from $19–$69 or order 48-hour turnkey deployment for $99–$199.",
   keywords: [
-    "PropTech source code",
-    "Next.js real estate template",
-    "villa direct booking engine",
-    "iCal calendar sync Airbnb",
-    "real estate brokerage script",
-    "rental arbitrage OS",
-    "turnkey real estate website 48 hours",
+    "Sub-second Next.js website",
+    "Next.js direct booking engine",
+    "Replace WordPress Next.js",
+    "real estate brokerage portal Next.js",
+    "dental clinic website template",
+    "tradie services website template",
+    "turnkey website launch 48 hours",
+    "Next.js Tailwind CSS source code",
+    "MEST showcase templates",
   ],
   alternates: {
     canonical: "https://propgrowthlab.com/templates",
   },
   openGraph: {
-    title: "PropTech Systems & Source Code | PropGrowth Lab",
+    title: "Sub-Second Next.js Website Templates & Systems | PropGrowth Lab",
     description:
-      "Download production Next.js 16 codebases for $27 or order 48-hour turnkey deployment for $199. Direct-booking engines and multi-listing brokerage systems.",
+      "Replace slow WordPress sites with sub-second Next.js platforms. 99+ PageSpeed and 48-hour turnkey launch.",
     url: "https://propgrowthlab.com/templates",
     siteName: "PropGrowth Lab",
     images: [

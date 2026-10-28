@@ -21,6 +21,29 @@ import {
   Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const PARTNER_TERRITORIES = [
+  { value: "United States (USA)", label: "United States (Miami, New York, California)" },
+  { value: "United Kingdom (UK)", label: "United Kingdom (London & England)" },
+  { value: "Canada", label: "Canada (Toronto, Vancouver, Montreal)" },
+  { value: "Australia", label: "Australia (Sydney, Melbourne, Gold Coast)" },
+  { value: "European Union (EU)", label: "European Union (Portugal, Spain, France, Italy)" },
+  { value: "UAE & GCC", label: "UAE & GCC (Dubai, Abu Dhabi, Doha)" },
+  { value: "Other Worldwide Hub", label: "Other International Destination (Worldwide)" },
+];
+
+const EXPERIENCE_OPTIONS = [
+  { value: "1-2 years", label: "1 - 2 years" },
+  { value: "3-5 years", label: "3 - 5 years" },
+  { value: "5+ years", label: "5+ years (Senior Broker)" },
+];
 
 export function PartnersClient() {
   const [fullName, setFullName] = useState("");
@@ -74,8 +97,8 @@ export function PartnersClient() {
             </span>
           </h1>
 
-          <p className="mt-5 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
-            Traditional real estate firms take half your earnings while leaving you to spend hours cold-prospecting and paying for your own marketing. Partner with PropGrowth Lab: we deliver verified international tenants and high-intent buyers directly to you—you conduct physical viewings and paperwork locally, keeping a <strong className="text-stone-900 font-bold">guaranteed 70% commission (70/30 split) with zero upfront fees</strong>.
+          <p className="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
+            Stop giving 50% of your commission away while doing all the prospecting. We deliver verified luxury buyers and tenants directly to your phone—you handle local viewings and keep a <strong className="text-stone-900 font-bold">guaranteed 70% commission</strong> with zero desk fees.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -96,23 +119,23 @@ export function PartnersClient() {
             </a>
           </div>
 
-          {/* Quick Problem-to-Gain Cards */}
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">70% Flat Payout</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Guaranteed 70/30 split on every deal</p>
+          {/* Quick Problem-to-Gain Cards - Strict 1-Line Title & Subtitle Consistency */}
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">70% Payout</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Guaranteed deal payout</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">$0 Upfront Cost</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">No desk fees or subscription</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Zero Desk Fees</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">No desk fees or lock-in</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">Zero Prospecting</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">We deliver ready clients to you</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">No Prospecting</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Ready clients delivered</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">Max 2 Agents</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Exclusive city territory lock</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Max 2 Agents</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Exclusive territory lock</p>
             </div>
           </div>
         </div>
@@ -275,34 +298,56 @@ export function PartnersClient() {
                   <label className="block text-xs font-semibold text-stone-300 mb-1.5">
                     Target Territory *
                   </label>
-                  <select
+                  <Select
+                    items={PARTNER_TERRITORIES}
                     value={territory}
-                    onChange={(e) => setTerritory(e.target.value)}
-                    className="w-full bg-stone-950 border border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500"
+                    onValueChange={(val) => {
+                      if (val) setTerritory(val);
+                    }}
                   >
-                    <option className="bg-stone-950 text-white" value="United States (USA)">United States (Miami, New York, California)</option>
-                    <option className="bg-stone-950 text-white" value="United Kingdom (UK)">United Kingdom (London & England)</option>
-                    <option className="bg-stone-950 text-white" value="Canada">Canada (Toronto, Vancouver, Montreal)</option>
-                    <option className="bg-stone-950 text-white" value="Australia">Australia (Sydney, Melbourne, Gold Coast)</option>
-                    <option className="bg-stone-950 text-white" value="European Union (EU)">European Union (Portugal, Spain, France, Italy)</option>
-                    <option className="bg-stone-950 text-white" value="UAE & GCC">UAE & GCC (Dubai, Abu Dhabi, Doha)</option>
-                    <option className="bg-stone-950 text-white" value="Other Worldwide Hub">Other International Destination (Worldwide)</option>
-                  </select>
+                    <SelectTrigger className="w-full bg-stone-950 border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500">
+                      <SelectValue placeholder="Select target territory" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-stone-900 border border-stone-700/80 text-white rounded-xl shadow-2xl p-1 z-50">
+                      {PARTNER_TERRITORIES.map((opt) => (
+                        <SelectItem
+                          key={opt.value}
+                          value={opt.value}
+                          className="text-xs text-stone-200 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-stone-800 data-[highlighted]:!text-white data-[highlighted]:font-semibold hover:!bg-stone-800 hover:!text-white focus:!bg-stone-800 focus:!text-white data-[selected]:!text-amber-400 data-[selected]:font-bold data-[selected]:!bg-amber-500/10"
+                        >
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-300 mb-1.5">
                     Experience in Real Estate
                   </label>
-                  <select
+                  <Select
+                    items={EXPERIENCE_OPTIONS}
                     value={experience}
-                    onChange={(e) => setExperience(e.target.value)}
-                    className="w-full bg-stone-950 border border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500"
+                    onValueChange={(val) => {
+                      if (val) setExperience(val);
+                    }}
                   >
-                    <option className="bg-stone-950 text-white" value="1-2 years">1 - 2 years</option>
-                    <option className="bg-stone-950 text-white" value="3-5 years">3 - 5 years</option>
-                    <option className="bg-stone-950 text-white" value="5+ years">5+ years (Senior Broker)</option>
-                  </select>
+                    <SelectTrigger className="w-full bg-stone-950 border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500">
+                      <SelectValue placeholder="Select years of experience" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-stone-900 border border-stone-700/80 text-white rounded-xl shadow-2xl p-1 z-50">
+                      {EXPERIENCE_OPTIONS.map((opt) => (
+                        <SelectItem
+                          key={opt.value}
+                          value={opt.value}
+                          className="text-xs text-stone-200 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-stone-800 data-[highlighted]:!text-white data-[highlighted]:font-semibold hover:!bg-stone-800 hover:!text-white focus:!bg-stone-800 focus:!text-white data-[selected]:!text-amber-400 data-[selected]:font-bold data-[selected]:!bg-amber-500/10"
+                        >
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 

@@ -1,87 +1,88 @@
-﻿# 🎨 05. Brand Identity, Logo Hex Codes & Style Guide
-> **Parent Dashboard:** [[00_EXECUTIVE_MASTER_DASHBOARD]]  
-> **Related:** [[01_FOUR_PILLARS_OFFER_ARCHITECTURE]] | [[04_TECH_STACK_AUTOMATION_AND_SLA]]
+# 🎨 PROP GROWTH LAB: ব্র্যান্ড আইডেন্টিটি ও স্টাইল গাইড
+
+> **ডকুমেন্ট উদ্দেশ্য:** এই ফাইলে **Prop Growth Lab**-এর ভিজ্যুয়াল ব্র্যান্ড আইডেন্টিটি, কালার প্যালেট, টাইপোগ্রাফি, লোগো স্পেসিফিকেশন এবং কম্পোনেন্ট ডিজাইন প্রিন্সিপাল বিস্তারিতভাবে লিপিবদ্ধ করা হয়েছে।
 
 ---
 
-## 💎 Brand Persona & Aesthetic Vibe
-- **Brand Archetype:** The High-Tech Luxury Growth Architect.
-- **Visual Feeling:** Warm stone linen elegance, architectural precision, Swiss typography, glowing ambient gold accents.
-- **Core Design Rule:** Never look like a cheap generic SaaS or a clunky corporate real estate portal. Look like a private Swiss wealth management platform meets modern Silicon Valley PropTech.
+## ১. কোর ডিজাইন দর্শন (Aesthetic Philosophy)
+
+Prop Growth Lab-এর ডিজাইন আর্কিটেকচার সাধারণ বা জেনেরিক টেমপ্লেট থেকে সম্পূর্ণ আলাদা:
+* **আল্ট্রা-লাক্সারি হসপিটালিটি অনুভূতি:** শীতল নীল বা সস্তা লাউড রঙের বদলে উষ্ণ লাক্সারি স্টোন ও গোল্ডেন অ্যাম্বারের আবহ।
+* **হাই ট্রাস্ট ও মিনিমালিজম:** পরিপাটি হোয়াইটস্পেস, সূক্ষ্ম কাঁচের মতো বর্ডার (Subtle Glassmorphism), এবং প্রিমিয়াম কনট্রাস্ট।
+* **মাইক্রো-ইন্টার‍্যাকশন:** মসৃণ হোভার ইফেক্ট, গ্রেডিয়েন্ট গ্লো এবং দ্রুতগতির প্রতিক্রিয়াশীল অভিজ্ঞতা।
 
 ---
 
-## 🎨 Master Color Palette & Exact Hex Codes
+## ২. অফিশিয়াল কালার প্যালেট (Color Palette & Tokens)
 
-### 1. The Signature Amber & Gold Gradients (Primary Brand Theme)
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        PROP GROWTH LAB COLOR PALETTE                   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+    ┌───────────────────────────────┼───────────────────────────────┐
+    ▼                               ▼                               ▼
+【১. Warm Stone Linen】           【২. Radiant Amber Glow】         【৩. Deep Obsidian Charcoal】
+(প্রিমিয়াম ক্যানভাস ব্যাকগ্রাউন্ড)  (প্রাইমারি অ্যাকশন ও এক্সেন্ট)    (ডার্ক সেকশন ও টেক্সট কনট্রাস্ট)
+#fbfbfa / #f7f5f0               #d97706 / #f59e0b / #b45309      #1c1917 / #0c0a09
+```
 
-#### A. Light Theme (Navbar, Hero Headings & Light Canvas):
-- **Tailwind Definition:** `from-amber-600 via-amber-500 to-amber-700`
-- **Color Stops & Hex Codes:**
-  - **Start (Left):** `#d97706` — Deep Warm Amber
-  - **Middle (Center):** `#f59e0b` — Vibrant Golden Amber
-  - **End (Right):** `#b45309` — Rich Bronze Amber
-- **CSS Code:**
-  ```css
-  background: linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #b45309 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  ```
-
-#### B. Dark Theme (Footer, Dark CTA Sections & Dark Backgrounds):
-- **Tailwind Definition:** `from-amber-400 via-amber-300 to-amber-500`
-- **Color Stops & Hex Codes:**
-  - **Start (Left):** `#fbbf24` — Luminous Gold Amber
-  - **Middle (Center):** `#fcd34d` — Bright Warm Sunbeam Gold
-  - **End (Right):** `#f59e0b` — Core Amber Glow
-- **CSS Code:**
-  ```css
-  background: linear-gradient(90deg, #fbbf24 0%, #fcd34d 50%, #f59e0b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  ```
-
-#### C. Vector Logo Icon Gradient (Adobe Illustrator Specification):
-- **Building Pillars & Rising Arrow:**
-  - **Base / Start (0%):** `#E85D04` (বা `#D97706`) — Deep Saturated Warm Amber
-  - **Tip / Head (100%):** `#FFB703` (বা `#FFAA00`) — Radiant Golden Sunburst
-  - **Angle:** `45°` (or dragged along the arrow curve with Gradient Tool `G` from bottom-tail to top-tip).
-  - **Outer Frame:** Deep Midnight Obsidian (`#102A43` / `#14120f`).
+### কালার টোকেন ম্যাট্রিক্স:
+* **Background Canvas (Light):** `#fbfbfa` (Warm Stone White) ও `#f7f5f0` (Soft Linen).
+* **Primary Accent (Brand Glow):**
+  - **Base Amber:** `#d97706` (Primary interactive buttons, highlights)
+  - **Light Amber:** `#f59e0b` (Gradient stop, hover highlights)
+  - **Dark Amber:** `#b45309` (Active state, deep borders)
+* **Dark Surfaces (Footer & Pre-Footer):**
+  - **Header/Footer Gradient:** `from-[#181206] via-[#120e07] to-stone-950`
+  - **Deep Charcoal Card:** `#1c1917` with subtle amber ambient glow.
+* **Text Hierarchy:**
+  - **Primary Text:** `#0c0a09` (Deep Stone Black)
+  - **Muted Text:** `#78716c` (Stone 500)
+  - **Dark Mode Primary Text:** `#fafaf9` (Stone 50)
 
 ---
 
-### 2. Neutral Background Canvas (The Warm Stone Linen System)
-To avoid harsh stark white while maintaining an ultra-premium editorial feel:
-- **Base Canvas:** `#fbfbfa` (Warm Stone Linen)
-- **Subtle Hero Mid-tone:** `#f7f5f0` (Natural Sand Silk)
-- **Card Background:** `#ffffff` (Pure Crisp White on Stone Canvas)
-- **Subtle Borders:** `#e7e5e4` / `border-stone-200/90`
-- **Dark Sections & Footer:** `#181206` via `#120e07` to `#0c0a08` (`stone-950`)
-- **Ambient Glow:** `bg-amber-500/10` to `bg-amber-500/15` with `blur-3xl` / `blur-[130px]`.
+## ৩. লোগো স্পেসিফিকেশন ও আইকন স্ট্যান্ডার্ড
+
+* **লোগো ফাইল পাথ:** `public/logo.png`
+* **ওপেনগ্রাফ ব্যানার:** `public/og.png` (1200x630px)
+* **লোগো গ্রেডিয়েন্ট স্পেসিফিকেশন:**
+  - **কালার ১:** `#d97706` (Solid Rich Amber)
+  - **কালার ২:** `#f59e0b` (Bright Gold Amber)
+  - **গ্রেডিয়েন্ট কোণ (Angle):** 135 ডিগ্রি (Linear Gradient from Top-Left to Bottom-Right)
+* **সাইজিং রুলস:**
+  - Favicon: `32x32px`
+  - Apple Touch Icon: `180x180px`
+  - PWA Web Manifest: `192x192px` এবং `512x512px`
+  - নেভিগেশন বার লোগো হাইট: `36px` বা `40px`
 
 ---
 
-## 🔤 Typography & Hierarchy
-- **Primary Body & Display Font:** `Geist Sans`, `-apple-system`, `BlinkMacSystemFont`, `Segoe UI`, `Inter`, `sans-serif`.
-- **Badges & Metrics:** `font-mono`, `text-[10.5px]`, `tracking-wide`, `uppercase`, `rounded-[4px]`.
-- **Headings:**
-  - H1 Hero: `text-3xl sm:text-5xl lg:text-6xl`, `font-black`, `tracking-tight`, `leading-[1.14]`.
-  - H2 Section: `text-2xl sm:text-4xl`, `font-black`, `tracking-tight`.
-  - H3 Card Title: `text-lg sm:text-xl`, `font-bold`.
+## ৪. টাইপোগ্রাফি সিস্টেম (Typography System)
+
+আমরা Google Fonts-এর আধুনিক Geist ফন্ট ফ্যামিলি ব্যবহার করি:
+* **Body & UI Font:** `Geist Sans` (`--font-geist-sans`) — পরিষ্কার, ক্রিস্প এবং আধুনিক স্ক্রিন রিডাবিলিটি।
+* **Numerical & Data Font:** `Geist Mono` (`--font-geist-mono`) — মেট্রিক্স, পরিসংখ্যান, কোড এবং আর্থিক হিসাবের জন্য।
+* **হেডিং হায়ারার্কি:**
+  - `H1`: Bold 4xl / 5xl, ট্র্যাকিং টাইট (`tracking-tight`), হাই-কনভার্সন স্টেটমেন্ট।
+  - `H2`: Semi-bold 2xl / 3xl, পরিষ্কার সেকশন টাইটেল।
+  - `Body`: Regular 16px / 18px, লাইন-হাইট `leading-relaxed`।
 
 ---
 
-## 📱 Interactive Floating Elements & CTAs
-- **Floating WhatsApp CTA (`FloatingWhatsAppCTA.tsx`):**
-  - Position: Fixed bottom right (`bottom-6 right-6 z-50`).
-  - Active Green Pulse Badge with real WhatsApp icon.
-  - WhatsApp Link: `https://wa.me/8801540505122` with pre-filled inquiries.
-  - Circular SVG progress ring for Smooth Scroll-to-Top trigger.
+## ৫. ইউআই কম্পোনেন্ট ডিজাইন নীতিমালা
+
+1. **বাটন (Buttons):**
+   - প্রাইমারি বাটন: Radiant Amber সলিড ব্যাকগ্রাউন্ড (`bg-amber-600 hover:bg-amber-700 text-white shadow-sm shadow-amber-500/20`).
+   - সেকেন্ডারি বাটন: স্টোন বর্ডারযুক্ত লিঙ্ক বা আউটলাইন বাটন (`border border-stone-200 bg-white hover:bg-stone-50`).
+2. **ভ্যালু কার্ডস (Value Cards):**
+   - রাউন্ডেড কর্নার: `rounded-2xl`
+   - বর্ডার: অতি সূক্ষ্ম `border border-stone-200/80`
+   - হোভার ইফেক্ট: `hover:shadow-lg hover:border-amber-300/80 transition-all duration-300`
+3. **ফর্ম ইনপুটস (Form Controls):**
+   - হাইট: `h-11` বা `h-12` (মোবাইলে সহজে ট্যাপ করার জন্য)
+   - ফোকাস রিং: `focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600`
 
 ---
-
-## 🚫 Design Rules & "Never Do" List
-1. **Never use generic primary blue/green:** Always use the warm stone + radiant amber gold theme.
-2. **Never leave harsh white strips above the dark footer:** All pre-footer CTA sections must seamlessly transition into the footer's dark gradient.
-3. **Never use vague commission numbers:** Co-broker split is strictly **Fixed 70 / 30** (Agent 70%, Platform 30%).
-4. **Always specify explicit image sizes:** Never hardcode disparate icon file names; use `/logo.png` everywhere with size attributes.
+*সর্বশেষ আপডেট: ২৮ অক্টোবর ২০২৬ | Prop Growth Lab Brand Guidelines*

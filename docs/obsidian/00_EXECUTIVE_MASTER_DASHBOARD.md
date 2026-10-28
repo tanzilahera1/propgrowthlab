@@ -1,56 +1,76 @@
-﻿# 🏢 PropGrowth Lab — Executive Master Dashboard
-> **"The 360° PropTech Systems & Hospitality Growth Engine for Luxury Stays, Villas & Global Brokerages."**
+# 🏢 PROP GROWTH LAB: এক্সিকিউটিভ মাস্টার ড্যাশবোর্ড ও স্ট্র্যাটেজিক ভিশন
+
+> **ডকুমেন্ট উদ্দেশ্য:** এই ফাইলটি **Prop Growth Lab**-এর সামগ্রিক ব্যবসায়িক দর্শন, ইকোসিস্টেম পজিশনিং, ৪টি পিলারের হাই-লেভেল সমন্বয় এবং বৈশ্বিক লক্ষ্যমাত্রার একক নির্ভরযোগ্য উৎস (Single Source of Truth)। যেকোনো নতুন সেশন বা স্ট্র্যাটেজিক পর্যালোচনায় এই ড্যাশবোর্ড প্ল্যাটফর্মের মূল চালিকাশক্তি তুলে ধরে।
 
 ---
 
-## 📌 Executive Summary
-**PropGrowth Lab** is an enterprise-grade digital holding & growth infrastructure platform. We solve the two biggest bleeding wounds in high-end real estate and luxury hospitality:
-1. **The 25% OTA Commission Bleed:** Boutique resorts and luxury villa operators hand over $30,000–$60,000+ every year to Airbnb and Booking.com while losing ownership of their guest data.
-2. **The Broker Pipeline Feast-or-Famine:** Licensed real estate agents waste 20+ hours a week cold-calling dead numbers, scrolling Facebook groups, and surrendering 50% commission splits to traditional brokerages that provide zero inbound deal flow.
+## ১. প্ল্যাটফর্ম পরিচিতি ও এক্সিকিউটিভ সারসংক্ষেপ (Executive Summary)
+
+* **ব্র্যান্ড নাম:** **Prop Growth Lab**
+* **মূল স্লোগান:** *360° Tech & Hospitality Growth Engine for Luxury Stays, Villas & Real Estate*
+* **লাইভ ডোমেন:** `propgrowthlab.com`
+* **লোকাল প্রজেক্ট পাথ:** `D:\my-project\mest and showcase\prop-growth-lab`
+* **অবসিডিয়ান ভল্ট লোকেশন:** `D:\Obsidian\Prop Growth Lab`
+* **ব্যবসায়িক মডেল:** **Hybrid PropTech Platform & High-Ticket Growth Engine** (ডিজিটাল প্রোডাক্ট, পারফরম্যান্স এজেন্সি, লিড ডিসপ্যাচ ও ডিসেন্ট্রালাইজড কো-ব্রোকার নেটওয়ার্কের সমন্বয়)।
 
 ---
 
-## 🗺️ Master Document Navigation (Obsidian Map)
-- [[01_FOUR_PILLARS_OFFER_ARCHITECTURE|01. The 4 Core Pillars & Offer Architecture]]
-- [[02_REVENUE_ECONOMICS_AND_PRICING_ENGINE|02. Revenue Economics, Pricing Engine & Cashflow]]
-- [[03_CLIENT_ACQUISITION_AND_SALES_PLAYBOOK|03. Global Client Acquisition & Outreach Playbook]]
-- [[04_TECH_STACK_AUTOMATION_AND_SLA|04. Tech Stack, Cloud Automations & Turnkey SLA]]
-- [[05_BRAND_IDENTITY_STYLE_GUIDE|05. Brand Identity, Logo Hex Codes & Design System]]
+## ২. MEST ইকোসিস্টেমে Prop Growth Lab-এর অবস্থান
+
+আমাদের মূল ব্যবসায়িক ইকোসিস্টেমে প্রতিটি উদ্যোগের ভূমিকা সুনির্দিষ্ট ও স্বয়ংসম্পূর্ণ:
+
+```
+                                ┌───────────────────────────────┐
+                                │       MEST ECOSYSTEM          │
+                                └──────────────┬────────────────┘
+                                               │
+               ┌───────────────────────────────┼───────────────────────────────┐
+               ▼                               ▼                               ▼
+     【MEST School】                 【MEST Showcase】              【PROP GROWTH LAB】
+   (এডুকেশন ও স্কিল প্ল্যাটফর্ম)      (১০২+ রেডিমেড টেমপ্লেট লাইব্রেরি)     (ফ্ল্যাগশিপ প্রপটেক ও গ্রোথ ইঞ্জিন)
+   mestschool.com                  templates.mestschool.com         propgrowthlab.com
+```
+
+### ইকোসিস্টেমের সেপারেশন অফ কনসার্ন (Separation of Concern):
+1. **MEST School:** এডুকেশন প্ল্যাটফর্ম (একাডেমিক ম্যাথ, টেকনিক্যাল স্কিল, কোর্স ও বুকশেলফ)।
+2. **MEST Showcase:** ১০২+ প্রোডাকশন-রেডি টেমপ্লেটের পোর্টফোলিও শোকেস (যেখান থেকে বিভিন্ন নিশের ক্লায়েন্টরা ডেমো দেখতে পারে)।
+3. **Prop Growth Lab (আমাদের মূল ফ্ল্যাগশিপ প্ল্যাটফর্ম):** 
+   - পূর্বে পরিকল্পিত `marketing-agency` (সার্বজনীন ডিজিটাল এজেন্সি) এবং `prime-broker-hub` (প্রপটেক কো-ব্রোকার নেটওয়ার্ক)-এর সমস্ত শক্তিশালী ফিচার, অ্যান্টি-চিটিং আর্কিটেকচার এবং গ্রোথ সিস্টেমকে একীভূত করে গঠিত একটি উচ্চ-রূপান্তরকারী বৈশ্বিক প্ল্যাটফর্ম।
+   - এটি আতিথেয়তা (Hospitality), লাক্সারি ভিলা/রিসোর্ট এবং আন্তর্জাতিক রিয়েল এস্টেট মার্কেটের জন্য একটি স্বয়ংসম্পূর্ণ ৩৬০° গ্রোথ সমাধান।
 
 ---
 
-## 🌐 Global Target Territories (Tier-1 Markets)
-We serve top luxury and high-spending real estate markets worldwide:
-- 🇺🇸 **United States:** Miami & South Beach, New York City, California (Los Angeles, Malibu)
-- 🇬🇧 **United Kingdom:** Central London (Mayfair, Kensington), Cotswolds & Surrey
-- 🇨🇦 **Canada:** Toronto, Vancouver, Montreal
-- 🇦🇺 **Australia:** Sydney (Eastern Suburbs), Melbourne, Gold Coast
-- 🇪🇺 **European Union:** Portugal (Madeira, Lisbon, Algarve), Spain (Marbella, Ibiza), France (French Riviera)
-- 🇦🇪 **UAE & GCC:** Dubai (Palm Jumeirah, Downtown, Marina), Doha (The Pearl, West Bay)
-- 🌍 **Worldwide / Custom Markets:** Turnkey software and booking funnels deployable globally in 48 hours.
+## ৩. ৪টি মূল স্তম্ভের সমন্বয় (The 4 Pillars at a Glance)
+
+Prop Growth Lab মূলত ৪টি শক্তিশালী পিলারের ওপর পরিচালিত, যা ক্লায়েন্টদের জন্য সমস্যা সমাধান ও আয় বৃদ্ধির গ্যারান্টি দেয়:
+
+| পিলার (Pillar) | রুট পাথ (Route) | মূল সমস্যা ও সমাধান (Problem-Gain Focus) | রেভিনিউ মডেল ও প্রাইসিং |
+| :--- | :--- | :--- | :--- |
+| **১. Direct Booking Templates** | `/templates` | $15,000+ মূল্যের ধীরগতির কাস্টম ডেভেলপমেন্ট খরচ বাঁচিয়ে **48 Hours**-এ নিজস্ব ডিরেক্ট বুকিং ইঞ্জিন চালু করা। | $190 – $350 (এককালীন টার্নকি লাইভ) + $49/মাস কেয়ার প্ল্যান |
+| **২. Performance Hospitality Agency** | `/agency` | OTA (Airbnb, Booking.com)-কে ২০% থেকে ২৫% কমিশন দেওয়া বন্ধ করে নিজস্ব গেস্ট বুকিং তৈরি করা। | $300 – $500/মাস ফিক্সড রিটেইনার + $0 ক্লায়েন্ট ওপিএম (OPM) অ্যাড স্পেন্ড |
+| **৩. High-Ticket Lead Dispatch** | `/leads` | ব্যাকডেটেড কোল্ড কলিং বন্ধ করে প্রি-কোয়ালিফাইড হাই-বাজেট বায়ার ও টেন্যান্টদের সরাসরি WhatsApp-এ ডেলিভারি। | $99 – $499/মাস টেরিটরি সাবস্ক্রিপশন (৩০–১৫০+ লিড) |
+| **৪. The Co-Broker Network** | `/partners` | ব্রোকারেজকে অর্ধেক কমিশন না দিয়ে আমাদের ক্লোজ-রেডি ডিল সম্পন্ন করে **Fixed 70% কমিশন** ঘরে তোলা। | **Fixed 70 / 30 Split** (পার্টনার ব্রোকার ৭০%, প্ল্যাটফর্ম ৩০%) |
 
 ---
 
-## ⚙️ Core Technical Infrastructure
-- **Web Platform:** Next.js 16 (Turbopack, App Router, React Server Components)
-- **Styling:** Tailwind CSS v4 + Vanilla CSS Luxury Tokens
-- **Theme Palette:** Warm Stone Linen (`#fbfbfa` / `#f7f5f0`) + Radiant Amber & Bronze (`#d97706` / `#f59e0b` / `#b45309`)
-- **Database & CRM:** MongoDB Atlas (`Lead` and `AuditRequest` schemas)
-- **Operations Center:** Internal `/admin` operations console with Ant Design v5
-- **Communication Channels:**
-  - WhatsApp Direct Concierge: `+8801540505122`
-  - Discord Channel: `https://discord.com/users/1055888694831239218`
+## ৪. গ্লোবাল টার্গেট মার্কেট (Global Tier-1 Markets)
+
+প্ল্যাটফর্মটি কোনো নির্দিষ্ট শহর বা অঞ্চলে সীমাবদ্ধ নয়। বিশ্বব্যাপী হাই-ভ্যালু প্রপার্টি মার্কেটগুলোতে এটি সমানভাবে কার্যকর:
+* **উত্তর আমেরিকা:** USA (Miami, Los Angeles, New York, Austin), Canada (Toronto, Vancouver, Montreal)।
+* **ইউরোপীয় ইউনিয়ন ও যুক্তরাজ্য:** UK (London, Manchester), Portugal (Madeira, Lisbon, Algarve), Spain (Marbella, Ibiza), France (French Riviera)।
+* **ওশেনিয়া:** Australia (Sydney, Melbourne, Brisbane, Perth, Gold Coast)।
+* **মধ্যপ্রাচ্য ও গালফ:** UAE (Dubai, Abu Dhabi), Qatar (Doha), Saudi Arabia (Riyadh)।
+* **গ্লোবাল ডেস্টিনেশন:** বালি, ফুকেট, মালদ্বীপ ও বিশ্বব্যাপী হাই-ভ্যালু হলিডে রেন্টাল হাব।
 
 ---
 
-## 📊 Quick Revenue Pillars At A Glance
+## ৫. মূল ব্যবসায়িক মেট্রিক্স ও প্রজেকশন (Strategic KPIs)
 
-| Pillar | Focus | Target Customer | Pricing Model | Conversion Promise |
-| :--- | :--- | :--- | :--- | :--- |
-| **1. Systems & Code** | Ready Software | Operators & Devs | **$27** (Code) / **$199** (Turnkey) | Launch in 48 hours; save $12,000+ vs agency dev |
-| **2. 360° Growth Agency** | Direct Bookings | Luxury Villa Owners | **$350 / mo** Flat Retainer | Stop 25% OTA loss; keep 100% profit & guest data |
-| **3. Broker Lead Quotas** | Daily Lead Flow | Licensed Brokers | **$299 – $999 / mo** | Zero cold calling; verified WhatsApp tenant leads daily |
-| **4. Co-Broker Network** | Ground Deal Closing | Local Real Estate Agents | **Fixed 70 / 30 Split** | We deliver verified clients; you view & keep 70% |
+* **Monthly Recurring Revenue (MRR) টার্গেট:** $10,000 – $25,000 USD (পরবর্তী ১২ মাসে)।
+* **Co-Broker Commission Split:** গ্যারান্টিযুক্ত **Fixed 70 / 30 Split** (জিরো অ্যাম্বিগুইটি, সর্বোচ্চ পার্টনার আস্থা)।
+* **SLA (Service Level Agreement):** টার্নকি ওয়েবসাইট ও পোর্টালে **48 Hours** লাইভ ডেলিভারি গ্যারান্টি।
+* **Zero Inventory Overhead:** কোনো নিজস্ব প্রপার্টি কেনা বা লিজ নেওয়ার ঝুঁকি নেই; লোকাল পার্টনারদের মাধ্যমে ১০০% মাঠপর্যায়ের ভিউয়িং পরিচালিত হয়।
+* **Anti-Circumvention Protection:** এসক্রো ডিপোজিট, টেরিটরি রিটেইনার ও টেন্যান্ট ইন্স্যুরেন্সের মাধ্যমে প্ল্যাটফর্ম কমিশন ১০০% সুরক্ষিত।
 
 ---
-*Last Updated: October 2026 | Version: 2.1 (Unified Global Amber Edition)*
+*সর্বশেষ আপডেট: ২৮ অক্টোবর ২০২৬ | Prop Growth Lab Executive Architecture*

@@ -145,7 +145,7 @@ export function PublicFooter() {
               <li>Meta & Google Ads Management</li>
               <li>48-Hour Turnkey Deployment</li>
               <li>Nomad & Expat Lead Pipeline</li>
-              <li>Sub-Second Next.js 16 Web Apps</li>
+              <li>Sub-Second Next.js Web Apps</li>
             </ul>
           </div>
 

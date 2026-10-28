@@ -1,64 +1,82 @@
-﻿# 🛠️ 04. Tech Stack, Cloud Automations & Turnkey SLA
-> **Parent Dashboard:** [[00_EXECUTIVE_MASTER_DASHBOARD]]  
-> **Related:** [[01_FOUR_PILLARS_OFFER_ARCHITECTURE]] | [[05_BRAND_IDENTITY_STYLE_GUIDE]]
+# ⚙️ PROP GROWTH LAB: টেক স্ট্যাক, অটোমেশন ও SLA আর্কিটেকচার
+
+> **ডকুমেন্ট উদ্দেশ্য:** এই ফাইলে **Prop Growth Lab**-এর সফটওয়্যার ইঞ্জিনিয়ারিং আর্কিটেকচার, কঠোর কোডিং নীতিমালা (Coding Commandments), ডেটাবেস স্কিমা, অটোমেশন পাইপলাইন এবং SLA গ্যারান্টি বিশদভাবে লিপিবদ্ধ করা হয়েছে।
 
 ---
 
-## 🏗️ Technical Architecture & Stack
-PropGrowth Lab is built on modern, bleeding-edge web infrastructure engineered for speed, low maintenance, and high conversion:
+## ১. প্রযুক্তিগত স্ট্যাক ও হাইব্রিড UI মডেল (Tech Stack)
 
-- **Core Framework:** Next.js 16 (Turbopack, Server Actions, Partial Prerendering, Edge Runtime).
-- **Language:** TypeScript 5.8+ (Strict Type-Checking, Zero `any`).
-- **Styling & Design System:** Tailwind CSS v4 + Custom HSL Design Tokens + Framer Motion micro-animations.
-- **Database & Storage:** MongoDB Atlas (Mongoose ODM) with schemas for `Lead` and `AuditRequest`.
-- **Operations Console:** Internal `/admin` operations console powered by Ant Design v5 + App context.
-- **Form Validation & Schemas:** Zod + React Hook Form.
-- **Analytics & Tracking:** Next.js Server-Side Meta Pixel + Google Analytics 4 (Conversions API).
-
----
-
-## ⚡ The 48-Hour Turnkey Deployment SLA
-When a client orders a **Turnkey Deployment ($199 - $249)**, our team executes the following 4-stage protocol within 48 business hours:
-
-```mermaid
-graph TD
-    A[Order Placed & Brand Assets Received] --> B[Domain DNS & Edge Cloud Deployment]
-    B --> C[Payment Gateway & 2-Way iCal Calendar Sync]
-    C --> D[WhatsApp Lead Routing & Final QA]
-    D --> E[Client Handover Video Walkthrough & Live Launch]
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    Next.js 16.4.3 (App Router)               │
+│                    React 19.3.0 + React Compiler             │
+│                    Tailwind CSS v4 + Turbopack               │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+            ┌──────────────────┴──────────────────┐
+            ▼                                     ▼
+┌──────────────────────────────┐    ┌──────────────────────────────┐
+│   পাবলিক ও ক্লায়েন্ট ইন্টারফেস    │    │      অ্যাডমিন ও সিআরএম প্যানেল     │
+│       src/app/(public)       │    │       src/app/(admin)        │
+│                              │    │                              │
+│   ★ shadcn/ui (Base UI)      │    │   ★ Ant Design 6 (AntD)      │
+│   ★ Lucide Icons             │    │   ★ @ant-design/nextjs-registry  │
+│   ★ Tailwind CSS v4          │    │   ★ Zero Console Warnings        │
+│   ★ Warm Stone Linen থিম     │    │   ★ অটো-রেসপন্সিভ টেবিল স্ট্যান্ডার্ড │
+│   ★ Vercel Speed Insights    │    │   ★ Telegram/Discord ডিসপ্যাচ    │
+└──────────────────────────────┘    └──────────────────────────────┘
 ```
 
-### Turnkey Deployment Checklist (SOP):
-- [ ] **Stage 1 (Hour 0–12): Domain & Cloud Edge**
-  - Add client domain to Vercel / Cloudflare edge network.
-  - Configure DNS records (`CNAME` to edge endpoint, `A` record, SSL automatic generation).
-- [ ] **Stage 2 (Hour 12–24): Branding & Copy Customization**
-  - Replace default branding with client's logo, color hex codes, and typography.
-  - Insert high-resolution property imagery, hero photography, and amenity icons.
-  - Configure room types, nightly rates, cleaning fees, and security deposit terms.
-- [ ] **Stage 3 (Hour 24–36): Payment & Calendar Integrations**
-  - Connect client's Stripe Connect account for direct deposit to their bank.
-  - Import Airbnb & Booking.com iCal calendar export links.
-  - Configure export iCal feed from our Next.js app back into Airbnb/Booking.com (2-way sync).
-- [ ] **Stage 4 (Hour 36–48): Lead Bots & Live Handover**
-  - Connect WhatsApp floating concierge button (`wa.me/[client-number]`).
-  - Wire Telegram or Discord webhook for real-time guest booking notifications.
-  - Run full end-to-end checkout test in Stripe Test Mode.
-  - Record 5-minute personalized Loom handover video and deliver to client inbox.
+---
+
+## ২. কঠোর কোডিং নীতিমালা (Strict Architectural Rules)
+
+যেকোনো নতুন সেশনে কাজ করার সময় নিচের নিয়মগুলো অলঙ্ঘনীয়:
+
+### নিয়ম ১: Route Group Isolation (রুট গ্রুপ আইসোলেশন)
+* **`(public)` রুট গ্রুপ (`src/app/(public)`):** শুধুমাত্র `shadcn/ui`, Radix primitives, Lucide icons ও Tailwind CSS v4 ব্যবহার করবে। পাবলিক রুটে কোনো অবস্থাতেই Ant Design ইমপোর্ট করা সম্পূর্ণ নিষিদ্ধ।
+* **`(admin)` রুট গ্রুপ (`src/app/(admin)`):** শুধুমাত্র Ant Design (`antd`) ব্যবহার করবে, যা `<ConfigProvider>` ও `@ant-design/nextjs-registry` দ্বারা আইসোলেটেড থাকবে।
+
+### নিয়ম ২: ১০০% Server Component `page.tsx` + Sibling `*Client.tsx`
+* প্রতিটি `page.tsx` সর্বদাই **১০০% Server Component** হবে (`export const metadata: Metadata` থাকবে, কখনোই `"use client"` থাকবে না)।
+* যাবতীয় ক্লায়েন্ট ইন্টার‍্যাকশন, স্টেট ও হুক থাকবে একই ডিরেক্টরির সিডলিং ফাইলে (যেমন: `HomeClient.tsx`, `AdminClient.tsx`, `LeadsClient.tsx`)।
+
+### নিয়ম ৩: Next.js 16 Turbopack ও প্রিরেন্ডারিং কমপ্লায়েন্স
+* `next.config.ts`-এ `cacheComponents: true` সক্রিয় থাকায় পেজে `export const dynamic = "force-dynamic"` ব্যবহার করা যাবে না।
+* Ant Design কম্পোনেন্টে হাইড্রেশন ও সিএসএস হ্যাশ সতর্কতা রোধ করতে সর্বদাই `mounted` গার্ড নিশ্চিত করতে হবে।
+* সার্ভার কম্পোনেন্টে `new Date().getFullYear()` কল না করে স্ট্যাটিক কনস্ট্যান্ট (যেমন `2026`) ব্যবহার করতে হবে।
 
 ---
 
-## 🔄 Two-Way iCal Synchronization Mechanics
-To prevent double-bookings between the client's direct website and Airbnb/Booking.com:
-1. **Inbound Sync:** Next.js cron job polls the client's Airbnb iCal URL every 15 minutes. Booked dates are stored in cache and blocked on the direct website calendar.
-2. **Outbound Sync:** Our app serves an endpoint `api/calendar/[propertyId].ics` that outputs standard RFC 5545 iCalendar format. Airbnb and Booking.com ingest this feed to block dates booked directly.
+## ৩. কোর ডেটাবেস স্কিমা ও এন্টিটিজ (Database Entities)
+
+প্ল্যাটফর্মের ডেটাবেস (MongoDB Mongoose স্কিমা) নিম্নলিখিত মূল এন্টিটিগুলোর ওপর প্রতিষ্ঠিত:
+
+1. **`Lead` (`src/models/Lead.ts`):** সাধারণ ক্লায়েন্ট ইনকোয়ারি, প্রপার্টি অডিট রিকোয়েস্ট, নিশ, লোকেশন ও স্ট্যাটাস।
+2. **`PartnerApplication` (`src/models/PartnerApplication.ts`):** পার্টনার ব্রোকারদের আবেদন, লাইসেন্স নম্বর, কভার করা শহর, অভিজ্ঞতা ও কমিশন সম্মতি।
+3. **`Subscription` (`src/models/Subscription.ts`):** লিড ডিসপ্যাচ ও কেয়ার প্ল্যানের মাসিক রিকারিং সাবস্ক্রিপশন রেকর্ড।
+4. **`Order` (`src/models/Order.ts`):** টার্নকি টেমপ্লেট ডেলিভারি অর্ডার ও পেমেন্ট ট্র্যাকিং।
+5. **`ViewingPass` (প্রপটেক স্পেসিফিকেশন):** টেন্যান্ট ও ক্লায়েন্টদের জন্য স্বয়ংক্রিয়ভাবে জেনারেট হওয়া ডিজিটাল ভিউয়িং পাস ও QR কোড।
+6. **`HoldingDeposit` (এসক্রো স্পেসিফিকেশন):** ক্লায়েন্টদের $200 – $350 ডিপোজিট ট্রানজাকশন লেজার।
 
 ---
 
-## 📱 Real-Time Lead Dispatch & Webhook Automations
-When an inquiry or audit request is submitted on the platform:
-1. **Database:** Lead saved to MongoDB Atlas `Lead` collection with territory tagging.
-2. **Instant Push Alert:** Next.js Route Handler sends formatted payload to:
-   - Telegram Channel (via Bot API).
-   - Discord Private Operations Webhook.
-3. **WhatsApp Concierge Link:** Dynamic link generated (`wa.me/[number]?text=[encoded-details]`) allowing the team or partner broker to respond to the lead in under 90 seconds.
+## ৪. মাল্টি-চ্যানেল রিয়েল-টাইম নোটিফিকেশন পাইপলাইন
+
+ক্লায়েন্ট যখনই ওয়েবসাইটে কোনো অডিট বা পার্টনারশিপ ফর্ম সাবমিট করে:
+1. **API রুট (`src/app/api/audit-request/route.ts`):** ডেটা গ্রহণ ও ভ্যালিডেশন সম্পন্ন করে।
+2. **MongoDB স্টোরেজ:** ডেটাবেসে স্থায়ীভাবে রেকর্ড সংরক্ষণ করা হয়।
+3. **Telegram Bot Dispatch:** অ্যাডমিনের টেলিগ্রাম চ্যাটে বিস্তারিত তথ্য সহ ইনস্ট্যান্ট মেসেজ পাঠানো হয়।
+4. **Discord Webhook Alert:** ইন্টারনাল ডিসকর্ড চ্যানেলে টিম অ্যালার্ট ট্রিগার হয়।
+5. **n8n / WhatsApp Automation Hook:** পার্টনার ব্রোকারের হোয়াটসঅ্যাপে লিড ডিসপ্যাচ পাঠানো হয়।
+
+---
+
+## ৫. সার্ভিস লেভেল এগ্রিমেন্ট (SLA Standards)
+
+* **টার্নকি ডিপ্লয়মেন্ট:** অর্ডার নিশ্চিত হওয়ার পর **48 Hours**-এর মধ্যে প্রোডাকশন লাইভ।
+* **পেজ লোডিং স্পিড:** Google PageSpeed Insights-এ মোবাইল ও ডেস্কটপে **90+ স্কোর** ও সাব-সেকেন্ড ফার্স্ট কন্টেন্টফুল পেইন্ট (FCP)।
+* **আপটাইম গ্যারান্টি:** Vercel Edge Network-এর মাধ্যমে **99.99% গ্লোবাল আপটাইম**।
+
+---
+*সর্বশেষ আপডেট: ২৮ অক্টোবর ২০২৬ | Prop Growth Lab Technical Architecture*

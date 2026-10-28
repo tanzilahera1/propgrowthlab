@@ -102,14 +102,14 @@ export function PublicNavbar() {
           </div>
 
           {/* ================= CENTER: DESKTOP PILLAR NAVIGATION ================= */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2 bg-stone-100/90 backdrop-blur-md p-1.5 rounded-full border border-stone-200/90 shadow-xs">
+          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1.5 bg-stone-100/90 backdrop-blur-md p-1 lg:p-1.5 rounded-full border border-stone-200/90 shadow-xs">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 whitespace-nowrap flex items-center gap-1.5 ${
+                  className={`relative px-2.5 lg:px-4 py-1.5 rounded-full text-[11px] lg:text-xs font-semibold tracking-wide transition-all duration-200 whitespace-nowrap flex items-center gap-1 ${
                     isActive
                       ? "bg-stone-900 text-white font-bold shadow-xs"
                       : "text-stone-600 hover:text-stone-900 hover:bg-white/90"
@@ -124,9 +124,9 @@ export function PublicNavbar() {
             })}
           </nav>
 
-          {/* ================= RIGHT: CTA BUTTON CLUSTER ================= */}
-          <div className="hidden sm:flex items-center gap-2.5">
-            <Link href="/leads">
+          {/* ================= RIGHT: CTA BUTTON CLUSTER (RESPONSIVE) ================= */}
+          <div className="hidden md:flex items-center gap-2">
+            <Link href="/leads" className="hidden xl:inline-flex">
               <Button
                 variant="outline"
                 size="sm"
@@ -138,7 +138,7 @@ export function PublicNavbar() {
             <Link href="/agency">
               <Button
                 size="sm"
-                className="rounded-full text-xs font-bold px-4 h-9 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-md shadow-amber-500/20 border border-amber-600/30 transition-all active:scale-95 whitespace-nowrap gap-1.5"
+                className="rounded-full text-xs font-bold px-3.5 lg:px-4 h-9 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-md shadow-amber-500/20 border border-amber-600/30 transition-all active:scale-95 whitespace-nowrap gap-1.5"
               >
                 <span>Book Audit</span>
                 <Sparkles className="w-3.5 h-3.5 text-white" />
@@ -148,18 +148,18 @@ export function PublicNavbar() {
 
           {/* ================= MOBILE HAMBURGER TRIGGER ================= */}
           <div className="flex items-center gap-2 md:hidden">
-            <Link href="/agency">
+            <Link href="/agency" className="hidden sm:inline-flex">
               <Button
                 size="sm"
                 className="rounded-full text-[11px] font-bold px-3 h-8 bg-gradient-to-r from-amber-600 to-amber-700 text-white whitespace-nowrap shadow-xs"
               >
-                Get Growth
+                Book Audit
               </Button>
             </Link>
 
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger
-                className="w-9 h-9 rounded-full flex items-center justify-center text-slate-700 hover:bg-amber-50 transition-colors focus:outline-none"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-slate-700 hover:bg-stone-100 transition-colors focus:outline-none border border-stone-200/80 bg-white shadow-xs"
                 aria-label="Open mobile navigation menu"
               >
                 <Menu className="w-5 h-5" />

@@ -19,18 +19,18 @@ export function PropGrowthLogo({
 }: PropGrowthLogoProps) {
   // Dimensions for Icon Image
   const iconPixelSizes = {
-    sm: { width: 32, height: 32, class: "w-8 h-8" },
-    md: { width: 40, height: 40, class: "w-10 h-10" },
-    lg: { width: 56, height: 56, class: "w-14 h-14" },
-    xl: { width: 80, height: 80, class: "w-20 h-20" },
+    sm: { width: 32, height: 32, class: "w-7 h-7 sm:w-8 sm:h-8" },
+    md: { width: 40, height: 40, class: "w-8 h-8 sm:w-10 sm:h-10" },
+    lg: { width: 56, height: 56, class: "w-12 h-12 sm:w-14 sm:h-14" },
+    xl: { width: 80, height: 80, class: "w-16 h-16 sm:w-20 sm:h-20" },
   };
 
   // Text Sizes
   const textSizes = {
-    sm: "text-lg",
-    md: "text-xl",
-    lg: "text-2xl",
-    xl: "text-4xl",
+    sm: "text-base sm:text-lg",
+    md: "text-lg sm:text-xl",
+    lg: "text-xl sm:text-2xl",
+    xl: "text-3xl sm:text-4xl",
   };
 
   const currentSize = iconPixelSizes[size];
@@ -38,13 +38,15 @@ export function PropGrowthLogo({
   return (
     <Link
       href="/"
-      className={`inline-flex items-center gap-3 group transition-opacity hover:opacity-95 active:scale-[0.98] ${
+      className={`inline-flex items-center gap-2 sm:gap-3 group transition-opacity hover:opacity-95 active:scale-[0.98] ${
         layout === "vertical" ? "flex-col text-center" : "flex-row"
       } ${className}`}
       aria-label="PropGrowth Lab"
     >
-      {/* ================= LOGO IMAGE ================= */}
-      <div className={`relative flex-shrink-0 ${currentSize.class}`}>
+      {/* ================= LOGO IMAGE (ROUND-FULL) ================= */}
+      <div
+        className={`relative flex-shrink-0 ${currentSize.class} rounded-full overflow-hidden bg-white shadow-xs border border-stone-200/80 flex items-center justify-center p-0.5`}
+      >
         <Image
           src="/logo.png"
           alt="PropGrowth Lab"
@@ -52,29 +54,36 @@ export function PropGrowthLogo({
           height={currentSize.height}
           priority
           unoptimized
-          className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full object-contain rounded-full transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 
       {/* ================= WORDMARK ================= */}
       {layout !== "icon-only" && (
         <div className="flex flex-col">
-          <div className="flex items-center tracking-tight leading-none">
+          <div className={`flex items-center tracking-tight leading-none ${textSizes[size]}`}>
             <span
               className={`font-black tracking-tight text-transparent bg-clip-text ${
                 theme === "dark"
-                  ? "bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500"
+                  ? "bg-gradient-to-r from-amber-500 via-amber-500 to-amber-600"
                   : "bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700"
-              } ${textSizes[size]}`}
+              }`}
             >
-              PropGrowth <span className="font-semibold ml-0.5">Lab</span>
+              PropGrowth
+            </span>
+            <span
+              className={`font-semibold ml-1.5 ${
+                theme === "dark" ? "text-white" : "text-stone-900"
+              }`}
+            >
+              Lab
             </span>
           </div>
 
           {showTagline && (
             <span
               className={`text-[9px] font-semibold tracking-widest uppercase mt-1 ${
-                theme === "dark" ? "text-amber-400/70" : "text-amber-800/70"
+                theme === "dark" ? "text-stone-400" : "text-stone-500"
               }`}
             >
               Hospitality · PropTech · Growth

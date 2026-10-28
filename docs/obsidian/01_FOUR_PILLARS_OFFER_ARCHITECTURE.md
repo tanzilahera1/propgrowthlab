@@ -1,101 +1,128 @@
-﻿# 🏛️ 01. The 4 Core Pillars & Offer Architecture
-> **Parent Dashboard:** [[00_EXECUTIVE_MASTER_DASHBOARD]]  
-> **Related:** [[02_REVENUE_ECONOMICS_AND_PRICING_ENGINE]] | [[03_CLIENT_ACQUISITION_AND_SALES_PLAYBOOK]]
+# 🏛️ PROP GROWTH LAB: ৪টি পিলার ও অফার আর্কিটেকচার
+
+> **ডকুমেন্ট উদ্দেশ্য:** এই ফাইলে **Prop Growth Lab**-এর ৪টি স্বতন্ত্র অফার স্ট্রাকচার, ৩-মুখী মার্কেটপ্লেস মডেল (3-Sided Marketplace), ফাঁকি-রোধী সুরক্ষা মেকানিজম (Anti-Circumvention System) এবং প্রতিটি পিলারের প্রবলেম-গেইন (PAS) রূপান্তর ফ্রেমওয়ার্ক বিস্তারিতভাবে সংকলিত করা হলো।
 
 ---
 
-## 🎯 Strategic Philosophy: Problem ➡️ Gain (PAS Framework)
-Customers don't buy features; they buy the relief of a painful headache and the direct financial gain that follows. PropGrowth Lab operates across 4 distinct, synergistic revenue pillars designed to solve exact operational bottlenecks.
+## ১. ৩-মুখী মার্কেটপ্লেস ডায়নামিক্স (The 3-Sided Ecosystem)
+
+Prop Growth Lab কোনো সাধারণ ওয়েবসাইট নয়; এটি বাড়িওয়ালা, পর্যটক/প্রবাসী এবং স্থানীয় লাইসেন্সড ব্রোকারদের মধ্যে একটি নিরাপদ ডিজিটাল সেতুবন্ধন:
+
+```
+                      ┌──────────────────────────────┐
+                      │      PROP GROWTH LAB         │
+                      │  (সেন্ট্রাল প্রপটেক প্ল্যাটফর্ম) │
+                      └──────────────┬───────────────┘
+                                     │
+         ┌───────────────────────────┼───────────────────────────┐
+         ▼                           ▼                           ▼
+【১. প্রপার্টি মালিক ও হোস্ট】     【২. হাই-নেট-ওয়ার্থ ক্লায়েন্ট】    【৩. লোকাল পার্টনার ব্রোকার】
+(Landlords & Villa Owners)   (High-Ticket Guests & Expats)  (Licensed Partner Agents)
+প্রিমিয়াম ভিলা, এপার্টমেন্ট বা   উচ্চ আয়ের নোম্যাড, পর্যটক ও     বিভিন্ন দেশের শীর্ষ শহরের স্থানীয়
+রিসোর্ট মালিক যারা নির্ভরযোগ্য   প্রবাসী যারা ভেরিফায়েড লাক্সারি  ব্রোকার—যাদের হাতে ফিজিক্যাল চাবি
+ভাড়াটে ও ডিরেক্ট বুকিং চায়।     প্রপার্টি ও ভিলা খুঁজছে।       ও লিগ্যাল কন্ট্রাক্ট সইয়ের দায়িত্ব।
+```
+
+### কেন আমাদের নিজস্ব কোনো বাড়ি বা মাঠপর্যায়ের কর্মী লাগবে না?
+* **জিরো ইনভেন্টরি কস্ট (Zero Inventory Risk):** আমরা কোনো প্রপার্টি কিনি না বা নিজস্ব খরচে লিজ নিই না।
+* **জিরো ফিজিক্যাল হ্যাসেল (Zero Physical Viewing Overhead):** ফিজিক্যালি সাইটে গিয়ে ভিলার চাবি দিয়ে গেট খোলা, প্রপার্টি দেখানো এবং স্থানীয় আইনি চুক্তিপত্র সই করানোর কাজটি করে **লোকাল ফ্রিল্যান্স পার্টনার ব্রোকার**।
+* **আমাদের প্ল্যাটফর্মের কাজ:** আন্তর্জাতিক মানের আল্ট্রাফাস্ট ডিজিটাল প্ল্যাটফর্ম পরিচালনা করা, টার্গেটেড অ্যাড ও লিড স্ক্র্যাপিং চালিয়ে হাই-ভ্যালু ক্লায়েন্টদের ভিউয়িং রিকোয়েস্ট ক্যাপচার করা এবং ব্রোকারদের কাছে কোয়ালিফাইড ডিল ডিসপ্যাচ করে রেভিনিউ নিশ্চিত করা।
 
 ---
 
-## 📦 PILLAR 1: PropTech Systems & Source Code (`/templates`)
-> *"Stop Wasting $15,000+ on Slow Custom Dev. Launch Your Direct Booking Portal in 48 Hours."*
+## ২. পিলার ১: প্রোডাকশন ওয়েবসাইট টেমপ্লেটস ও সিস্টেমস (`/templates`)
 
-### 1. The Real Pain Point:
-- Real estate software development agencies charge **$15,000 to $30,000** and take 4 to 6 months to deliver clunky, slow systems.
-- WordPress plugins (WooCommerce, MotoPress, etc.) crash frequently, cause database bloat, and provide slow checkout experiences (3-5 second lag) that kill direct booking conversions.
-
-### 2. The Solution & Deliverables:
-- **Product Tiers:**
-  - **Tier A: Source Code Download ($27 - $39)** — Direct GitHub repository access, clean TypeScript, Tailwind CSS, Lucide icons, full commercial rights.
-  - **Tier B: 48-Hour Turnkey Deployment ($199 - $249)** — Our senior engineers deploy the app to production on Vercel/Cloudflare, connect custom domain & DNS, bind Stripe Connect payment gateway, and set up 2-way iCal calendar sync.
-- **Available Blueprints:**
-  1. *Villa Direct Booking & Resort Engine* (Sub-second booking, 2-way iCal, WhatsApp alerts)
-  2. *Real Estate Brokerage Multi-Listing Portal* (Dynamic filters, territory routing, 1-click WhatsApp inquiry)
-  3. *Rental Arbitrage OS* (Multi-unit tracker, automated cleaning turnover, landlord pitch generator)
-  4. *Nomad Coliving & Flexible Living Hub* (30-day+ recurring monthly membership leases)
-
-### 3. Core Transformation:
-> From 6 months of agency chaos and $15,000 spent ➡️ to a live, sub-second (0.8s) booking engine on your domain in 48 hours for under $200.
-
----
-
-## 🚀 PILLAR 2: 360° Hospitality Growth Agency (`/agency`)
-> *"Stop Losing 25% of Your Revenue to OTAs. Keep 100% of Guest Income With Direct Bookings."*
-
-### 1. The Real Pain Point:
-- Luxury villas generating $15,000 to $30,000/month hand over **$3,750 to $7,500 every single month** to Airbnb, Vrbo, and Booking.com in platform commissions.
-- Platforms deliberately mask guest emails and phone numbers, preventing villa owners from generating repeat bookings.
-- The host is at the total mercy of arbitrary platform algorithm changes and cancellation penalties.
-
-### 2. The Solution & Deliverables:
-- **Monthly Retainer:** Flat **$350 / month** (zero commission cut).
-- **Deliverables:**
-  - Proprietary sub-second direct booking website with 0% OTA fees.
-  - Hyper-targeted Meta (Instagram/Facebook) and Google Search campaigns targeting high-income expats, digital nomads, and luxury vacationers.
-  - 2-way iCal calendar synchronization with Airbnb/Booking.com (zero double-booking risk).
-  - Automated WhatsApp guest concierge bot for pre-stay inquiries and upsells.
-  - Full guest data ownership (direct phone numbers & emails stored in owner's private CRM).
-
-### 3. Core Transformation:
-> From handing over $45,000/year to OTAs with zero guest data ➡️ to keeping 100% of booking revenue and building a loyal, direct repeat guest pipeline for $350/mo.
+* **মূল মেসেজিং:** *"Stop Losing Clients to Slow Websites. Launch a Sub-Second Next.js Platform in 48 Hours."*
+* **টার্গেট অডিয়েন্স:** লাক্সারি রিসোর্ট ও ভিলা ওনার, রিয়েল এস্টেট ব্রোকারেজ, ডেন্টাল ও প্রাইভেট ক্লিনিক, লোকাল সার্ভিস ও ট্রেডি কন্ট্রাক্টর (প্লাম্বার, রুফার), হাই-টিকেট ই-কমার্স এবং ডিজিটাল এজেন্সি।
+* **কোর অফার ও ভ্যালু ডেলিভারি (MEST Showcase-এর ১০২+ টেমপ্লেট লাইব্রেরি):**
+  1. **স্লো ওয়ার্ডপ্রেসের বিকল্প:** ধীরগতির ৩০+ প্লাগইন যুক্ত ক্র্যাশিং ওয়ার্ডপ্রেস সাইটের বদলে সাব-সেকেন্ড (0.8s, 99+ Google PageSpeed) আধুনিক Next.js আর্কিটেকচার।
+  2. **গ্লোবাল এজ নেটওয়ার্ক আর্কিটেকচার:** উচ্চ গতি ও গ্লোবাল কনটেন্ট ডেলিভারি নেটওয়ার্ক, কোনো অপ্রয়োজনীয় প্লাগইন স্লোডাউন ছাড়া।
+  3. **PWA ও ইনস্ট্যান্ট অ্যালার্টস:** ফোনের হোমস্ক্রিনে নেটিভ অ্যাপের মতো ইনস্টলযোগ্য (PWA) এবং হোয়াটসঅ্যাপে রিয়েল-টাইম লিড ডিসপ্যাচ।
+  4. **দুই ধরণের ফ্লেক্সিবল বাইয়িং অপশন:**
+     - **ক্লিন সোর্স কোড ($19 – $69 / Tk 2,280 – Tk 7,900):** ডেভেলপার ও এজেন্সিগুলোর জন্য সম্পূর্ণ আনরেস্ট্রিক্টেড কমার্শিয়াল লাইসেন্স।
+     - **টার্নকি 48-Hour লাইভ লঞ্চ ($99 – $199 / Tk 9,999 – Tk 19,999):** ক্লায়েন্টের লোগো, ডোমেন, স্ট্রাইপ গেটওয়ে ও হোয়াটসঅ্যাপ ইন্টিগ্রেশন সহ ৪৮ ঘণ্টার মধ্যে লাইভ ডিপ্লয়মেন্ট।
+  5. **"Pay After Site Is Live" গ্যারান্টি:** সাইট সম্পূর্ণ লাইভ ও ফাংশনাল দেখার পর ক্লায়েন্ট পেমেন্ট সম্পন্ন করবে।
+* **প্রাইসিং আর্কিটেকচার (MEST Showcase প্রিসাইজ টায়ারস):**
+  - **Full-Stack ক্যাটাগরি (MongoDB + Server Actions + Admin CRM):**
+    - সোর্স কোড: **$69 / Tk 7,900**
+    - টার্নকি 48h লঞ্চ (Launch for Me): **$199 / Tk 19,999**
+  - **স্ট্যান্ডার্ড ক্যাটাগরি (Hospitality, Real Estate, Health Clinics, E-Commerce):**
+    - সোর্স কোড: **$27 / Tk 3,240**
+    - টার্নকি 48h লঞ্চ (Launch for Me): **$99 / Tk 9,999**
+  - **ট্রেডি ও লোকাল সার্ভিসেস ক্যাটাগরি (Plumber, Electrician, Roofing, Repair):**
+    - সোর্স কোড: **$19 / Tk 2,280**
+    - টার্নকি 48h লঞ্চ (Launch for Me): **$99 / Tk 9,999**
+  - **All 105+ Master Pass (লাইফটাইম সমস্ত কোডবেস অ্যাক্সেস):** **$149 / Tk 16,000**
+  - **ক্লাউড কেয়ার ও ইনফ্রাস্ট্রাকচার রিটেইনার:** $49 – $99 / মাস (হোস্টিং, স্পিড মনিটরিং ও সিকিউরিটি আপডেট)।
 
 ---
 
-## 📈 PILLAR 3: Broker Daily Lead Quota Subscriptions (`/leads`)
-> *"Never Chase Cold Leads Again. Get High-Budget Inquiries Dispatched Daily to Your WhatsApp."*
+## ৩. পিলার ২: পারফরম্যান্স হসপিটালিটি এজেন্সি (`/agency`)
 
-### 1. The Real Pain Point:
-- Real estate brokers waste 20+ hours every week cold-calling dead numbers from outdated spreadsheets or scrolling noisy Facebook expat groups.
-- Lead spreadsheets bought from traditional providers are recycled and sold to 10+ competing brokers simultaneously.
-- Broker pipeline is unpredictable: one good month followed by two dry months.
-
-### 2. The Solution & Deliverables:
-- **Daily WhatsApp Quota Subscriptions:**
-  - **Silver Tier:** 2 verified leads/day (60 leads/mo) — **$299 / mo** ($4.98/lead)
-  - **Gold Tier (Most Popular):** 5 verified leads/day (150 leads/mo) — **$599 / mo** ($3.99/lead)
-  - **Platinum Tier (Territory Lock):** 10 verified leads/day (300 leads/mo) — **$999 / mo** ($3.33/lead)
-- **Pre-Screening Criteria:**
-  - 100% verified active WhatsApp number & name.
-  - Budget verified: minimum $2,500/month rent or $500,000+ purchase.
-  - Move-in timeframe under 30 days.
-  - Instant dispatch via automated WhatsApp ping within 90 seconds of submission.
-  - 100% replacement guarantee for any unreachable lead.
-
-### 3. Core Transformation:
-> From 20 hours/week cold calling dead spreadsheets ➡️ to waking up every morning with 2-10 fresh, pre-qualified, ready-to-tour inquiries directly on your phone.
+* **মূল মেসেজিং:** *"Stop Losing 25% of Your Revenue to OTAs. Keep 100% of Guest Income With Direct Bookings."*
+* **টার্গেট অডিয়েন্স:** রেন্টাল ভিলা মালিক, রিসোর্ট ম্যানেজার ও হাই-এন্ড গেস্টহাউস।
+* **কোর অফার ও ভ্যালু ডেলিভারি:**
+  1. **কমিশন বাইপাস:** Airbnb বা Booking.com-এর ১৫% থেকে ২৫% ওটিএ ফি সম্পূর্ণ বাঁচিয়ে সরাসরি নিজের অ্যাকাউন্টে শতভাগ গেস্ট পেমেন্ট গ্রহণ।
+  2. **কাস্টমার ডেটা ওনারশিপ:** গেস্টদের ফোন নম্বর ও ইমেইল নিজস্ব ডেটাবেসে সংরক্ষণ, যা দিয়ে রিপিট বুকিং বাড়ানো যায়।
+  3. **হাই-কনভার্টিং পেড অ্যাকুইজিশন:** Meta (Facebook/Instagram) ও Google Search Ads-এর মাধ্যমে হাই-বাজেট ট্রাভেলারদের সরাসরি টার্গেটিং।
+  4. **অটোপাইলট বুকিং অটোমেশন:** ফর্ম ফিলাপ থেকে WhatsApp নোটিফিকেশন পর্যন্ত সম্পূর্ণ স্বয়ংক্রিয় পাইপলাইন।
+* **বাজেট মডেল ও প্রাইসিং (OPM - Other People's Money):**
+  - **ক্লায়েন্ট ওপিএম (OPM) মডেল:** বিজ্ঞাপনের মূল বাজেট সরাসরি ক্লায়েন্টের নিজস্ব বিজনেস কার্ড থেকে খরচ হবে ($০ আমাদের প্ল্যাটফর্মের আর্থিক ঝুঁকি)।
+  - **এজেন্সি ম্যানেজমেন্ট ফি:** $300 – $500 / মাস ফিক্সড রিটেইনার (স্ট্র্যাটেজি, অ্যাড ক্রিয়েটিভ, ফানেল অপ্টিমাইজেশন ও রিপোর্টিং)।
 
 ---
 
-## 🤝 PILLAR 4: The Co-Broker Partner Network (`/partners`)
-> *"Stop Giving Half Your Commission Away. Close Ready Inbound Deals & Keep 70%."*
+## ৪. পিলার ৩: হাই-টিকেট লিড ডিসপ্যাচ ইঞ্জিন (`/leads`)
 
-### 1. The Real Pain Point:
-- Traditional brick-and-mortar brokerages take **50% of the commission check** while providing zero marketing support or qualified inbound leads.
-- Independent licensed agents must fund their own advertising, website, and prospecting out of pocket.
+* **মূল মেসেজিং:** *"Never Chase Cold Leads Again. Get High-Budget Inquiries Dispatched Daily to Your WhatsApp."*
+* **টার্গেট অডিয়েন্স:** লাক্সারি রিয়েল এস্টেট এজেন্ট, কমার্শিয়াল ব্রোকার ও রেন্টাল ইনভেস্টর।
+* **কোর অফার ও ভ্যালু ডেলিভারি:**
+  1. **কোল্ড কলিং মুক্ত:** কোনো ব্যাকডেটেড কোল্ড কল করতে হয় না; শুধুমাত্র প্রি-কোয়ালিফাইড ক্লায়েন্টদের নিয়ে কাজ করা।
+  2. **$500k+ কোয়ালিফাইড বাজেট:** প্রতিটি ইনকোয়ারির বাজেট, উদ্দেশ্য (বাই/রেন্ট) এবং পছন্দের টাইমলাইন ভেরিফাই করে পাঠানো হয়।
+  3. **ইনস্ট্যান্ট WhatsApp ডিসপ্যাচ:** লিড জেনারেট হওয়ার কয়েক সেকেন্ডের মধ্যে ব্রোকারের হোয়াটসঅ্যাপে পুশ নোটিফিকেশন।
+  4. **টেরিটরি এক্সক্লুসিভিটি:** একই লিড একাধিক এজেন্টের কাছে বিক্রি না করে নির্দিষ্ট অঞ্চলের জন্য এক্সক্লুসিভ অ্যাক্সেস দেওয়া।
+* **প্রাইসিং আর্কিটেকচার (মাসিক লিড কোটা সাবস্ক্রিপশন):**
+  - **Starter Broker Quota ($99/মাস):** ৩০–৫০ টি ভেরিফাইড লিড / মাস (প্রতি লিড $২.০০–$৩.৩০)।
+  - **Gold Power Broker ($199/মাস - Most Popular):** ৬০–১২০ টি ভেরিফাইড লিড / মাস (প্রতি লিড $১.৬৫–$৩.৩০)।
+  - **Platinum Territory Lock ($499/মাস):** ১৫০+ টি এক্সক্লুসিভ হাই-টিকেট লিড / মাস (<$৩.৩০ / লিড)।
 
-### 2. The Solution & Deliverables:
-- **Guaranteed Fixed 70 / 30 Split:**
-  - Partner Agent receives: **70% of the closed commission**
-  - PropGrowth Lab receives: **30% platform fee**
-- **Zero Upfront Costs:** No desk fees, no monthly software subscriptions.
-- **The Workflow:**
-  1. PropGrowth Lab runs targeted international ads and pre-qualifies high-ticket tenants/buyers.
-  2. The lead is assigned exclusively to the registered territory partner agent.
-  3. The partner agent conducts the physical on-the-ground property viewing and assists with contract execution.
-  4. Commission is paid out via escrow upon contract signing: Agent keeps 70%, PropGrowth receives 30%.
-- **Territory Exclusivity:** Strictly capped at **maximum 2 partner agents per metropolitan hub** to eliminate internal friction.
+---
 
-### 3. Core Transformation:
-> From surrendering 50% commission while doing all your own marketing ➡️ to receiving pre-vetted international clients, doing only local viewings, and keeping a guaranteed 70% payout.
+## ৫. পিলার ৪: দ্য কো-ব্রোকার নেটওয়ার্ক (`/partners`)
+
+* **মূল মেসেজিং:** *"Stop Giving Half Your Commission Away. Close Ready Inbound Deals & Keep 70%."*
+* **টার্গেট অডিয়েন্স:** স্বাধীন লাইসেন্সড রিয়েল এস্টেট এজেন্ট, অভিজ্ঞ ফ্রিল্যান্স ব্রোকার ও প্রপার্টি কনসালট্যান্ট।
+* **কোর অফার ও ভ্যালু ডেলিভারি:**
+  1. **স্বচ্ছ ও সুনির্দিষ্ট 70 / 30 স্প্লিট:** কোনো লুকানো শর্ত নেই; পার্টনার ব্রোকার পাবেন মোট আয়ের **Fixed 70%**, প্ল্যাটফর্ম রাখবে **30%**।
+  2. **নো প্রস্পেক্টিং হেডেক:** পার্টনার এজেন্টকে ক্লায়েন্ট খুঁজতে হয় না; প্ল্যাটফর্ম থেকে প্রি-ভেরিফায়েড ভিউয়িং লিড পাঠানো হয়।
+  3. **ডিজিটাল কন্ট্রাক্ট ও এসক্রো সাপোর্ট:** প্ল্যাটফর্মের আন্তর্জাতিক গেটওয়ে ও এসক্রো ডিপোজিটের মাধ্যমে নিশ্চিত কমিশন পেআউট।
+  4. **হাই-ভ্যালু গ্লোবাল ডিলস:** লন্ডন, দুবাই, মিয়ামি, সিডনি, লিসবনের মতো হাই-টিকেট আন্তর্জাতিক ট্রানজাকশন সম্পন্ন করার সুযোগ।
+
+---
+
+## ৬. অ্যান্টি-চিটিং আর্কিটেকচার (Anti-Circumvention Protection)
+
+রিয়েল এস্টেট ও ব্রোকারেজ প্ল্যাটফর্মের সবচেয়ে বড় চ্যালেঞ্জ হলো: ব্রোকার ও ক্লায়েন্ট দেখা করার পর প্ল্যাটফর্মকে এড়িয়ে (Disintermediation / Leakage) গোপনে চুক্তি করে ফেলা। 
+
+Prop Growth Lab-এ প্ল্যাটফর্মের ৩০% কমিশন সুরক্ষিত রাখতে ৩টি সমন্বিত মেকানিজম সক্রিয় রয়েছে:
+
+### মেকানিজম ১: "Pay-Per-Viewing / Territory Retainer" (অগ্রিম ক্যাশফ্লো)
+* আমরা ডিল ক্লোজ হওয়া পর্যন্ত অলস বসে থাকি না।
+* লোকাল ব্রোকারকে নির্দিষ্ট শহরের (যেমন: West Bay, Doha বা Funchal, Madeira বা Brickell, Miami) এক্সক্লুসিভ পার্টনারশিপ দেওয়া হয়।
+* ব্রোকার প্রতি মাসে **$500 – $1,000 ফিক্সড রিটেইনার** দেয় (অথবা প্রতিটি ভেরিফায়েড ভিউয়িং লিডে **$50 – $100 অগ্রিম ফি** দেয়)। 
+* ব্রোকার প্রপার্টি ভাড়া বা বিক্রি করতে পারুক বা সময় লাগুক, প্ল্যাটফর্মের লাভ শুরুতেই নিশ্চিত!
+
+### মেকানিজম ২: অনলাইন হোল্ডিং ডিপোজিট (Holding Deposit in Escrow)
+* টেন্যান্ট বা বায়ার যখন অনলাইনে কোনো এক্সক্লুসিভ প্রপার্টি পছন্দ করবে, তখন প্রপার্টিটি ৩ দিনের জন্য লক রাখতে ক্লায়েন্টকে প্ল্যাটফর্মেই **$200 – $350 USD Reservation Deposit** দিতে হবে।
+* এই টাকা সরাসরি Prop Growth Lab-এর আন্তর্জাতিক এসক্রো অ্যাকাউন্টে জমা হয়।
+* ফলে ব্রোকার চাইলেও প্ল্যাটফর্মের কমিশন ফাঁকি দিতে পারে না, কারণ প্ল্যাটফর্মের কমিশন অলরেডি আমাদের হাতে সংরক্ষিত থাকে।
+
+### মেকানিজম ৩: ক্লায়েন্টের আইনি সুরক্ষা ও ক্যাশব্যাক গ্যারান্টি
+* ক্লায়েন্টের ডিজিটাল ভিউয়িং ভাউচারে স্পষ্ট বার্তা থাকবে: *"Never pay cash outside Prop Growth Lab."*
+* প্ল্যাটফর্মের মাধ্যমে ভেরিফায়েড চুক্তি সম্পন্ন করলে ক্লায়েন্ট পাবে:
+  - **$150 মূল্যের ফ্রি মুভ-ইন ডিপ ক্লিনিং সার্ভিস (অথবা $100 ক্যাশব্যাক)**।
+  - **€2,000 ইউরো পর্যন্ত ডিপোজিট ইন্স্যুরেন্স ও লিগ্যাল কন্ট্রাক্ট প্রটেকশন**।
+* কোনো রুচিশীল আন্তর্জাতিক ক্লায়েন্ট সামান্য টাকা বাঁচাতে অচেনা ব্রোকারের অনৈতিক প্রস্তাবে রাজি হয়ে নিজের আইনি ঝুঁকি ও ইন্স্যুরেন্স হারাবে না।
+
+---
+*সর্বশেষ আপডেট: ২৮ অক্টোবর ২০২৬ | Prop Growth Lab Offer Architecture*

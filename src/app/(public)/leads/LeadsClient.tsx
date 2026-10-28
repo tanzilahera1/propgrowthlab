@@ -24,8 +24,8 @@ import {
 interface LeadPlan {
   id: string;
   name: string;
-  quotaDaily: number;
-  monthlyQuota: number;
+  quotaDaily: string;
+  monthlyQuota: string;
   priceMonthly: number;
   costPerLead: string;
   badge?: string;
@@ -36,48 +36,48 @@ interface LeadPlan {
 const PLANS: LeadPlan[] = [
   {
     id: "silver",
-    name: "Silver Broker Quota",
-    quotaDaily: 2,
-    monthlyQuota: 60,
-    priceMonthly: 299,
-    costPerLead: "$4.98 / lead",
+    name: "Starter Broker Quota",
+    quotaDaily: "1–2",
+    monthlyQuota: "30–50",
+    priceMonthly: 99,
+    costPerLead: "$2.00–$3.30 / lead",
     features: [
-      "2 Pre-qualified tenant/buyer leads dispatched daily",
+      "30–50 Pre-qualified tenant/buyer leads dispatched monthly",
       "Instant WhatsApp alert within 90 seconds of submission",
       "Verified WhatsApp phone & email contact",
       "Exact budget range & move-in timeframe pre-screened",
-      "Single territory selection (e.g. USA, UK, Canada, Australia, EU, UAE)",
-      "Daily rollover quota protection",
+      "Single territory selection (USA, UK, Canada, Australia, EU, UAE)",
+      "Daily rollover quota protection for 30 days",
     ],
   },
   {
     id: "gold",
     name: "Gold Power Broker",
-    quotaDaily: 5,
-    monthlyQuota: 150,
-    priceMonthly: 599,
-    costPerLead: "$3.99 / lead",
+    quotaDaily: "2–4",
+    monthlyQuota: "60–120",
+    priceMonthly: 199,
+    costPerLead: "$1.65–$3.30 / lead",
     badge: "Most Popular",
     popular: true,
     features: [
-      "5 Pre-qualified tenant/buyer leads dispatched daily",
+      "60–120 Pre-qualified tenant/buyer leads dispatched monthly",
       "VIP instant WhatsApp ping with full client profile",
       "Budget pre-qualification (>$2,500/mo or >$500k sales)",
       "Move-in timeframe under 30 days priority routing",
       "Multi-zone coverage within chosen metropolitan hub",
-      "Priority agent support & replacement guarantee for invalid numbers",
+      "100% instant replacement guarantee for invalid numbers",
     ],
   },
   {
     id: "platinum",
     name: "Platinum Territory Lock",
-    quotaDaily: 10,
-    monthlyQuota: 300,
-    priceMonthly: 999,
-    costPerLead: "$3.33 / lead",
-    badge: "Exclusive",
+    quotaDaily: "5+",
+    monthlyQuota: "150+",
+    priceMonthly: 499,
+    costPerLead: "<$3.30 / lead",
+    badge: "Exclusive Lock",
     features: [
-      "10 Pre-qualified high-ticket leads dispatched daily",
+      "150+ Pre-qualified high-ticket leads dispatched monthly",
       "Exclusivity Lock: Max 2 brokers per sub-district",
       "Ultra-luxury tier filtering (>$5,000/mo or >$1.2M sales)",
       "Dedicated account manager & CRM webhook integration",
@@ -120,48 +120,56 @@ export function LeadsClient() {
             </span>
           </h1>
 
-          <p className="mt-5 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
-            Stop wasting 20+ hours a week scrolling social groups or buying recycled spreadsheets that dozens of brokers already burned through. We pre-screen each inquiry for verified WhatsApp numbers, move-in dates under 30 days, and budgets starting at <strong className="text-stone-900 font-bold">$2,500/mo to $1M+ sales</strong>—delivered fresh to your phone so you focus on closing commissions.
+          <p className="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
+            Stop wasting hours cold-prospecting dead numbers. We deliver verified high-budget inquiries (<strong className="text-stone-900 font-bold">$2,500/mo to $1M+ sales</strong>) directly to your WhatsApp with move-in dates under 30 days—so you focus on closing deals.
           </p>
 
-          {/* Quick Problem-to-Gain Cards */}
+          {/* Quick Problem-to-Gain Cards - Strict 1-Line Title & Subtitle Consistency */}
           <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">Zero Cold Calling</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Inbound ready-to-sign clients</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">No Cold Calls</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Inbound ready clients</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">Pre-Vetted Budgets</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Verified $2,500/mo+ & buyers</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Vetted Budgets</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">$2,500/mo+ & buyers</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">Territory Lock</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Never compete with other agents</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Territory Lock</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Exclusive city rights</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">&lt;90s WhatsApp</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Instant alerts while hot</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Instant Alerts</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Sub-90s WhatsApp ping</p>
             </div>
           </div>
 
           {/* Territory Slots Counter Bar */}
-          <div className="mt-8 max-w-2xl mx-auto p-3.5 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs text-stone-700">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-600 animate-ping" />
-              <span className="font-bold text-stone-900">Live Territory Availability:</span>
+          <div className="mt-8 max-w-3xl mx-auto p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs">
+            <div className="flex items-center justify-between gap-3 text-xs text-stone-700 pb-3 border-b border-stone-100">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-600 animate-ping" />
+                <span className="font-bold text-stone-900">Live Territory Availability:</span>
+              </div>
+              <span className="text-[11px] font-mono text-amber-700 font-semibold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                Max 2–3 Brokers Per Territory
+              </span>
             </div>
-            <div className="flex items-center gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mt-3">
               {TERRITORIES.map((t) => (
                 <button
                   key={t.id}
                   onClick={() => setSelectedTerritory(t)}
-                  className={`px-3 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                  className={`px-2.5 py-2 rounded-xl text-center transition-all cursor-pointer flex flex-col items-center justify-center ${
                     selectedTerritory.id === t.id
-                      ? "bg-gradient-to-r from-amber-600 to-amber-700 text-white shadow-xs"
-                      : "bg-stone-100 text-stone-700 hover:bg-stone-200 border border-stone-200/60"
+                      ? "bg-gradient-to-r from-amber-600 to-amber-700 text-white shadow-xs border border-amber-600"
+                      : "bg-stone-50 text-stone-700 hover:bg-stone-100 border border-stone-200/70"
                   }`}
                 >
-                  {t.name} ({t.slotsRemaining} slots left)
+                  <span className="text-[11px] font-bold truncate w-full">{t.name.split(" ")[0]}</span>
+                  <span className={`text-[10px] mt-0.5 font-medium ${selectedTerritory.id === t.id ? "text-amber-100" : "text-amber-700"}`}>
+                    {t.slotsRemaining} left
+                  </span>
                 </button>
               ))}
             </div>
@@ -308,19 +316,19 @@ export function LeadsClient() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6">
           {PLANS.map((plan) => (
             <Card
               key={plan.id}
-              className={`rounded-3xl flex flex-col justify-between transition-all duration-300 overflow-hidden ${
+              className={`rounded-3xl flex flex-col justify-between transition-all duration-300 relative overflow-visible ${
                 plan.popular
-                  ? "border-2 border-amber-500 shadow-xl shadow-amber-500/10 relative bg-amber-50/20"
+                  ? "border-2 border-amber-500 shadow-xl shadow-amber-500/10 bg-amber-50/20 md:-translate-y-2"
                   : "border border-stone-200/90 shadow-xs hover:border-amber-400 bg-white"
               }`}
             >
               {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gradient-to-r from-amber-600 to-amber-700 text-white shadow-md">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
+                  <span className="px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-amber-600 to-amber-700 text-white shadow-md border-2 border-white whitespace-nowrap">
                     {plan.badge}
                   </span>
                 </div>
@@ -330,7 +338,7 @@ export function LeadsClient() {
                 <CardHeader className="pt-8 pb-4 border-b border-stone-100">
                   <CardTitle className="text-xl font-bold text-stone-900">{plan.name}</CardTitle>
                   <CardDescription className="text-xs text-stone-500">
-                    {plan.quotaDaily} verified inquiries dispatched every morning
+                    {plan.quotaDaily} verified inquiries dispatched daily
                   </CardDescription>
                   <div className="mt-4 flex items-baseline gap-1">
                     <span className="text-3xl sm:text-4xl font-black text-stone-900">
@@ -339,7 +347,7 @@ export function LeadsClient() {
                     <span className="text-xs text-stone-500 font-medium">/ month</span>
                   </div>
                   <p className="text-[11px] font-mono text-amber-700 font-bold mt-1">
-                    {plan.costPerLead} ({plan.monthlyQuota} leads/mo)
+                    {plan.monthlyQuota} leads/mo · {plan.costPerLead}
                   </p>
                 </CardHeader>
 
@@ -358,7 +366,7 @@ export function LeadsClient() {
                 </CardContent>
               </div>
 
-              <CardFooter className="pt-6 pb-6 border-t border-stone-100 bg-stone-50/70">
+              <CardFooter className="pt-6 pb-6 border-t border-stone-100 bg-stone-50/70 rounded-b-3xl">
                 <a
                   href={`https://wa.me/8801540505122?text=${encodeURIComponent(
                     `Hi PropGrowth Lab, I want to subscribe to the ${plan.name} ($${plan.priceMonthly}/mo) for territory: ${selectedTerritory.name}`

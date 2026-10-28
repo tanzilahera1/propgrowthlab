@@ -1,78 +1,92 @@
-﻿# 💰 02. Revenue Economics, Pricing Engine & Cashflow
-> **Parent Dashboard:** [[00_EXECUTIVE_MASTER_DASHBOARD]]  
-> **Related:** [[01_FOUR_PILLARS_OFFER_ARCHITECTURE]] | [[04_TECH_STACK_AUTOMATION_AND_SLA]]
+# 💰 PROP GROWTH LAB: রেভিনিউ ইকোনমিক্স ও প্রাইসিং ইঞ্জিন
+
+> **ডকুমেন্ট উদ্দেশ্য:** এই ফাইলে **Prop Growth Lab**-এর সমস্ত আয়ের উৎস, ইউনিট ইকোনমিক্স (Unit Economics), কমিশন স্প্লিট কাঠামো, সাবস্ক্রিপশন টিয়ার এবং মাসিক রেভিনিউ প্রজেকশন বিশদভাবে লিপিবদ্ধ করা হয়েছে।
 
 ---
 
-## 📈 Macro Business Model Overview
-PropGrowth Lab operates a **hybrid high-margin business model** combining:
-1. **Low-Ticket Front-End Digital Products:** (Templates & Code: $27 - $249) -> High volume, instant cash flow, customer acquisition engine.
-2. **Predictable Recurring MRR (Monthly Recurring Revenue):** (Agency retainers: $350/mo + Lead quotas: $299 - $999/mo) -> Predictable stability.
-3. **High-Ticket Backend Commission Splits:** (Co-Broker 70/30: $1,500 - $8,000+ per deal closed) -> Explosive upside revenue.
+## ১. ৫টি সমন্বিত রেভিনিউ স্ট্রিম (The 5 Revenue Streams)
+
+Prop Growth Lab একক কোনো উৎসের ওপর নির্ভরশীল নয়; এটি ওয়ান-টাইম ক্যাশফ্লো এবং মান্থলি রিকারিং রেভিনিউ (MRR)-এর একটি বৈচিত্র্যময় সমন্বয়:
+
+```
+                            ┌─────────────────────────────────┐
+                            │    PROP GROWTH LAB REVENUE      │
+                            └────────────────┬────────────────┘
+                                             │
+      ┌──────────────┬───────────────┼───────────────┬────────────────┐
+      ▼              ▼               ▼               ▼                ▼
+【১. টেমপ্লেট লাইভ】 【২. কেয়ার প্ল্যান】 【৩. এজেন্সি ফি】  【৪. লিড ডিসপ্যাচ】 【৫. কো-ব্রোকার স্প্লিট】
+ $99 - $199         $49 - $99/মাস   $300 - $500/মাস  $299 - $599/মাস   Fixed 30% Net
+ এককালীন টার্নকি     MRR প্যাসিভ      MRR হাই-ক্যাশফ্লো  MRR টেরিটরি      $1,500 - $4,500/ডিল
+```
 
 ---
 
-## 💵 Unit Economics By Pillar
+## ২. ইউনিট ইকোনমিক্স ও প্রাইসিং ম্যাট্রিক্স
 
-### 1. Pillar 1: Templates & Turnkey Systems
-- **Cost of Goods Sold (COGS):** ~0% on code download; ~2 hours of dev setup for turnkey.
-- **Price Points:**
-  - Source Code: **$27 – $39** (Instant margin: 95%)
-  - Turnkey Launch (Domain + Stripe + iCal): **$199 – $249**
-- **Monthly Revenue Scenario (conservative):**
-  - 30 code sales @ $27 = $810
-  - 8 turnkey launches @ $199 = $1,592
-  - **Subtotal:** **~$2,400 / month**
+### স্ট্রিম ১: টেমপ্লেট ও ফুলস্ট্যাক সিস্টেম সেলস (`/templates`)
+* **সোর্স কোড পারচেজ:**
+  - ট্রেডি টায়ার: $19 USD / Tk 2,280
+  - স্ট্যান্ডার্ড টেমপ্লেট (হসপিটালিটি, রিয়েল এস্টেট, ক্লিনিক, ই-কমার্স): $27 USD / Tk 3,240
+  - Full-Stack ওয়েব অ্যাপস (MongoDB + CRM + Server Actions): $69 USD / Tk 7,900
+  - All 105+ Master Pass: $149 USD / Tk 16,000
+* **টার্নকি 48-Hour লাইভ ডেলিভারি (Launch for Me):**
+  - স্ট্যান্ডার্ড টেমপ্লেটস: $99 USD / Tk 9,999
+  - Full-Stack ওয়েব অ্যাপস: $199 USD / Tk 19,999
+* **আমাদের গ্রস মার্জিন:** ৯০% (রেডিমেড আর্কিটেকচার হওয়ায় আমাদের ডেলিভারি কস্ট মাত্র $15 – $25)।
+* **ডেলিভারি SLA:** ৪৮ ঘণ্টার মধ্যে লাইভ গ্যারান্টি।
+* **"Pay After Live" মডেল:** ক্লায়েন্ট সম্পূর্ণ ওয়েবসাইট লাইভ দেখে সন্তুষ্ট হয়ে পেমেন্ট করে।
 
----
+### স্ট্রিম ২: ক্লাউড কেয়ার ও ইনফ্রাস্ট্রাকচার রিটেইনার (Passive MRR)
+* **মাসিক ফি:** $49 – $99 USD / প্রতি প্রপার্টি বা হোস্ট।
+* **কভার করা সেবা:** ক্লাউড হোস্টিং, স্পিড অপ্টিমাইজেশন, সিকিউরিটি প্যাচ এবং ডেডিকেটেড সাপোর্ট।
+* **সার্ভার খরচ:** $2 – $4 / প্রতি সাইট (Vercel / Cloudflare Edge আর্কিটেকচারে)।
+* **গ্রস মার্জিন:** ৯০%+ সম্পূর্ণ প্যাসিভ রিকারিং আয়।
 
-### 2. Pillar 2: 360° Booking Agency Retainers
-- **Pricing:** Flat **$350 / month per villa / boutique resort**.
-- **Ad Spend (Client-funded):** Client provides ad budget ($500 - $1,500/mo) managed directly in their Meta/Google Ads account.
-- **Client ROI Calculation:**
-  - Average villa gross revenue: $18,000 / month.
-  - Typical 20% OTA commission paid: $3,600 / month.
-  - PropGrowth generates 40% of bookings directly ($7,200).
-  - Saved OTA commissions: $1,440.
-  - Net client profit after $350 retainer: **+$1,090 / month saved** + permanent repeat guest database.
-- **Target Scale:** 15 active villa retainers = **$5,250 / month MRR**.
+### স্ট্রিম ৩: হসপিটালিটি গ্রোথ এজেন্সি রিটেইনার (`/agency`)
+* **মাসিক ম্যানেজমেন্ট ফি:** $300 – $500 USD / প্রতি ক্লায়েন্ট।
+* **অ্যাড স্পেন্ড বাজেট:** সরাসরি ক্লায়েন্টের নিজস্ব কার্ড থেকে কাটা হবে (OPM মডেল - $০ প্ল্যাটফর্ম রিস্ক)।
+* **সেবা স্কোপ:** মেটা/গুগল ক্যাম্পেইন স্ট্র্যাটেজি, অ্যাড ক্রিয়েটিভ, ফানেল অপ্টিমাইজেশন ও বুকিং ট্র্যাকিং।
+* **LTV (Lifetime Value):** গড়ে ৪ থেকে ৮ মাস (মোট ভ্যালু $1,500 – $3,500)।
 
----
+* **মাসিক লিড কোটা সাবস্ক্রিপশন:**
+  - **Starter ($99/মাস):** ৩০–৫০ টি ভেরিফাইড লিড ($২.০০–$৩.৩০/লিড)।
+  - **Gold ($199/মাস):** ৬০–১২০ টি ভেরিফাইড লিড ($১.৬৫–$৩.৩০/লিড)।
+  - **Platinum ($499/মাস):** ১৫০+ টি এক্সক্লুসিভ লিড (<$৩.৩০/লিড)।
+* **মার্জিন:** ৯৫% (লিড স্ক্র্যাপিং ও অ্যাড ক্যাম্পেইনের ন্যূনতম খরচ বাদে পুরোটাই নিট লাভ)।
 
-### 3. Pillar 3: Broker Daily Lead Quotas
-- **Tiers & Margins:**
-  - Silver ($299/mo | 60 leads): Cost to generate ~$1.50/lead -> Margin: ~70% ($209 profit)
-  - Gold ($599/mo | 150 leads): Cost to generate ~$1.20/lead -> Margin: ~70% ($419 profit)
-  - Platinum ($999/mo | 300 leads): Cost to generate ~$1.00/lead -> Margin: ~70% ($699 profit)
-- **Target Scale (Across 6 Global Hubs):**
-  - 10 Silver brokers = $2,990 / mo
-  - 8 Gold brokers = $4,792 / mo
-  - 3 Platinum brokers = $2,997 / mo
-  - **Subtotal MRR:** **~$10,779 / month**
-
----
-
-### 4. Pillar 4: Co-Broker Partner Network (Fixed 70 / 30 Split)
-- **Economic Formula:**
-  - Average Luxury Lease: $3,500 / month (or purchase $650,000).
-  - Typical Broker Commission: 1 month rent ($3,500) or 3% sale ($19,500).
-  - **Agent Payout (70%):** **$2,450** (rent) or **$13,650** (sale).
-  - **PropGrowth Lab Cut (30%):** **$1,050** (rent) or **$5,850** (sale).
-- **Monthly Volume Projection:**
-  - 6 partner closings across global hubs: 6 x $1,050 = **$6,300 / month**.
+### স্ট্রিম ৫: কো-ব্রোকার নেটওয়ার্ক কমিশন (`/partners`)
+* **কমিশন স্প্লিট:** **Fixed 70 / 30 Split**
+  - **পার্টনার ব্রোকার:** ৭০% (মাঠপর্যায়ের ভিউয়িং, ক্লায়েন্টকে চাবি দেখানো ও চুক্তি সম্পাদন)।
+  - **Prop Growth Lab:** ৩০% (অনলাইন লিড ক্যাপচার, এসক্রো ডিপোজিট ও প্ল্যাটফর্ম সার্ভিস)।
+* **গড় ট্রানজাকশন ভ্যালু (Luxury Villa Sale বা Long Lease):**
+  - সাধারণ ডিল সাইজ: $500,000 – $1,500,000 USD।
+  - মোট ব্রোকারেজ কমিশন (২%): $10,000 – $30,000 USD।
+  - **প্ল্যাটফর্মের নিট ৩০% শেয়ার:** **$3,000 – $9,000 USD প্রতি ডিলে!**
+  - ছোট লাক্সারি রেন্টাল ডিলে: $500 – $1,500 USD প্রতি ডিলে।
 
 ---
 
-## 📊 12-Month Financial Projections (Milestone Roadmap)
+## ৩. প্রজেক্টেড মাসিক ক্যাশফ্লো মডেল (Target: $10,000 – $25,000 MRR)
 
-| Phase | Milestone | Active Clients / Scale | Monthly Revenue | Annualized Run Rate |
-| :--- | :--- | :--- | :--- | :--- |
-| **Phase 1 (Months 1–3)** | Foundation & Pilot Hubs | 10 Turnkeys + 4 Retainers + 6 Brokers | **$6,500 / mo** | $78,000 / year |
-| **Phase 2 (Months 4–7)** | Global Expansion (US/UK/EU) | 12 Retainers + 18 Brokers + 4 Partner Deals | **$18,500 / mo** | $222,000 / year |
-| **Phase 3 (Months 8–12)** | Established Engine | 25 Retainers + 35 Brokers + 10 Partner Deals | **$38,000+ / mo** | **$450,000+ / year** |
+পরবর্তী ৬ থেকে ১২ মাসের বাস্তবসম্মত গ্রোথ ক্যালকুলেশন:
+
+| রাজস্ব খাত | ভলিউম / সক্রিয় ক্লায়েন্ট | গড় মূল্য | মাসিক আয় (USD) |
+| :--- | :--- | :--- | :--- |
+| **টার্নকি টেমপ্লেট সেলস** | ১০টি সাইট / মাস | $250 | $2,500 |
+| **ক্লাউড কেয়ার রিটেইনার** | ৩০ জন সক্রিয় হোস্ট | $69/মাস | $2,070 |
+| **এজেন্সি গ্রোথ ক্লায়েন্ট** | ৮ জন সক্রিয় ক্লায়েন্ট | $450/মাস | $3,600 |
+| **লিড টেরিটরি সাবস্ক্রিপশন** | ৬টি অঞ্চল / ব্রোকার | $399/মাস | $2,394 |
+| **কো-ব্রোকার ক্লোজড ডিলস** | ৩টি সফল ডিল / মাস | $2,500 প্ল্যাটফর্ম শেয়ার | $7,500 |
+| **মোট প্রজেক্টেড মাসিক ক্যাশফ্লো** | — | — | **$18,064 / মাস** |
 
 ---
 
-## 🔒 Escrow & Payment Settlement Workflow
-- **Client Retainers & Leads:** Automated monthly billing via Stripe Invoicing / Stripe Subscriptions.
-- **Co-Broker Commission Settlements:** Handled via licensed real estate escrow accounts in the client's jurisdiction. Escrow releases the 70% commission directly to the local partner agent and wire-transfers the 30% platform fee to PropGrowth Lab upon signed contract confirmation.
+## ৪. রিস্ক ফ্রি ক্লায়েন্ট অনবোর্ডিং দর্শন (Zero Friction Acquisition)
+
+1. **"Proof Before Payment":** টেমপ্লেট পিলারে সাইট সম্পূর্ণ লাইভ ও টেস্ট ড্রাইভ না হওয়া পর্যন্ত ক্লায়েন্ট থেকে কোনো ফি নেওয়া হয় না।
+2. **"OPM Budgeting":** এজেন্সির ক্ষেত্রে ক্লায়েন্টের অ্যাড বাজেট ক্লায়েন্টের কার্ডেই সীমাবদ্ধ থাকে, ফলে প্ল্যাটফর্মের কোনো আর্থিক দেনা তৈরি হয় না।
+3. **"Transparent 70/30 Split":** কোনো লুকানো টায়ার বা শর্ত না থাকায় শীর্ষ এজেন্টরা আত্মবিশ্বাসের সাথে আমাদের সাথে যুক্ত হয়।
+
+---
+*সর্বশেষ আপডেট: ২৮ অক্টোবর ২০২৬ | Prop Growth Lab Revenue Architecture*

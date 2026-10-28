@@ -26,6 +26,23 @@ import {
   Globe2,
 } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const TERRITORY_OPTIONS = [
+  { value: "United States (USA)", label: "United States (USA / Florida, NY, California)" },
+  { value: "United Kingdom (UK)", label: "United Kingdom (London & England)" },
+  { value: "Canada", label: "Canada (Toronto, Vancouver, Montreal)" },
+  { value: "Australia", label: "Australia (Sydney, Melbourne, Gold Coast)" },
+  { value: "European Union (EU)", label: "European Union (Portugal, Spain, France, Italy)" },
+  { value: "UAE & GCC", label: "UAE & GCC (Dubai, Abu Dhabi, Doha)" },
+  { value: "Other Worldwide Hub", label: "Other International Destination (Worldwide)" },
+];
 
 export function AgencyClient() {
   // OTA Commission Bleed Calculator State
@@ -105,8 +122,8 @@ export function AgencyClient() {
             </span>
           </h1>
 
-          <p className="mt-5 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
-            Airbnb and Booking.com hide your guest contact info, dictate your rules, and siphon off tens of thousands in commissions every year. We build your high-converting direct booking engine and run targeted guest acquisition campaigns so you keep 100% of every dollar earned—on a predictable <strong className="text-amber-700 font-bold">$350/month flat retainer</strong>.
+          <p className="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
+            Third-party booking platforms take up to 25% on every reservation and withhold guest data. We engineer your direct booking engine and run targeted guest acquisition campaigns on a flat <strong className="text-amber-700 font-bold">$350/month retainer</strong>.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -128,22 +145,22 @@ export function AgencyClient() {
           </div>
 
           {/* Quick Problem-to-Gain Cards */}
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">Keep 100%</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Zero 15%–25% OTA fee loss</p>
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Keep 100%</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Zero Airbnb & OTA fees</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">Own Guest Data</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Direct WhatsApp & email list</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Sub-Second Speed</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Hotel • Resort • Villa engine</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">2-Way iCal</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Zero double-booking risk</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">2-Way iCal</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Zero double-booking risk</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all text-center">
-              <p className="text-xl sm:text-2xl font-black text-amber-600">$350 Flat</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium">Predictable monthly retainer</p>
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
+              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">$350 Flat</p>
+              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Predictable monthly fee</p>
             </div>
           </div>
         </div>
@@ -271,77 +288,148 @@ export function AgencyClient() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="p-6 rounded-3xl border border-stone-200/90 bg-white shadow-xs hover:border-amber-400 hover:shadow-md transition-all">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 border border-amber-500/20 flex items-center justify-center mb-4">
-              <Target className="w-5 h-5" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          {/* Pillar 1: Paid Guest Acquisition */}
+          <Card className="p-6 sm:p-7 rounded-3xl border border-stone-200/90 bg-white shadow-xs hover:border-amber-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              {/* Header row: Icon on left, Stage Badge on right */}
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <div className="w-11 h-11 rounded-2xl bg-amber-500/10 text-amber-700 border border-amber-500/25 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <Target className="w-5 h-5 text-amber-600" />
+                </div>
+                <div className="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-800 text-[11px] font-mono font-bold tracking-wide whitespace-nowrap shrink-0">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse shrink-0" />
+                  <span>01 · Inbound Ads</span>
+                </div>
+              </div>
+
+              <h3 className="text-base sm:text-lg font-bold text-stone-900 tracking-tight leading-snug">
+                Paid Guest Acquisition Funnels
+              </h3>
+              <p className="text-xs sm:text-[13px] text-stone-600 mt-2 leading-relaxed">
+                We build and manage laser-targeted Meta (Instagram/Facebook) and Google Search campaigns targeting high-net-worth travelers searching for luxury stays in your exact location.
+              </p>
+
+              <div className="pt-4 border-t border-stone-100 mt-5">
+                <ul className="space-y-2.5 text-xs text-stone-700 font-medium">
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>Geographic traveler targeting (UK, EU, US, GCC)</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>Retargeting users who viewed your property</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>Weekly budget optimization & A/B testing</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <h3 className="text-base font-bold text-stone-900">Paid Guest Acquisition Funnels</h3>
-            <p className="text-xs text-stone-600 mt-2 leading-relaxed">
-              We build and manage laser-targeted Meta (Instagram/Facebook) and Google Search campaigns targeting high-net-worth travelers searching for luxury stays in your exact location.
-            </p>
-            <ul className="mt-4 space-y-2 text-xs text-stone-700">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-                <span>Geographic traveler targeting (UK, EU, US, GCC)</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-                <span>Retargeting users who viewed your property</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-                <span>Weekly budget optimization & A/B testing</span>
-              </li>
-            </ul>
+
+            <div className="mt-5 pt-3.5 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-500">
+              <span className="font-semibold text-stone-700">Campaign Timeline:</span>
+              <span className="font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200 whitespace-nowrap">
+                Live in 7 Days
+              </span>
+            </div>
           </Card>
 
-          <Card className="p-6 rounded-3xl border border-stone-200/90 bg-white shadow-xs hover:border-amber-400 hover:shadow-md transition-all">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 border border-amber-500/20 flex items-center justify-center mb-4">
-              <Zap className="w-5 h-5" />
+          {/* Pillar 2: Next.js Direct Engine */}
+          <Card className="p-6 sm:p-7 rounded-3xl border border-stone-200/90 bg-white shadow-xs hover:border-amber-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              {/* Header row: Icon on left, Stage Badge on right */}
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <div className="w-11 h-11 rounded-2xl bg-amber-500/10 text-amber-700 border border-amber-500/25 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <Zap className="w-5 h-5 text-amber-600" />
+                </div>
+                <div className="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-800 text-[11px] font-mono font-bold tracking-wide whitespace-nowrap shrink-0">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse shrink-0" />
+                  <span>02 · 0.8s Platform</span>
+                </div>
+              </div>
+
+              <h3 className="text-base sm:text-lg font-bold text-stone-900 tracking-tight leading-snug">
+                Next.js Booking App (Hotel • Resort • Villa)
+              </h3>
+              <p className="text-xs sm:text-[13px] text-stone-600 mt-2 leading-relaxed">
+                We engineer, host, and continuously optimize your custom Next.js direct-booking engine with sub-second mobile speed to turn visitors into direct guests.
+              </p>
+
+              <div className="pt-4 border-t border-stone-100 mt-5">
+                <ul className="space-y-2.5 text-xs text-stone-700 font-medium">
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>Automatic 2-way iCal calendar sync (Zero double bookings)</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>Instant Checkout: Stripe, Apple Pay, Google Pay & Cards</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>Sub-second speed (0.8s), Google 99+ score & 100% SEO ready</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <h3 className="text-base font-bold text-stone-900">Direct Booking Engine Maintenance</h3>
-            <p className="text-xs text-stone-600 mt-2 leading-relaxed">
-              We host, maintain, and continuously optimize your custom Next.js direct-booking landing page to maximize conversion rates and prevent double-bookings.
-            </p>
-            <ul className="mt-4 space-y-2 text-xs text-stone-700">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-                <span>2-Way iCal calendar sync with Airbnb & Booking.com</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-                <span>Stripe credit card processing + damage deposits</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-                <span>Mobile-first lightning-fast page loading</span>
-              </li>
-            </ul>
+
+            <div className="mt-5 pt-3.5 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-500">
+              <span className="font-semibold text-stone-700">Tech Performance:</span>
+              <span className="font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200 whitespace-nowrap">
+                Google 99+ Score
+              </span>
+            </div>
           </Card>
 
-          <Card className="p-6 rounded-3xl border border-stone-200/90 bg-white shadow-xs hover:border-amber-400 hover:shadow-md transition-all">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 border border-amber-500/20 flex items-center justify-center mb-4">
-              <MessageSquare className="w-5 h-5" />
+          {/* Pillar 3: Automated WhatsApp */}
+          <Card className="p-6 sm:p-7 rounded-3xl border border-stone-200/90 bg-white shadow-xs hover:border-amber-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group md:col-span-2 lg:col-span-1">
+            <div className="md:grid md:grid-cols-2 md:gap-8 lg:block">
+              <div>
+                {/* Header row: Icon on left, Stage Badge on right */}
+                <div className="flex items-center justify-between gap-3 mb-5">
+                  <div className="w-11 h-11 rounded-2xl bg-amber-500/10 text-amber-700 border border-amber-500/25 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <MessageSquare className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-800 text-[11px] font-mono font-bold tracking-wide whitespace-nowrap shrink-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse shrink-0" />
+                    <span>03 · Direct CRM</span>
+                  </div>
+                </div>
+
+                <h3 className="text-base sm:text-lg font-bold text-stone-900 tracking-tight leading-snug">
+                  Automated WhatsApp & Guest Retention
+                </h3>
+                <p className="text-xs sm:text-[13px] text-stone-600 mt-2 leading-relaxed">
+                  Repeat guests generate zero acquisition costs. We deploy automated WhatsApp sequences for check-in guides, local recommendations, and VIP direct re-booking discounts.
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-stone-100 mt-5 md:pt-0 md:border-t-0 md:mt-0 lg:pt-4 lg:border-t lg:mt-5 flex flex-col justify-between">
+                <ul className="space-y-2.5 text-xs text-stone-700 font-medium">
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>Instant automated booking receipt & directions</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>Automated 5-star Google Review request post-checkout</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>Seasonal return guest broadcast campaigns</span>
+                  </li>
+                </ul>
+
+                <div className="mt-5 pt-3.5 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-500">
+                  <span className="font-semibold text-stone-700">Guest Automation:</span>
+                  <span className="font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200 whitespace-nowrap">
+                    24/7 Auto-Dispatch
+                  </span>
+                </div>
+              </div>
             </div>
-            <h3 className="text-base font-bold text-stone-900">Automated WhatsApp & Guest Retention</h3>
-            <p className="text-xs text-stone-600 mt-2 leading-relaxed">
-              Repeat guests generate zero acquisition costs. We deploy automated WhatsApp sequences for check-in guides, local recommendations, and VIP direct re-booking discounts.
-            </p>
-            <ul className="mt-4 space-y-2 text-xs text-stone-700">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-                <span>Instant automated booking receipt & directions</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-                <span>Automated 5-star Google Review request post-checkout</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-                <span>Seasonal return guest broadcast campaigns</span>
-              </li>
-            </ul>
           </Card>
         </div>
       </section>
@@ -414,19 +502,28 @@ export function AgencyClient() {
                 <label className="block text-xs font-semibold text-stone-300 mb-1.5">
                   Location / Territory
                 </label>
-                <select
+                <Select
+                  items={TERRITORY_OPTIONS}
                   value={territory}
-                  onChange={(e) => setTerritory(e.target.value)}
-                  className="w-full bg-stone-950 border border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500"
+                  onValueChange={(val) => {
+                    if (val) setTerritory(val);
+                  }}
                 >
-                  <option className="bg-stone-950 text-white" value="United States (USA)">United States (USA / Florida, NY, California)</option>
-                  <option className="bg-stone-950 text-white" value="United Kingdom (UK)">United Kingdom (London & England)</option>
-                  <option className="bg-stone-950 text-white" value="Canada">Canada (Toronto, Vancouver, Montreal)</option>
-                  <option className="bg-stone-950 text-white" value="Australia">Australia (Sydney, Melbourne, Gold Coast)</option>
-                  <option className="bg-stone-950 text-white" value="European Union (EU)">European Union (Portugal, Spain, France, Italy)</option>
-                  <option className="bg-stone-950 text-white" value="UAE & GCC">UAE & GCC (Dubai, Abu Dhabi, Doha)</option>
-                  <option className="bg-stone-950 text-white" value="Other Worldwide Hub">Other International Destination (Worldwide)</option>
-                </select>
+                  <SelectTrigger className="w-full bg-stone-950 border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500">
+                    <SelectValue placeholder="Select location or territory" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-stone-900 border border-stone-700/80 text-white rounded-xl shadow-2xl p-1 z-50">
+                    {TERRITORY_OPTIONS.map((opt) => (
+                      <SelectItem
+                        key={opt.value}
+                        value={opt.value}
+                        className="text-xs text-stone-200 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-stone-800 data-[highlighted]:!text-white data-[highlighted]:font-semibold hover:!bg-stone-800 hover:!text-white focus:!bg-stone-800 focus:!text-white data-[selected]:!text-amber-400 data-[selected]:font-bold data-[selected]:!bg-amber-500/10"
+                      >
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <Button

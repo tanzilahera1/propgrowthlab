@@ -39,16 +39,16 @@ const PILLARS = [
     title: "PropTech Systems & Code",
     tagline: "Instant source code download & 48-hour turnkey deployment.",
     description:
-      "Production-ready Next.js 16 booking engines, arbitrage OS, and brokerage multi-listing platforms. Buy the source code or let our engineers launch it on your domain in 48 hours.",
-    price: "From $27 / $199 Turnkey",
+      "Production-ready Next.js booking engines, arbitrage OS, and brokerage multi-listing platforms. Buy the source code or let our engineers launch it on your domain in 48 hours.",
+    price: "From $19–$69 / $99–$199 Turnkey",
     href: "/templates",
     icon: Layers,
     accentColor: "from-blue-500/10 to-indigo-500/5",
     badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
     highlights: [
-      "Sub-second Next.js 16 App Router",
-      "iCal 2-way Airbnb sync ready",
-      "48-hour live delivery SLA",
+      "Sub-second Next.js · Google 99+ score",
+      "Automatic 2-way iCal sync ready",
+      "PWA 1-Click install & native app UX",
     ],
   },
   {
@@ -65,9 +65,9 @@ const PILLARS = [
     accentColor: "from-amber-500/10 to-orange-500/5",
     badgeColor: "bg-amber-50 text-amber-700 border-amber-200",
     highlights: [
-      "0% OTA commission — Keep 100% revenue",
-      "Meta & Google Search Ads management",
-      "100% private leads (Zero data resale)",
+      "Zero Airbnb/OTA fees — Keep 100% revenue",
+      "Instant checkout: Stripe, Apple Pay, Google Pay",
+      "Smart cart drawer & instant WhatsApp alerts",
     ],
   },
   {
@@ -77,8 +77,8 @@ const PILLARS = [
     title: "Broker Daily Lead Subscriptions",
     tagline: "A steady pipeline of verified tenant & buyer inquiries delivered daily.",
     description:
-      "Stop wasting hours scrolling Facebook groups. Subscribe to your city's quota and receive 2 to 5 verified expat and digital nomad inquiries sent directly to your WhatsApp each morning.",
-    price: "From $299 / month",
+      "Stop wasting hours scrolling social groups. Subscribe to your city's quota and receive 30 to 150+ verified expat and luxury tenant inquiries sent directly to your WhatsApp each morning.",
+    price: "From $99 / month",
     href: "/leads",
     icon: Building2,
     accentColor: "from-amber-500/10 to-orange-500/5",
@@ -86,7 +86,7 @@ const PILLARS = [
     highlights: [
       "Daily automated WhatsApp dispatch",
       "Pre-qualified budget & move-in dates",
-      "Silver (2/day) & Gold (5/day) tiers",
+      "30 to 150+ monthly inquiry tiers",
     ],
   },
   {
@@ -111,10 +111,10 @@ const PILLARS = [
 ];
 
 const STATS = [
-  { value: "0.8s", label: "Average Page Speed", sub: "Next.js 16 Turbopack engine" },
-  { value: "0%", label: "OTA Commission Lost", sub: "Direct booking architecture" },
-  { value: "48h", label: "Turnkey Launch SLA", sub: "Production deployment speed" },
-  { value: "Global", label: "Worldwide Hubs", sub: "USA · UK · EU · Canada · Australia · UAE" },
+  { value: "0.8s", label: "Sub-Second Page Speed", sub: "Google 99+ Score & 100% SEO" },
+  { value: "0%", label: "Zero Airbnb Fees", sub: "Automatic 2-way iCal sync" },
+  { value: "48h", label: "Figma → Next.js Live", sub: "Clean code & fast architecture" },
+  { value: "1-Tap", label: "WhatsApp Direct Booking", sub: "Stripe, Apple Pay & instant alerts" },
 ];
 
 export function HomeClient() {
@@ -123,12 +123,12 @@ export function HomeClient() {
   return (
     <div className="w-full flex flex-col bg-[#fbfbfa] overflow-hidden">
       {/* ================= SECTION 1: HERO SECTION ================= */}
-      <section className="relative overflow-x-clip w-full max-w-full pt-18 pb-14 sm:pt-22 sm:pb-18 lg:pt-26 lg:pb-22 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90">
+      <section className="relative overflow-x-clip w-full max-w-full pt-16 pb-6 sm:pt-22 sm:pb-14 lg:pt-26 lg:pb-20 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90">
         {/* Background ambient warm gold glow (exact property-brokerage style) */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-6 sm:space-y-7">
+          <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-5 sm:space-y-7">
             {/* Ant Design Style Precision Tag */}
             <div className="inline-flex items-center gap-2 py-0.5 px-2.5 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-800 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase whitespace-nowrap mx-auto">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
@@ -150,7 +150,7 @@ export function HomeClient() {
             </p>
 
             {/* CTA Button Cluster */}
-            <div className="w-full pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto">
+            <div className="w-full pt-1 sm:pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto">
               <Link href="/agency" className="w-full sm:w-auto">
                 <Button className="w-full sm:w-auto h-12 px-8 rounded-full text-sm font-bold bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-md shadow-amber-500/20 transition-all active:scale-95 gap-2 group">
                   <span>Explore 360° Agency</span>
@@ -167,33 +167,39 @@ export function HomeClient() {
               </Link>
             </div>
 
-            {/* Micro Trust Markers */}
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-stone-500 font-medium border-t border-stone-200/80 w-full max-w-xl mx-auto">
-              <span className="flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-amber-500" />
-                <span>0.8s Next.js 16 Turbopack</span>
-              </span>
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-amber-500" />
-                <span>100% Private Client Data</span>
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-500" />
-                <span>Daily Verified Inquiries</span>
-              </span>
+            {/* Micro Trust Markers - 4 Balanced Conversion Tags */}
+            <div className="pt-3.5 sm:pt-4 border-t border-stone-200/80 w-full max-w-3xl mx-auto">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 text-[11px] sm:text-xs">
+                <div className="flex items-center justify-center gap-1.5 py-1.5 px-2.5 rounded-xl bg-white/80 border border-stone-200/80 shadow-2xs text-stone-800">
+                  <Zap className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="whitespace-nowrap font-bold">0.8s Modern Next.js</span>
+                </div>
+                <div className="flex items-center justify-center gap-1.5 py-1.5 px-2.5 rounded-xl bg-white/80 border border-stone-200/80 shadow-2xs text-stone-800">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="whitespace-nowrap font-bold">Google 99+ Score</span>
+                </div>
+                <div className="flex items-center justify-center gap-1.5 py-1.5 px-2.5 rounded-xl bg-white/80 border border-stone-200/80 shadow-2xs text-stone-800">
+                  <ShieldCheck className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="whitespace-nowrap font-bold">Zero Airbnb Fees</span>
+                </div>
+                <div className="flex items-center justify-center gap-1.5 py-1.5 px-2.5 rounded-xl bg-white/80 border border-stone-200/80 shadow-2xs text-stone-800">
+                  <Smartphone className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="whitespace-nowrap font-bold">1-Tap WhatsApp Booking</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ================= SECTION 2: METRICS BAR (4 STAT CARDS) ================= */}
-      <section className="relative w-full py-12 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90 overflow-hidden">
+      <section className="relative w-full py-8 sm:py-12 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {STATS.map((stat, i) => (
               <div
                 key={i}
-                className="relative bg-white/95 p-5 sm:p-6 rounded-2xl border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col items-center text-center space-y-1.5 overflow-hidden group"
+                className="relative bg-white/95 p-4 sm:p-6 rounded-2xl border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col items-center text-center space-y-1 sm:space-y-1.5 overflow-hidden group"
               >
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500/40 to-transparent group-hover:via-amber-500 transition-all duration-300" />
                 <span className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">
@@ -379,7 +385,7 @@ export function HomeClient() {
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                    <span><strong>Sub-second Speed</strong> — Next.js 16 loads in 0.8s on 4G.</span>
+                    <span><strong>Sub-second Speed</strong> — Next.js loads in 0.8s on 4G.</span>
                   </li>
                 </ul>
               </div>
