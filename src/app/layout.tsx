@@ -51,6 +51,7 @@ export const metadata: Metadata = {
     "Real Estate Broker Network",
     "Next.js Real Estate",
     "Hospitality Growth Agency",
+    "E-commerce",
   ],
   authors: [{ name: "PropGrowth Lab" }],
   creator: "PropGrowth Lab",
