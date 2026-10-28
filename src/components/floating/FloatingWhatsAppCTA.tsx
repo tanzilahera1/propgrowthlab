@@ -38,7 +38,29 @@ export function FloatingWhatsAppCTA() {
       aria-label="Floating Actions"
       className="fixed z-40 bottom-20 md:bottom-6 right-3.5 flex flex-col items-center gap-2.5"
     >
-      {/* 1. Scroll-To-Top Button (TOP) - Same w-11 h-11 Size */}
+      {/* 1. WhatsApp Button (TOP) - Same w-11 h-11 Size, Luxury Dark Color, Reduced Soft Ping */}
+      <div className="relative">
+        {/* Subtle, Low-Intensity Ping Pulse Ring */}
+        <span className="absolute inset-0 rounded-full bg-emerald-400 opacity-25 animate-ping pointer-events-none" />
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat with PropGrowth Lab on WhatsApp"
+          title="Chat on WhatsApp"
+          className="relative w-11 h-11 rounded-full bg-stone-950/95 text-[#25D366] border border-stone-700/80 backdrop-blur-xl shadow-xl shadow-stone-950/30 hover:border-emerald-500/70 hover:shadow-emerald-500/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer group"
+        >
+          <WhatsAppIcon size="20" className="group-hover:scale-110 transition-transform" />
+
+          {/* Live Online Indicator Dot */}
+          <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#25D366] border border-stone-950" />
+          </span>
+        </a>
+      </div>
+
+      {/* 2. Scroll-To-Top Button (BOTTOM) - Same w-11 h-11 Size */}
       {showScrollTop && (
         <button
           onClick={scrollToTop}
@@ -75,28 +97,6 @@ export function FloatingWhatsAppCTA() {
           </div>
         </button>
       )}
-
-      {/* 2. WhatsApp Button (BOTTOM) - Same w-11 h-11 Size, Luxury Dark Color, Reduced Soft Ping */}
-      <div className="relative">
-        {/* Subtle, Low-Intensity Ping Pulse Ring */}
-        <span className="absolute inset-0 rounded-full bg-emerald-400 opacity-25 animate-ping pointer-events-none" />
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Chat with PropGrowth Lab on WhatsApp"
-          title="Chat on WhatsApp"
-          className="relative w-11 h-11 rounded-full bg-stone-950/95 text-[#25D366] border border-stone-700/80 backdrop-blur-xl shadow-xl shadow-stone-950/30 hover:border-emerald-500/70 hover:shadow-emerald-500/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer group"
-        >
-          <WhatsAppIcon size="20" className="group-hover:scale-110 transition-transform" />
-
-          {/* Live Online Indicator Dot */}
-          <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#25D366] border border-stone-950" />
-          </span>
-        </a>
-      </div>
     </aside>
   );
 }

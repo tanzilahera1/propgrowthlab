@@ -170,10 +170,26 @@ export function PublicFooter() {
         {/* ================= BOTTOM BAR ================= */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© 2026 <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500">PropGrowth Lab</span>. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <span>Enterprise PropTech & Media</span>
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <span className="text-stone-400 hidden md:inline">Enterprise PropTech & Media</span>
+            <Link
+              href="/privacy"
+              className="text-stone-400 hover:text-amber-400 transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-stone-400 hover:text-amber-400 transition-colors"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              href="/cookies"
+              className="text-stone-400 hover:text-amber-400 transition-colors"
+            >
+              Cookie Policy
+            </Link>
           </div>
         </div>
       </div>

@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { CASE_STUDIES } from "@/data/case-studies";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -24,6 +26,7 @@ import {
   Video,
   Award,
   Globe2,
+  MapPin,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -498,6 +501,89 @@ export function AgencyClient() {
               </a>
             </div>
           </Card>
+        </div>
+      </section>
+
+      {/* ================= FEATURED CASE STUDIES ================= */}
+      <section className="py-16 sm:py-24 bg-stone-100/60 border-t border-b border-stone-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div className="space-y-2">
+              <Badge className="bg-amber-500/10 text-amber-800 border-amber-500/30 font-mono text-[11px] uppercase tracking-wider rounded-[4px]">
+                Proven ROI Blueprints
+              </Badge>
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-stone-950 tracking-tight">
+                Featured Luxury Stay Transformations
+              </h2>
+              <p className="text-sm text-stone-600 max-w-xl">
+                Explore in-depth performance breakdowns showing how boutique villa estates eliminated OTA fees and built direct booking engines.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {CASE_STUDIES.map((study) => (
+              <Link
+                key={study.slug}
+                href={`/agency/case-studies/${study.slug}`}
+                className="group flex flex-col justify-between bg-white rounded-2xl border border-stone-200/90 overflow-hidden shadow-xs hover:shadow-xl hover:border-stone-400 transition-all duration-300"
+              >
+                <div>
+                  {/* Image Thumb */}
+                  <div className="relative w-full aspect-16/10 overflow-hidden bg-stone-100">
+                    <Image
+                      src={study.heroImage}
+                      alt={study.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="px-2.5 py-1 rounded-[4px] bg-stone-950/90 text-white font-mono text-[10px] uppercase font-bold tracking-wider backdrop-blur-xs">
+                        {study.badge}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-6 space-y-4">
+                    <div className="flex items-center gap-1.5 text-xs text-stone-500 font-medium">
+                      <MapPin className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                      <span>{study.location}</span>
+                      <span className="text-stone-300">·</span>
+                      <span className="font-mono">{study.duration}</span>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-stone-950 group-hover:text-amber-800 transition-colors leading-snug">
+                      {study.title}
+                    </h3>
+
+                    <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed">
+                      {study.subtitle}
+                    </p>
+
+                    {/* Stat Highlight */}
+                    <div className="grid grid-cols-2 gap-2 pt-3 border-t border-stone-100 text-xs">
+                      <div>
+                        <span className="text-[10px] font-mono text-stone-400 block uppercase">Direct Share</span>
+                        <span className="font-extrabold text-stone-900 text-sm">{study.metrics[0].value}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-mono text-stone-400 block uppercase">Fees Saved</span>
+                        <span className="font-extrabold text-emerald-700 text-sm">{study.metrics[1].value}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="px-6 pb-6 pt-2">
+                  <div className="w-full inline-flex items-center justify-between text-xs font-bold text-stone-900 group-hover:text-amber-700 transition-colors pt-2 border-t border-stone-100">
+                    <span>Read Full Case Study</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

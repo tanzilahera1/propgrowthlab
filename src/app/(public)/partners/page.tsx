@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PartnersClient from "./PartnersClient";
 
 export const metadata: Metadata = {
-  title: "The Co-Broker Network | PropGrowth Lab",
+  title: "The Co-Broker Partner Network | PropGrowth Lab",
   description:
     "Partner with PropGrowth Lab to close high-budget real estate leases and sales across the USA, UK, Canada, Australia, EU, and UAE. You manage physical viewings and contracts; keep guaranteed 70% commission (70/30 split).",
   keywords: [
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "https://propgrowthlab.com/partners",
   },
   openGraph: {
-    title: "The Co-Broker Network | PropGrowth Lab",
+    title: "The Co-Broker Partner Network | PropGrowth Lab",
     description:
       "Close pre-qualified high-budget property leases on the ground and keep a guaranteed 70% commission.",
     url: "https://propgrowthlab.com/partners",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "PropGrowth Lab Co-Broker Network",
+        alt: "PropGrowth Lab Co-Broker Partner Network",
       },
     ],
     locale: "en_US",

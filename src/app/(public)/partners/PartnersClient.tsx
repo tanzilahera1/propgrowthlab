@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { TERRITORIES_DATA } from "@/data/territories";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -226,6 +227,69 @@ export function PartnersClient() {
                 </li>
               </ul>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= DEDICATED TERRITORY HUBS ================= */}
+      <section className="py-16 sm:py-20 bg-stone-100/60 border-b border-stone-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+            <Badge className="bg-amber-500/10 text-amber-800 border-amber-500/30 font-mono text-[11px] uppercase tracking-wider rounded-[4px]">
+              Territory Exclusivity
+            </Badge>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-950 tracking-tight">
+              Explore Active Partner Allocation Portals
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-600">
+              Each market is strictly limited to 2 licensed brokers. Select your jurisdiction below to view localized commission economics and queue status.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            {TERRITORIES_DATA.map((t) => (
+              <Link
+                key={t.id}
+                href={`/partners/${t.id}`}
+                className="group bg-white rounded-2xl border border-stone-200/90 p-6 shadow-xs hover:shadow-xl hover:border-amber-400/80 transition-all flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded-[4px] bg-stone-900 text-white font-mono text-[11px] font-bold uppercase tracking-wider">
+                      {t.id}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-900 font-mono text-[11px] font-bold">
+                      {t.slotsRemaining} Slots Open
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-base font-bold text-stone-950 group-hover:text-amber-700 transition-colors">
+                      {t.name}
+                    </h3>
+                    <p className="text-xs text-stone-500 mt-1 line-clamp-2">
+                      {t.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-stone-100 space-y-1.5 text-xs">
+                    <div className="flex justify-between items-center text-stone-500">
+                      <span>Avg Commission:</span>
+                      <span className="font-bold text-stone-900">{t.avgSaleCommission}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-stone-500">
+                      <span>Key Coverage:</span>
+                      <span className="font-medium text-stone-700 truncate max-w-[170px]">{t.cities.slice(0, 3).join(", ")}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between text-xs font-bold text-stone-900 group-hover:text-amber-800 transition-colors">
+                  <span>View {t.shortName} Allocation</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

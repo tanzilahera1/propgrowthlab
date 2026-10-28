@@ -19,8 +19,8 @@ export function PropGrowthLogo({
 }: PropGrowthLogoProps) {
   // Dimensions for Icon Image
   const iconPixelSizes = {
-    sm: { width: 32, height: 32, class: "w-7 h-7 sm:w-8 sm:h-8" },
-    md: { width: 40, height: 40, class: "w-8 h-8 sm:w-10 sm:h-10" },
+    sm: { width: 36, height: 36, class: "w-8 h-8 sm:w-8.5 sm:h-8.5" },
+    md: { width: 44, height: 44, class: "w-9 h-9 sm:w-10 sm:h-10" },
     lg: { width: 56, height: 56, class: "w-12 h-12 sm:w-14 sm:h-14" },
     xl: { width: 80, height: 80, class: "w-16 h-16 sm:w-20 sm:h-20" },
   };
@@ -43,9 +43,9 @@ export function PropGrowthLogo({
       } ${className}`}
       aria-label="PropGrowth Lab"
     >
-      {/* ================= LOGO IMAGE (ROUND-FULL) ================= */}
+      {/* ================= LOGO IMAGE (BORDERLESS, EXPANDED TO FULL BOUNDS) ================= */}
       <div
-        className={`relative flex-shrink-0 ${currentSize.class} rounded-full overflow-hidden bg-white shadow-xs border border-stone-200/80 flex items-center justify-center p-0.5`}
+        className={`relative flex-shrink-0 ${currentSize.class} flex items-center justify-center`}
       >
         <Image
           src="/logo.png"
@@ -54,7 +54,7 @@ export function PropGrowthLogo({
           height={currentSize.height}
           priority
           unoptimized
-          className="w-full h-full object-contain rounded-full transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 

@@ -158,14 +158,14 @@ export function PublicNavbar() {
       </div>
     </header>
 
-    {/* ================= MOBILE FLOATING BOTTOM DOCK (ULTRA-SLIM, LIGHT LUXURY THEME) ================= */}
+    {/* ================= MOBILE FLOATING BOTTOM DOCK (SLIM HEIGHT, SPACIOUS WIDTH) ================= */}
     <nav
       aria-label="Mobile Bottom Navigation"
-      className={`fixed bottom-3 left-1/2 -translate-x-1/2 z-50 md:hidden w-[calc(100%-48px)] max-w-[290px] transition-all duration-300 ease-in-out ${
+      className={`fixed bottom-3 left-1/2 -translate-x-1/2 z-50 md:hidden w-[calc(100%-32px)] max-w-sm transition-all duration-300 ease-in-out ${
         isVisible ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0 pointer-events-none"
       }`}
     >
-      <div className="bg-[#fbfbfa]/95 text-stone-700 backdrop-blur-xl border border-stone-200/90 shadow-xl shadow-stone-900/10 rounded-full p-1 flex items-center justify-between gap-1">
+      <div className="bg-[#fbfbfa]/95 text-stone-700 backdrop-blur-xl border border-stone-200/90 shadow-2xl shadow-stone-950/10 rounded-full py-1 px-1.5 flex items-center justify-between gap-1">
         {NAV_LINKS.map((link) => {
           const Icon = link.icon;
           const isActive = pathname === link.href;
@@ -173,10 +173,10 @@ export function PublicNavbar() {
             <Link
               key={link.name}
               href={link.href}
-              className={`flex-1 py-1 px-1 rounded-full flex flex-col items-center justify-center transition-all ${
+              className={`flex-1 py-1 px-1 rounded-full flex flex-col items-center justify-center transition-all duration-200 ${
                 isActive
-                  ? "bg-stone-900 text-white font-bold shadow-xs"
-                  : "text-stone-500 hover:text-stone-900 hover:bg-stone-100/70"
+                  ? "bg-stone-900 text-white font-bold shadow-sm"
+                  : "text-stone-500 hover:text-stone-900 hover:bg-stone-100/80"
               }`}
             >
               <div className="flex items-center gap-0.5">
@@ -186,12 +186,12 @@ export function PublicNavbar() {
                   }`}
                 />
                 {isActive && (
-                  <span className="w-1 h-1 rounded-full bg-amber-400 animate-pulse" />
+                  <span className="w-1 h-1 rounded-full bg-amber-400 animate-pulse shrink-0" />
                 )}
               </div>
               <span
-                className={`text-[9px] mt-0.5 tracking-tight ${
-                  isActive ? "font-bold text-white" : "font-medium text-stone-600"
+                className={`text-[9.5px] mt-0.5 tracking-tight leading-none ${
+                  isActive ? "font-bold text-white" : "font-semibold text-stone-600"
                 }`}
               >
                 {link.name}
