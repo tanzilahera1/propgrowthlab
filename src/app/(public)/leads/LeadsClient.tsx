@@ -88,12 +88,12 @@ const PLANS: LeadPlan[] = [
 ];
 
 const TERRITORIES = [
-  { id: "usa", name: "USA (Miami / NY / LA)", slotsRemaining: 3, totalBrokers: 8, avgDealSize: "$4,200 / mo" },
-  { id: "uk", name: "UK (London & Prime Counties)", slotsRemaining: 2, totalBrokers: 6, avgDealSize: "£3,100 / mo" },
-  { id: "canada", name: "Canada (Toronto & Vancouver)", slotsRemaining: 2, totalBrokers: 5, avgDealSize: "C$3,200 / mo" },
-  { id: "australia", name: "Australia (Sydney & Melbourne)", slotsRemaining: 2, totalBrokers: 6, avgDealSize: "A$3,400 / mo" },
-  { id: "europe", name: "EU (Portugal / Spain / France)", slotsRemaining: 3, totalBrokers: 7, avgDealSize: "€2,600 / mo" },
-  { id: "uae", name: "UAE & GCC (Dubai / Doha)", slotsRemaining: 2, totalBrokers: 9, avgDealSize: "$4,800 / mo" },
+  { id: "usa", name: "USA (Miami / NY / LA)", shortName: "USA", slotsRemaining: 3, totalBrokers: 8, avgDealSize: "$4,200 / mo" },
+  { id: "uk", name: "UK (London & Prime Counties)", shortName: "UK", slotsRemaining: 2, totalBrokers: 6, avgDealSize: "£3,100 / mo" },
+  { id: "canada", name: "Canada (Toronto & Vancouver)", shortName: "Canada", slotsRemaining: 2, totalBrokers: 5, avgDealSize: "C$3,200 / mo" },
+  { id: "australia", name: "Australia (Sydney & Melbourne)", shortName: "Australia", slotsRemaining: 2, totalBrokers: 6, avgDealSize: "A$3,400 / mo" },
+  { id: "europe", name: "EU (Portugal / Spain / France)", shortName: "EU", slotsRemaining: 3, totalBrokers: 7, avgDealSize: "€2,600 / mo" },
+  { id: "uae", name: "UAE & GCC (Dubai / Doha)", shortName: "UAE", slotsRemaining: 2, totalBrokers: 9, avgDealSize: "$4,800 / mo" },
 ];
 
 export function LeadsClient() {
@@ -125,33 +125,33 @@ export function LeadsClient() {
           </p>
 
           {/* Quick Problem-to-Gain Cards - Strict 1-Line Title & Subtitle Consistency */}
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">No Cold Calls</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Inbound ready clients</p>
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 max-w-3xl mx-auto">
+            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
+              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">No Cold Calls</p>
+              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">Inbound ready clients</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Vetted Budgets</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">$2,500/mo+ & buyers</p>
+            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
+              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">Vetted Budgets</p>
+              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">$2,500/mo+ & buyers</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Territory Lock</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Exclusive city rights</p>
+            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
+              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">Territory Lock</p>
+              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">Exclusive city rights</p>
             </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Instant Alerts</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Sub-90s WhatsApp ping</p>
+            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
+              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">Instant Alerts</p>
+              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">Sub-90s WhatsApp ping</p>
             </div>
           </div>
 
           {/* Territory Slots Counter Bar */}
           <div className="mt-8 max-w-3xl mx-auto p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs">
-            <div className="flex items-center justify-between gap-3 text-xs text-stone-700 pb-3 border-b border-stone-100">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 text-xs text-stone-700 pb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-600 animate-ping" />
                 <span className="font-bold text-stone-900">Live Territory Availability:</span>
               </div>
-              <span className="text-[11px] font-mono text-amber-700 font-semibold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+              <span className="text-[11px] font-mono text-amber-700 font-semibold bg-amber-50 px-2 py-0.5 rounded border border-amber-200 w-fit">
                 Max 2–3 Brokers Per Territory
               </span>
             </div>
@@ -166,7 +166,7 @@ export function LeadsClient() {
                       : "bg-stone-50 text-stone-700 hover:bg-stone-100 border border-stone-200/70"
                   }`}
                 >
-                  <span className="text-[11px] font-bold truncate w-full">{t.name.split(" ")[0]}</span>
+                  <span className="text-[11px] font-bold truncate w-full">{t.shortName}</span>
                   <span className={`text-[10px] mt-0.5 font-medium ${selectedTerritory.id === t.id ? "text-amber-100" : "text-amber-700"}`}>
                     {t.slotsRemaining} left
                   </span>
@@ -246,7 +246,7 @@ export function LeadsClient() {
 
             {/* Right: Live WhatsApp Lead Preview Card */}
             <div className="flex flex-col items-center">
-              <div className="w-full max-w-sm rounded-3xl bg-stone-950 p-4 border-4 border-stone-850 shadow-2xl">
+              <div className="w-full max-w-sm rounded-3xl bg-stone-950 p-4 border-4 border-stone-800 shadow-2xl">
                 {/* Simulated Phone Header */}
                 <div className="flex items-center justify-between pb-3 border-b border-stone-800 text-white text-xs px-2">
                   <div className="flex items-center gap-2">
@@ -305,7 +305,7 @@ export function LeadsClient() {
       {/* ================= PRICING SUBSCRIPTION TIERS ================= */}
       <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <Badge className="bg-amber-500/10 text-amber-800 border-amber-500/30 font-mono text-[11px] uppercase tracking-wider mb-3 rounded-[4px]">
+          <Badge className="bg-amber-500/10 text-amber-800 border-amber-500/30 font-mono text-[11px] uppercase tracking-wider mb-3 rounded-full">
             Predictable Deal Flow
           </Badge>
           <h2 className="text-2xl sm:text-4xl font-black text-stone-900 tracking-tight">
@@ -316,7 +316,7 @@ export function LeadsClient() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-8 pt-6">
           {PLANS.map((plan) => (
             <Card
               key={plan.id}
@@ -341,7 +341,7 @@ export function LeadsClient() {
                     {plan.quotaDaily} verified inquiries dispatched daily
                   </CardDescription>
                   <div className="mt-4 flex items-baseline gap-1">
-                    <span className="text-3xl sm:text-4xl font-black text-stone-900">
+                    <span className="text-4xl sm:text-5xl font-black text-stone-900 tracking-tight">
                       ${plan.priceMonthly}
                     </span>
                     <span className="text-xs text-stone-500 font-medium">/ month</span>
@@ -366,24 +366,24 @@ export function LeadsClient() {
                 </CardContent>
               </div>
 
-              <CardFooter className="pt-6 pb-6 border-t border-stone-100 bg-stone-50/70 rounded-b-3xl">
+              <CardFooter className="p-4 sm:p-5 border-t border-stone-100 bg-stone-50/70 rounded-b-3xl">
                 <a
                   href={`https://wa.me/8801540505122?text=${encodeURIComponent(
                     `Hi PropGrowth Lab, I want to subscribe to the ${plan.name} ($${plan.priceMonthly}/mo) for territory: ${selectedTerritory.name}`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full"
+                  className="w-full block"
                 >
                   <Button
-                    className={`w-full font-bold rounded-xl h-11 text-xs sm:text-sm cursor-pointer ${
+                    className={`w-full font-bold rounded-xl h-11 px-3 text-xs sm:text-sm cursor-pointer transition-all active:scale-[0.98] flex items-center justify-center gap-1.5 ${
                       plan.popular
                         ? "bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-md shadow-amber-500/20"
                         : "bg-stone-900 hover:bg-stone-800 text-white"
                     }`}
                   >
-                    Subscribe for {selectedTerritory.name}
-                    <ArrowRight className="w-4 h-4 ml-1.5" />
+                    <span className="truncate">Subscribe for {selectedTerritory.shortName}</span>
+                    <ArrowRight className="w-4 h-4 shrink-0" />
                   </Button>
                 </a>
               </CardFooter>
@@ -393,17 +393,17 @@ export function LeadsClient() {
       </section>
 
       {/* ================= PRE-FOOTER CTA SECTION ================= */}
-      <section className="py-20 sm:py-24 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden border-t border-stone-800">
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden border-t border-stone-800">
         {/* Ambient gold glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-amber-500/10 blur-[130px] pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="p-8 sm:p-14 rounded-3xl bg-stone-900/90 border border-amber-500/30 shadow-2xl flex flex-col items-center space-y-6 relative overflow-hidden backdrop-blur-xs">
+          <div className="p-6 sm:p-10 md:p-14 rounded-3xl bg-stone-900/90 border border-amber-500/30 shadow-2xl flex flex-col items-center space-y-6 relative overflow-hidden backdrop-blur-xs">
             {/* Ambient Radiant Gold Lights */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-48 bg-amber-500/15 blur-3xl pointer-events-none" />
 
             <div className="space-y-3 max-w-2xl relative z-10">
-              <span className="inline-flex items-center gap-1.5 py-0.5 px-2.5 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase">
+              <span className="inline-flex items-center gap-1.5 py-0.5 px-2.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase">
                 Exclusive Territory Quota
               </span>
               <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
@@ -414,7 +414,7 @@ export function LeadsClient() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto relative z-10">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full sm:w-auto relative z-10">
               <a
                 href={`https://wa.me/8801540505122?text=${encodeURIComponent(
                   `Hi PropGrowth Lab, I want to lock in territory lead quota for: ${selectedTerritory.name}`
@@ -423,13 +423,14 @@ export function LeadsClient() {
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"
               >
-                <Button className="w-full sm:w-auto h-12 px-8 rounded-full text-xs sm:text-sm font-bold bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 hover:from-amber-600 hover:to-amber-800 text-white shadow-lg shadow-amber-500/25 transition-transform active:scale-95 cursor-pointer">
-                  <span>Subscribe on WhatsApp for {selectedTerritory.name}</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <Button className="w-full sm:w-auto min-h-[48px] h-auto py-3 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 hover:from-amber-600 hover:to-amber-800 text-white shadow-lg shadow-amber-500/25 transition-transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
+                  <span className="sm:hidden">Subscribe on WhatsApp ({selectedTerritory.shortName})</span>
+                  <span className="hidden sm:inline">Subscribe on WhatsApp for {selectedTerritory.shortName}</span>
+                  <ArrowRight className="w-4 h-4 shrink-0" />
                 </Button>
               </a>
               <Link href="/partners" className="w-full sm:w-auto">
-                <Button className="w-full sm:w-auto h-12 px-8 rounded-full text-xs sm:text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-stone-700 backdrop-blur-xs transition-colors cursor-pointer">
+                <Button className="w-full sm:w-auto min-h-[48px] h-auto py-3 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-stone-700 backdrop-blur-xs transition-colors cursor-pointer flex items-center justify-center">
                   Explore Co-Broker Partnership
                 </Button>
               </Link>

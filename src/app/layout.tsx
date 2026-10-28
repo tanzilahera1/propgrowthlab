@@ -13,7 +13,7 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
+}); 
 
 export const viewport: Viewport = {
   themeColor: [
@@ -25,8 +25,17 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+const rawBaseUrl =
+  process.env.NEXT_PUBLIC_APP_URL ||
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  "https://propgrowthlab.com";
+const siteUrl = rawBaseUrl.startsWith("http://") || rawBaseUrl.startsWith("https://")
+  ? rawBaseUrl
+  : `https://${rawBaseUrl}`;
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://propgrowthlab.com"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "PropGrowth Lab | 360° Tech & Hospitality Growth Engine",
     template: "%s | PropGrowth Lab",
@@ -73,7 +82,7 @@ export const metadata: Metadata = {
     title: "PropGrowth Lab | 360° Tech & Hospitality Growth Engine",
     description:
       "Scale luxury stays, villas & resorts with high-converting direct booking technology and verified tenant networks.",
-    url: "https://propgrowthlab.com",
+    url: siteUrl,
     siteName: "PropGrowth Lab",
     images: [
       {

@@ -17,9 +17,10 @@ trigger: always_on
 7. [৭. জিরো নেটিভ ফর্ম এলিমেন্টস নীতি (Zero Native Select/Date Policy)](#৭-জিরো-নেটিভ-ফর্ম-এলিমেন্টস-নীতি-zero-native-selectdate-policy)
 8. [৮. Ant Design 6 আধুনিক এন্টারপ্রাইজ রুলস (Zero Console Warnings)](#৮-ant-design-6-আধুনিক-এন্টারপ্রাইজ-রুলস-zero-console-warnings)
 9. [৯. পরিবেশ ভেরিয়েবল ও নোটিফিকেশন ইঞ্জিন (.env.local)](#৯-পরিবেশ-ভেরিয়েবল-ও-নোটিফিকেশন-ইঞ্জিন-envlocal)
+10. [১০. সার্বজনীন রেসপন্সিভ পিল ট্যাববার স্ট্যান্ডার্ড (Universal Standalone Pill TabBar)](#১০-সার্বজনীন-রেসপন্সিভ-পিল-ট্যাববার-স্ট্যান্ডার্ড-universal-standalone-responsive-pill-tabbar-specification)
 
 ---
-
+ 
 ## ১. কোর বিজনেস ও ল্যাঙ্গুয়েজ/থিম স্ট্যান্ডার্ড
 
 - **১০০% ইংরেজি ভাষা (Strictly English Only):**  
@@ -181,6 +182,159 @@ export default function TemplatesPage() {
   টিম ম্যানেজমেন্ট ও রিয়েল-টাইম ডিসপ্যাচের জন্য প্রতিটি ইভেন্ট ডিসকর্ড চ্যানেলে অটো-লগ হবে।
 - **`MONGODB_URI`:**  
   আমাদের ক্লাস্টার `propgrowthlabcluster` কানেকশনের জন্য প্রস্তুত। `src/lib/mongodb.ts` এ কানেকশন ক্যাশিং নিশ্চিত করতে হবে।
+
+---
+
+## ১০. সার্বজনীন রেসপন্সিভ পিল ট্যাববার স্ট্যান্ডার্ড (Universal Standalone Responsive Pill TabBar Specification)
+
+এই সেকশনটি সম্পূর্ণ **স্বাধীন ও স্বয়ংসম্পূর্ণ (Standalone)**। যেকোনো নতুন পেজ বা প্রজেক্টে (যেখানে কোনো নেভবার থাকুক বা না থাকুক) ক্যাটাগরি, ফিল্টার বা সেগমেন্টেড ট্যাববার তৈরি করার সময় এই স্পেসিফিকেশন হুবহু অনুসরণ করতে হবে।
+
+---
+
+### ১. ডিভাইস ভেদে রেসপন্সিভ বিহেভিয়ার (Device-Specific UX Behaviors):
+
+| ডিভাইস ক্যাটাগরি | স্ক্রিন সাইজ | নির্ধারিত ট্যাববার আচরণ ও রেসপন্সিভ মেকানিজম |
+| :--- | :--- | :--- |
+| **📱 মোবাইল (Mobile)** | `< 640px` | • ট্যাব কখনোই ২য় লাইনে র‍্যাপ হবে না বা গ্রিডে ভাঙবে না (`whitespace-nowrap flex-nowrap`)।<br>• ১০০% স্মুথ ফ্লুইড অনুভূমিক স্ক্রল (`overflow-x-auto no-scrollbar scroll-smooth`)।<br>• ডানে অতিরিক্ত ট্যাব আছে বোঝাতে ডান প্রান্তে সফট ফেড ও ভাসমান অ্যারো বাটন ভেসে উঠবে।<br>• নিচে/উপরে সহায়ক কাউন্টার টেক্সট থাকবে (যেমন: `X items across Y categories · Scroll or use arrows`)। |
+| **💻 মিডেল / ট্যাবলেট (Tablet)** | `640px – 1024px` | • স্ক্রিন উইডথ অনুযায়ী ফ্লুইড কনটেইনার হিসেবে বসবে। ট্যাবের সংখ্যা বেশি হলে সেন্টারিং বাগ ছাড়া বাম প্রান্ত থেকে স্ক্রলযোগ্য থাকবে।<br>• ভাসমান `<` ও `>` বোতামে সিঙ্গেল ট্যাপে ±240px স্মুথ ড্রাইভ করবে।<br>• ব্রাউজারের কোনো স্ক্রলবার দৃশ্যমান থাকবে না (`[&::-webkit-scrollbar]:hidden [scrollbar-width:none]`)। |
+| **🖥️ ডেস্কটপ ও লার্জ স্ক্রিন (Desktop)** | `> 1024px` | • সমস্ত ট্যাব একক সারিতে সুবিন্যস্তভাবে প্রদর্শিত হবে।<br>• অতিরিক্ত উপাদান না থাকলে গ্রেডিয়েন্ট ফেড মাস্ক ও অ্যারো বোতাম স্বয়ংক্রিয়ভাবে সম্পূর্ণ অদৃশ্য (`opacity-0 pointer-events-none`) থাকবে। |
+
+---
+
+### ২. কোর জ্যামিতি ও স্টাইলিং স্ট্যান্ডার্ড (Independent Geometry & Design System):
+
+1. **ফুল পিল জ্যামিতি (Strict `rounded-full` Geometry):**
+   - আউটার কন্টেইনার (`TabsList`) এবং ভেতরের প্রতিটি ট্যাব (`TabsTrigger`) বাধ্যতামূলকভাবে **`rounded-full`** হতে হবে (কোনো `rounded-xl`, `rounded-2xl` বা স্কয়ার কর্নার সম্পূর্ণ নিষিদ্ধ)।
+2. **আরামদায়ক উচ্চতা ও প্যাডিং (Comfortable Touch & Click Targets):**
+   - `TabsList` কন্টেইনার: **`!h-auto min-h-[48px] p-1.5`**
+   - প্রতিটি `TabsTrigger` বাটন: **`h-9 px-4 sm:px-4.5 text-xs sm:text-[12.5px] font-semibold shrink-0 whitespace-nowrap`**
+3. **একটিভ ও ইন-একটিভ স্টেট কন্ট্রাস্ট:**
+   - **একটিভ স্টেট:** ডার্ক ব্যাকগ্রাউন্ড, হোয়াইট টেক্সট, সফট শ্যাডো এবং বোল্ড ফন্ট:  
+     `data-[state=active]:bg-stone-900 data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:font-bold rounded-full`
+   - **ইন-একটিভ স্টেট:** পরিচ্ছন্ন নিউট্রাল টেক্সট ও সাবটল হোভার ডার্কেনিং:  
+     `text-stone-600 hover:text-stone-900 transition-all cursor-pointer`
+
+---
+
+### ৩. অলঙ্ঘনীয় ৩টি টেকনিক্যাল বাগ প্রিভেনশন রুলস (Critical Pitfalls Checklist):
+
+- ⚠️ **Bug 1: Flex-Center Negative Margin Cutoff (অলঙ্ঘনীয় `!justify-start`):**  
+  Shadcn UI-এর `TabsList`-এ বাই-ডিফল্ট `justify-center` থাকে। স্ক্রলযোগ্য ট্যাবে কন্টেন্টের দৈর্ঘ্য স্ক্রিন ছাড়িয়ে গেলে `justify-center`-এর কারণে ব্রাউজার উপাদানগুলোকে সেন্টারিং করতে গিয়ে নেগেটিভ কোঅর্ডিনেটে ঠেলে প্রথম আইটেমের বাম পাশ কেটে ফেলে (যেমন: `All Systems` কেটে `ems` হওয়া)।  
+  ➔ **সমাধান:** `TabsList`-এ অবশ্যই **`!justify-start items-center`** দিতে হবে।
+- ⚠️ **Bug 2: Height-8 Squished Pills (অলঙ্ঘনীয় `!h-auto min-h-[48px]`):**  
+  Shadcn UI-এর `TabsList`-এ বাই-ডিফল্ট `h-8` (32px) থাকে, যা ভেতরের ট্যাব বাটনকে চ্যাপ্টা করে ফেলে।  
+  ➔ **সমাধান:** `TabsList`-এ **`!h-auto min-h-[48px]`** এবং ট্র্রিগারে **`h-9`** দিতে হবে।
+- ⚠️ **Bug 3: Zero Affordance (অতিরিক্ত ট্যাব অদৃশ্য থাকা রোধে ফেড ও অ্যারো):**  
+  ইউজার স্ক্রিন দেখে যেন কখনোই বিভ্রান্ত না হয় যে বাইরে আর কোনো অপশন নেই।  
+  ➔ **সমাধান:** দুই প্রান্তে ডায়নামিক গ্রেডিয়েন্ট ফেড ও রাউন্ডেড শ্যাডো অ্যারো বাটন থাকতে হবে।
+
+---
+
+### ৪. সম্পূর্ণ সেলফ-কন্টেইন্ড প্রোডাকশন কোড (Plug & Play Copy-Paste):
+
+যেকোনো ফাইলে এই ট্যাববারটি সরাসরি ইমপ্লিমেন্ট করতে নিচের সম্পূর্ণ কোডটি ব্যবহার করতে হবে:
+
+```tsx
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+
+export function StandalonePillTabBar({
+  categories,
+  activeTab,
+  onTabChange,
+}: {
+  categories: { id: string; label: string; count?: number }[];
+  activeTab: string;
+  onTabChange: (id: string) => void;
+}) {
+  const tabsListRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  // স্ক্রল পজিশন পর্যবেক্ষণ (বাম ও ডানে অতিরিক্ত ট্যাব আছে কিনা)
+  const checkTabsScroll = useCallback(() => {
+    if (tabsListRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = tabsListRef.current;
+      setCanScrollLeft(scrollLeft > 6);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
+    }
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(checkTabsScroll, 60);
+    window.addEventListener("resize", checkTabsScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", checkTabsScroll);
+    };
+  }, [checkTabsScroll]);
+
+  // এক ক্লিকে মসৃণ স্ক্রল
+  const handleScrollTabs = (direction: "left" | "right") => {
+    if (tabsListRef.current) {
+      const offset = direction === "left" ? -240 : 240;
+      tabsListRef.current.scrollBy({ left: offset, behavior: "smooth" });
+      setTimeout(checkTabsScroll, 320);
+    }
+  };
+
+  return (
+    <div className="relative w-full lg:w-auto max-w-full">
+      {/* বাম পাশের গ্রেডিয়েন্ট ফেড ও স্ক্রল বাটন */}
+      <div
+        className={`absolute left-0 top-0 bottom-0 z-20 flex items-center pl-1 pr-6 bg-gradient-to-r from-[#fbfbfa] via-[#fbfbfa]/95 to-transparent transition-opacity duration-200 pointer-events-none rounded-l-full ${
+          canScrollLeft ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <button
+          type="button"
+          onClick={() => handleScrollTabs("left")}
+          className="pointer-events-auto w-7 h-7 rounded-full bg-white shadow-md border border-stone-200 flex items-center justify-center text-stone-700 hover:text-stone-950 hover:bg-stone-50 active:scale-95 transition-all cursor-pointer"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* কোর পিল ট্যাববার */}
+      <Tabs value={activeTab} onValueChange={onTabChange} className="w-full lg:w-auto">
+        <TabsList
+          ref={tabsListRef}
+          onScroll={checkTabsScroll}
+          className="bg-stone-100/90 p-1.5 rounded-full w-full lg:w-auto flex flex-nowrap overflow-x-auto gap-1 border border-stone-200/90 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth !justify-start items-center !h-auto min-h-[48px]"
+        >
+          {categories.map((cat) => (
+            <TabsTrigger
+              key={cat.id}
+              value={cat.id}
+              className="shrink-0 whitespace-nowrap h-9 px-4 sm:px-4.5 text-xs sm:text-[12.5px] font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:font-bold rounded-full transition-all cursor-pointer hover:text-stone-900"
+            >
+              {cat.label} {cat.count !== undefined ? `(${cat.count})` : ""}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
+
+      {/* ডান পাশের গ্রেডিয়েন্ট ফেড ও স্ক্রল বাটন */}
+      <div
+        className={`absolute right-0 top-0 bottom-0 z-20 flex items-center pr-1 pl-6 bg-gradient-to-l from-[#fbfbfa] via-[#fbfbfa]/95 to-transparent transition-opacity duration-200 pointer-events-none rounded-r-full ${
+          canScrollRight ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <button
+          type="button"
+          onClick={() => handleScrollTabs("right")}
+          className="pointer-events-auto w-7 h-7 rounded-full bg-white shadow-md border border-stone-200 flex items-center justify-center text-stone-700 hover:text-stone-950 hover:bg-stone-50 active:scale-95 transition-all cursor-pointer"
+          aria-label="Scroll right"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+```
 
 ---
 *ডকুমেন্ট সংরক্ষিত হলো: অক্টোবর ২০২৬ | PropGrowth Lab Master Architecture Rules v2.0*

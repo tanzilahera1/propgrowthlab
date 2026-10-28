@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,8 @@ import {
   Crown,
   CreditCard,
   MessageSquare,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 interface TemplateItem {
@@ -284,6 +286,36 @@ export function TemplatesClient() {
   const [orderModalOpen, setOrderModalOpen] = useState(false);
   const [orderType, setOrderType] = useState<"code" | "turnkey">("turnkey");
 
+  const tabsListRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkTabsScroll = useCallback(() => {
+    if (tabsListRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = tabsListRef.current;
+      setCanScrollLeft(scrollLeft > 6);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Initial check after paint
+    const timer = setTimeout(checkTabsScroll, 60);
+    window.addEventListener("resize", checkTabsScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", checkTabsScroll);
+    };
+  }, [checkTabsScroll]);
+
+  const handleScrollTabs = (direction: "left" | "right") => {
+    if (tabsListRef.current) {
+      const offset = direction === "left" ? -240 : 240;
+      tabsListRef.current.scrollBy({ left: offset, behavior: "smooth" });
+      setTimeout(checkTabsScroll, 320);
+    }
+  };
+
   const filteredTemplates =
     activeTab === "all"
       ? TEMPLATES
@@ -303,7 +335,7 @@ export function TemplatesClient() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-          <div className="inline-flex items-center gap-2 py-0.5 px-3 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-900 text-[11px] sm:text-xs font-mono font-bold tracking-wide uppercase mb-6 mx-auto">
+          <div className="inline-flex items-center gap-2 py-0.5 px-2.5 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-900 text-[11px] sm:text-xs font-mono font-bold tracking-wide uppercase mb-6 mx-auto">
             <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
             <Zap className="w-3.5 h-3.5 text-amber-600" />
             <span>Sub-Second Next.js Web Engineering</span>
@@ -353,37 +385,101 @@ export function TemplatesClient() {
             <p className="text-xs sm:text-sm text-stone-500 mt-1.5">
               Standard designs from <span className="font-bold text-stone-800">$27 code / $99 launch</span>. Full-Stack systems with MongoDB & CRM at <span className="font-bold text-amber-700">$69 code / $199 launch</span>.
             </p>
+            {/* Mobile & Middle Device Category Indication */}
+            <div className="flex items-center gap-1.5 text-[11px] text-amber-800/90 font-medium mt-2 lg:hidden">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+              <span>{TEMPLATES.length} Blueprint systems across 6 categories · Scroll or use arrows to view all</span>
+            </div>
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full lg:w-auto">
-            <TabsList className="bg-stone-100 p-1 rounded-2xl w-full lg:w-auto grid grid-cols-2 sm:grid-cols-4 lg:flex lg:flex-row gap-1 border border-stone-200">
-              <TabsTrigger value="all" className="text-xs font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white rounded-xl">
-                All Systems ({TEMPLATES.length})
-              </TabsTrigger>
-              <TabsTrigger value="fullstack" className="text-xs font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white rounded-xl">
-                Full-Stack Apps
-              </TabsTrigger>
-              <TabsTrigger value="hospitality" className="text-xs font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white rounded-xl">
-                Hospitality
-              </TabsTrigger>
-              <TabsTrigger value="real-estate" className="text-xs font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white rounded-xl">
-                Real Estate
-              </TabsTrigger>
-              <TabsTrigger value="services" className="text-xs font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white rounded-xl">
-                Tradies & Services
-              </TabsTrigger>
-              <TabsTrigger value="health" className="text-xs font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white rounded-xl">
-                Clinics & Health
-              </TabsTrigger>
-              <TabsTrigger value="ecommerce" className="text-xs font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white rounded-xl">
-                E-Commerce
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <div className="relative w-full lg:w-auto max-w-full">
+            {/* Left Scroll Cue & Arrow Button */}
+            <div
+              className={`absolute left-0 top-0 bottom-0 z-20 flex items-center pl-1 pr-6 bg-gradient-to-r from-[#fbfbfa] via-[#fbfbfa]/95 to-transparent transition-opacity duration-200 pointer-events-none rounded-l-full ${
+                canScrollLeft ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <button
+                type="button"
+                onClick={() => handleScrollTabs("left")}
+                className="pointer-events-auto w-7 h-7 rounded-full bg-white shadow-md border border-stone-200 flex items-center justify-center text-stone-700 hover:text-stone-950 hover:bg-stone-50 active:scale-95 transition-all cursor-pointer"
+                aria-label="Scroll categories left"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+            </div>
+
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full lg:w-auto">
+              <TabsList
+                ref={tabsListRef}
+                onScroll={checkTabsScroll}
+                className="bg-stone-100/90 p-1.5 rounded-full w-full lg:w-auto flex flex-nowrap overflow-x-auto gap-1 border border-stone-200/90 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth !justify-start items-center !h-auto min-h-[48px]"
+              >
+                <TabsTrigger
+                  value="all"
+                  className="shrink-0 whitespace-nowrap h-9 px-4 sm:px-4.5 text-xs sm:text-[12.5px] font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:font-bold rounded-full transition-all cursor-pointer hover:text-stone-900"
+                >
+                  All Systems ({TEMPLATES.length})
+                </TabsTrigger>
+                <TabsTrigger
+                  value="fullstack"
+                  className="shrink-0 whitespace-nowrap h-9 px-4 sm:px-4.5 text-xs sm:text-[12.5px] font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:font-bold rounded-full transition-all cursor-pointer hover:text-stone-900"
+                >
+                  Full-Stack Apps
+                </TabsTrigger>
+                <TabsTrigger
+                  value="hospitality"
+                  className="shrink-0 whitespace-nowrap h-9 px-4 sm:px-4.5 text-xs sm:text-[12.5px] font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:font-bold rounded-full transition-all cursor-pointer hover:text-stone-900"
+                >
+                  Hospitality
+                </TabsTrigger>
+                <TabsTrigger
+                  value="real-estate"
+                  className="shrink-0 whitespace-nowrap h-9 px-4 sm:px-4.5 text-xs sm:text-[12.5px] font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:font-bold rounded-full transition-all cursor-pointer hover:text-stone-900"
+                >
+                  Real Estate
+                </TabsTrigger>
+                <TabsTrigger
+                  value="services"
+                  className="shrink-0 whitespace-nowrap h-9 px-4 sm:px-4.5 text-xs sm:text-[12.5px] font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:font-bold rounded-full transition-all cursor-pointer hover:text-stone-900"
+                >
+                  Tradies & Services
+                </TabsTrigger>
+                <TabsTrigger
+                  value="health"
+                  className="shrink-0 whitespace-nowrap h-9 px-4 sm:px-4.5 text-xs sm:text-[12.5px] font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:font-bold rounded-full transition-all cursor-pointer hover:text-stone-900"
+                >
+                  Clinics & Health
+                </TabsTrigger>
+                <TabsTrigger
+                  value="ecommerce"
+                  className="shrink-0 whitespace-nowrap h-9 px-4 sm:px-4.5 text-xs sm:text-[12.5px] font-semibold data-[state=active]:bg-stone-900 data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:font-bold rounded-full transition-all cursor-pointer hover:text-stone-900"
+                >
+                  E-Commerce
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+
+            {/* Right Scroll Cue & Arrow Button */}
+            <div
+              className={`absolute right-0 top-0 bottom-0 z-20 flex items-center pr-1 pl-6 bg-gradient-to-l from-[#fbfbfa] via-[#fbfbfa]/95 to-transparent transition-opacity duration-200 pointer-events-none rounded-r-full ${
+                canScrollRight ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <button
+                type="button"
+                onClick={() => handleScrollTabs("right")}
+                className="pointer-events-auto w-7 h-7 rounded-full bg-white shadow-md border border-stone-200 flex items-center justify-center text-stone-700 hover:text-stone-950 hover:bg-stone-50 active:scale-95 transition-all cursor-pointer"
+                aria-label="Scroll categories right"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Templates Grid */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-5.5 lg:gap-7">
           {filteredTemplates.map((template) => (
             <Card
               key={template.id}
@@ -493,17 +589,22 @@ export function TemplatesClient() {
               </div>
 
               {/* Pricing & CTA Card Footer */}
-              <CardFooter className="pt-4 pb-5 px-5 border-t border-stone-100 bg-stone-50/70 flex flex-col items-stretch gap-3">
-                <div className="flex items-baseline justify-between w-full">
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-xl font-black text-stone-900">${template.codePrice}</span>
-                    <span className="text-[11px] text-stone-500 font-medium font-mono">/ Tk {template.codePriceBDT.toLocaleString()}</span>
-                    <span className="text-[10px] text-stone-400 font-medium ml-0.5">Code</span>
+              <CardFooter className="pt-3.5 pb-4 px-3.5 sm:px-4.5 border-t border-stone-100 bg-stone-50/80 flex flex-col items-stretch gap-2.5">
+                {/* Balanced Dual Pricing Box */}
+                <div className="grid grid-cols-2 items-center bg-white p-2.5 rounded-xl border border-stone-200/70 shadow-xs">
+                  <div className="flex flex-col pr-1.5 sm:pr-2 border-r border-stone-200/70">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-base sm:text-lg font-black text-stone-900">${template.codePrice}</span>
+                      <span className="text-[9.5px] text-stone-400 font-semibold uppercase tracking-wider">Source</span>
+                    </div>
+                    <span className="text-[10px] text-stone-500 font-mono font-medium">Tk {template.codePriceBDT.toLocaleString()}</span>
                   </div>
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-lg font-bold text-emerald-600">${template.turnkeyPrice}</span>
-                    <span className="text-[11px] text-emerald-700/80 font-medium font-mono">/ Tk {template.turnkeyPriceBDT.toLocaleString()}</span>
-                    <span className="text-[10px] text-emerald-700 font-medium ml-0.5">Launch</span>
+                  <div className="flex flex-col pl-2 sm:pl-2.5">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-base sm:text-lg font-black text-emerald-600">${template.turnkeyPrice}</span>
+                      <span className="text-[9.5px] text-emerald-700/80 font-bold uppercase tracking-wider">48h Live</span>
+                    </div>
+                    <span className="text-[10px] text-emerald-600 font-mono font-medium">Tk {template.turnkeyPriceBDT.toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -511,20 +612,20 @@ export function TemplatesClient() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="text-xs font-semibold h-9 rounded-xl border-blue-600/30 bg-blue-50/40 text-blue-800 hover:bg-blue-600 hover:text-white transition-colors"
+                    className="text-[11px] sm:text-xs font-semibold h-9 rounded-xl border-blue-600/30 bg-blue-50/50 text-blue-800 hover:bg-blue-600 hover:text-white transition-all px-1.5 sm:px-2.5 whitespace-nowrap overflow-hidden justify-center"
                     onClick={() => handleOpenOrder(template, "code")}
                   >
-                    <Code2 className="w-3.5 h-3.5 mr-1" />
-                    Buy Code (${template.codePrice})
+                    <Code2 className="w-3.5 h-3.5 mr-1 shrink-0" />
+                    <span className="hidden 2xl:inline">Buy </span>Code (${template.codePrice})
                   </Button>
 
                   <Button
                     size="sm"
-                    className="text-xs font-bold h-9 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors"
+                    className="text-[11px] sm:text-xs font-bold h-9 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all px-1.5 sm:px-2.5 whitespace-nowrap overflow-hidden justify-center"
                     onClick={() => handleOpenOrder(template, "turnkey")}
                   >
-                    <Rocket className="w-3.5 h-3.5 mr-1" />
-                    Launch for Me (${template.turnkeyPrice})
+                    <Rocket className="w-3.5 h-3.5 mr-1 shrink-0" />
+                    Launch <span className="hidden 2xl:inline">for Me </span>(${template.turnkeyPrice})
                   </Button>
                 </div>
               </CardFooter>
@@ -610,45 +711,92 @@ export function TemplatesClient() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 hover:border-amber-500/50 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
-                01
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            <div className="p-5 sm:p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3.5 hover:border-amber-500/50 transition-colors flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between w-full">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
+                    01
+                  </div>
+                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 font-mono text-[10.5px] font-semibold">
+                    Stage 1 · Assets & Scope
+                  </div>
+                </div>
+                <h3 className="text-base font-bold text-white">Choose & Brief</h3>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Pick your preferred template from our catalog, share your branding assets (logo, colors, copy), and provide your target domain.
+                </p>
               </div>
-              <h3 className="text-base font-bold text-white">Choose & Brief</h3>
-              <p className="text-xs text-stone-400 leading-relaxed">
-                Pick your preferred template from our catalog, share your branding assets (logo, colors, copy), and provide your target domain.
-              </p>
+              <div className="pt-3 border-t border-stone-800/80 flex items-center justify-between text-[11px]">
+                <span className="font-mono text-stone-500">Timeline:</span>
+                <span className="font-semibold text-amber-400">Hour 0 – 6</span>
+              </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 hover:border-amber-500/50 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
-                02
+            <div className="p-5 sm:p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3.5 hover:border-amber-500/50 transition-colors flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between w-full">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
+                    02
+                  </div>
+                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 font-mono text-[10.5px] font-semibold">
+                    Stage 2 · Stripe & iCal
+                  </div>
+                </div>
+                <h3 className="text-base font-bold text-white">Integration Setup</h3>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  We integrate your Stripe payment account, configure WhatsApp inquiry routing, connect iCal calendars, and configure local SEO.
+                </p>
               </div>
-              <h3 className="text-base font-bold text-white">Integration Setup</h3>
-              <p className="text-xs text-stone-400 leading-relaxed">
-                We integrate your Stripe payment account, configure WhatsApp inquiry routing, connect iCal calendars, and configure local SEO.
-              </p>
+              <div className="pt-3 border-t border-stone-800/80 flex items-center justify-between text-[11px]">
+                <span className="font-mono text-stone-500">Timeline:</span>
+                <span className="font-semibold text-amber-400">Hour 6 – 24</span>
+              </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 hover:border-amber-500/50 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
-                03
+            <div className="p-5 sm:p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3.5 hover:border-amber-500/50 transition-colors flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between w-full">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
+                    03
+                  </div>
+                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 font-mono text-[10.5px] font-semibold">
+                    Stage 3 · Edge & SSL
+                  </div>
+                </div>
+                <h3 className="text-base font-bold text-white">Edge Deployment</h3>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Production deployment on high-speed global edge networks with automatic SSL certificates, asset optimization, and sub-second caching.
+                </p>
               </div>
-              <h3 className="text-base font-bold text-white">Edge Deployment</h3>
-              <p className="text-xs text-stone-400 leading-relaxed">
-                Production deployment on high-speed global edge networks with automatic SSL certificates, asset optimization, and sub-second caching.
-              </p>
+              <div className="pt-3 border-t border-stone-800/80 flex items-center justify-between text-[11px]">
+                <span className="font-mono text-stone-500">Timeline:</span>
+                <span className="font-semibold text-amber-400">Hour 24 – 36</span>
+              </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 hover:border-amber-500/50 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
-                04
+            <div className="p-5 sm:p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3.5 hover:border-amber-500/50 transition-colors flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between w-full">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
+                    04
+                  </div>
+                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 font-mono text-[10.5px] font-semibold">
+                    Stage 4 · 48h Handover
+                  </div>
+                </div>
+                <h3 className="text-base font-bold text-white">Live Handover</h3>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Full repository and administrative credentials delivered to your inbox with video documentation. You are live within 48 hours!
+                </p>
               </div>
-              <h3 className="text-base font-bold text-white">Live Handover</h3>
-              <p className="text-xs text-stone-400 leading-relaxed">
-                Full repository and administrative credentials delivered to your inbox with video documentation. You are live within 48 hours!
-              </p>
+              <div className="pt-3 border-t border-stone-800/80 flex items-center justify-between text-[11px]">
+                <span className="font-mono text-stone-500">Guarantee:</span>
+                <span className="font-semibold text-emerald-400 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  Live in 48 Hours
+                </span>
+              </div>
             </div>
           </div>
         </div>
