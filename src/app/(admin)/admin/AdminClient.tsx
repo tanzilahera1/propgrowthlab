@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 import {
   Layout,
   Menu,
@@ -548,6 +549,14 @@ export default function AdminClient() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
+  // Authenticated Session
+  const { data: session } = useSession();
+  const currentUser = session?.user;
+  const currentUserName = currentUser?.name || "Alexander Cole";
+  const currentUserEmail = currentUser?.email || "alexander@propgrowthlab.com";
+  const currentUserRole = currentUser?.role || "Platform Owner";
+  const currentUserInitial = currentUserName.slice(0, 2).toUpperCase();
+
   // Datasets
   const [leads, setLeads] = useState<LeadItem[]>(INITIAL_LEADS);
   const [subscriptions, setSubscriptions] = useState<SubscriptionItem[]>(INITIAL_SUBSCRIPTIONS);
@@ -913,9 +922,10 @@ export default function AdminClient() {
       label: (
         <span className="flex items-center justify-between w-full">
           <span>Broker Quotas</span>
-          <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">
-            {subscriptions.length}
-          </span>
+          <Badge
+            count={subscriptions.length}
+            style={{ backgroundColor: "#f1f5f9", color: "#475569", boxShadow: "none" }}
+          />
         </span>
       ),
     },
@@ -925,9 +935,10 @@ export default function AdminClient() {
       label: (
         <span className="flex items-center justify-between w-full">
           <span>Licenses & Code</span>
-          <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">
-            {templates.length}
-          </span>
+          <Badge
+            count={templates.length}
+            style={{ backgroundColor: "#f1f5f9", color: "#475569", boxShadow: "none" }}
+          />
         </span>
       ),
     },
@@ -937,9 +948,10 @@ export default function AdminClient() {
       label: (
         <span className="flex items-center justify-between w-full">
           <span>Direct Stay Fleet</span>
-          <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">
-            {agencyProperties.length}
-          </span>
+          <Badge
+            count={agencyProperties.length}
+            style={{ backgroundColor: "#f1f5f9", color: "#475569", boxShadow: "none" }}
+          />
         </span>
       ),
     },
@@ -949,9 +961,10 @@ export default function AdminClient() {
       label: (
         <span className="flex items-center justify-between w-full">
           <span>70/30 Escrow Deals</span>
-          <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">
-            {escrowDeals.length}
-          </span>
+          <Badge
+            count={escrowDeals.length}
+            style={{ backgroundColor: "#f1f5f9", color: "#475569", boxShadow: "none" }}
+          />
         </span>
       ),
     },
@@ -964,9 +977,10 @@ export default function AdminClient() {
       label: (
         <span className="flex items-center justify-between w-full">
           <span>Admin & RBAC</span>
-          <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">
-            {adminUsers.length}
-          </span>
+          <Badge
+            count={adminUsers.length}
+            style={{ backgroundColor: "#f1f5f9", color: "#475569", boxShadow: "none" }}
+          />
         </span>
       ),
     },
@@ -978,8 +992,8 @@ export default function AdminClient() {
       key: "profile",
       label: (
         <div className="py-1">
-          <div className="font-bold text-slate-900 text-xs">Alexander Cole</div>
-          <div className="text-[11px] text-amber-600 font-mono">alexander@propgrowthlab.com</div>
+          <div className="font-bold text-slate-900 text-xs">{currentUserName}</div>
+          <div className="text-[11px] text-amber-600 font-mono">{currentUserEmail}</div>
         </div>
       ),
       disabled: true,
@@ -999,9 +1013,13 @@ export default function AdminClient() {
     { type: "divider" },
     {
       key: "logout",
-      icon: <LogoutOutlined />,
+      icon: <LogoutOutlined className="text-red-500" />,
+      danger: true,
       label: "Sign Out",
-      onClick: () => message.info("Demo session active. Use role switcher."),
+      onClick: async () => {
+        message.loading("Signing out...", 1);
+        await signOut({ callbackUrl: "/login" });
+      },
     },
   ];
 
@@ -1396,12 +1414,12 @@ export default function AdminClient() {
                   style={{ backgroundColor: "#0f172a", color: "#f59e0b" }}
                   className="font-bold text-xs ring-1 ring-amber-400/40 shrink-0"
                 >
-                  AC
+                  {currentUserInitial}
                 </Avatar>
                 <div className="hidden 2xl:flex flex-col text-left leading-none">
-                  <span className="text-xs font-semibold text-slate-800">Alexander Cole</span>
+                  <span className="text-xs font-semibold text-slate-800">{currentUserName}</span>
                   <span className="text-[10px] text-amber-700 font-mono font-medium mt-0.5">
-                    Platform Owner
+                    {currentUserRole}
                   </span>
                 </div>
               </div>
@@ -1413,54 +1431,7 @@ export default function AdminClient() {
         <main className="flex-1 p-3 sm:p-5 lg:p-7 max-w-7xl w-full mx-auto space-y-4 sm:space-y-5 overflow-x-hidden">
           {/* ================= TAB 1: OVERVIEW DASHBOARD ================= */}
           {activeTab === "overview" && (
-            <section className="space-y-5">
-              {/* CEO Operations Suite Bar */}
-              <div className="p-3 sm:p-4 rounded-xl bg-gradient-to-r from-amber-500/10 via-slate-50 to-emerald-500/10 border border-amber-200/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-2xs">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-                    CEO
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-2">
-                      <span>Executive Command Toolbar</span>
-                      <Tag color="gold" className="text-[10px] m-0 font-mono">
-                        LIVE CONTROL
-                      </Tag>
-                    </div>
-                    <p className="text-[11px] text-slate-500 m-0">
-                      Instant webhook simulator, CSV export & broker priority broadcasts
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 flex-wrap w-full md:w-auto">
-                  <Button
-                    icon={<ExperimentOutlined />}
-                    onClick={handleSimulateInboundLead}
-                    className="text-xs font-semibold border-amber-300 text-amber-900 hover:bg-amber-100/60"
-                    size="small"
-                  >
-                    Test Inbound Webhook
-                  </Button>
-                  <Button
-                    icon={<DownloadOutlined />}
-                    onClick={handleExportCsv}
-                    className="text-xs font-semibold text-slate-700 hover:text-slate-900"
-                    size="small"
-                  >
-                    Export Leads CSV
-                  </Button>
-                  <Button
-                    icon={<NotificationOutlined />}
-                    onClick={() => setBroadcastModalOpen(true)}
-                    className="text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800"
-                    size="small"
-                  >
-                    Broadcast Alert
-                  </Button>
-                </div>
-              </div>
-
+            <section className="space-y-4 sm:space-y-5">
               {/* Executive Hero Stat Cards (MOBILE: 2 COLUMNS (xs={12})) */}
               <Row gutter={[10, 10]}>
                 <Col xs={12} sm={12} lg={6}>
@@ -1642,10 +1613,20 @@ export default function AdminClient() {
                   <Card
                     title={
                       <div className="flex items-center justify-between py-1">
-                        <span className="text-xs sm:text-sm font-bold text-slate-900">
-                          Recent Inbound Queue
-                        </span>
-                        <Tag color="cyan">Live Feed</Tag>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs sm:text-sm font-bold text-slate-900">
+                            Recent Inbound Queue
+                          </span>
+                          <Tag color="cyan">Live Feed</Tag>
+                        </div>
+                        <Button
+                          size="small"
+                          icon={<ExperimentOutlined className="text-amber-600" />}
+                          onClick={handleSimulateInboundLead}
+                          className="text-xs font-semibold border-amber-300 text-amber-800 hover:bg-amber-50 h-7"
+                        >
+                          Simulate Lead
+                        </Button>
                       </div>
                     }
                     className="shadow-xs border-slate-200 h-full"
@@ -1704,7 +1685,14 @@ export default function AdminClient() {
                             Operations Audit Log
                           </span>
                         </div>
-                        <span className="text-[11px] text-slate-500 font-mono">Immutable</span>
+                        <Button
+                          size="small"
+                          icon={<NotificationOutlined />}
+                          onClick={() => setBroadcastModalOpen(true)}
+                          className="text-xs text-slate-700 hover:text-slate-900 h-7"
+                        >
+                          Broadcast
+                        </Button>
                       </div>
                     }
                     className="shadow-xs border-slate-200 h-full"
@@ -1780,98 +1768,102 @@ export default function AdminClient() {
                 </div>
               </Card>
 
-              {/* Clean Intentional Gap & Lead Cards Stream (Zero Phantom Bars, Mobile & Desktop Responsive) */}
-              <div className="pt-2 space-y-3">
-                {filteredLeads.map((lead) => (
-                  <article
-                    key={lead.id}
-                    className="p-4 sm:p-5 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3 hover:border-amber-300 transition-colors"
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-slate-900 text-sm sm:text-base truncate">
-                            {lead.fullName}
-                          </span>
-                          <Tag color="gold" className="text-xs m-0 font-mono font-semibold">
-                            {lead.territory}
-                          </Tag>
+              {/* Clean Intentional Gap & Responsive Lead Cards Grid (Mobile: 1, Tablet: 2, Laptop: 3, Desktop: 4) */}
+              <div className="pt-2">
+                <Row gutter={[14, 14]}>
+                  {filteredLeads.map((lead) => (
+                    <Col xs={24} sm={12} lg={8} xl={6} key={lead.id}>
+                      <article className="p-4 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3 hover:border-amber-300 transition-colors h-full flex flex-col justify-between">
+                        <div className="space-y-2.5">
+                          <div className="flex items-start justify-between gap-1.5">
+                            <div className="min-w-0 pr-1">
+                              <span className="font-bold text-slate-900 text-sm block truncate" title={lead.fullName}>
+                                {lead.fullName}
+                              </span>
+                              <div className="text-xs text-slate-500 font-mono mt-0.5 flex items-center gap-1">
+                                <span className="truncate">{lead.whatsapp}</span>
+                                <Button
+                                  type="text"
+                                  size="small"
+                                  icon={<CopyOutlined className="text-xs text-slate-400 hover:text-slate-600" />}
+                                  onClick={() => copyToClipboard(lead.whatsapp)}
+                                  className="h-4 w-4 p-0 shrink-0"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="flex flex-col items-end gap-1 shrink-0">
+                              <Tag color="gold" className="text-[10px] m-0 font-mono font-semibold px-1 py-0">
+                                {lead.territory}
+                              </Tag>
+                              {lead.status === "new" ? (
+                                <Tag color="warning" className="text-[10px] font-semibold m-0 px-1 py-0">
+                                  NEW
+                                </Tag>
+                              ) : lead.status === "dispatched" ? (
+                                <Tag color="processing" className="text-[10px] font-semibold m-0 px-1 py-0">
+                                  ROUTED
+                                </Tag>
+                              ) : (
+                                <Tag color="success" className="text-[10px] font-semibold m-0 px-1 py-0">
+                                  CLOSED
+                                </Tag>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs space-y-1">
+                            <div className="flex justify-between items-center gap-1">
+                              <span className="text-slate-500 text-[11px]">Property:</span>
+                              <span className="font-semibold text-slate-800 text-right truncate text-[11px] max-w-[130px]">
+                                {lead.propertyType}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-slate-500 text-[11px]">Budget:</span>
+                              <span className="font-bold text-emerald-600 font-mono text-xs">{lead.budget}</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-slate-500 text-[11px]">Move-in:</span>
+                              <span className="text-slate-700 text-[11px]">{lead.moveIn}</span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-xs text-slate-500 font-mono mt-1 flex items-center gap-1.5">
-                          <span>{lead.whatsapp}</span>
+
+                        <div className="flex items-center justify-between gap-1.5 pt-2 mt-1 border-t border-slate-100">
+                          <div className="flex items-center gap-1.5">
+                            <Button
+                              type="primary"
+                              size="small"
+                              onClick={() => handleOpenDispatch(lead)}
+                              className="bg-amber-600 hover:bg-amber-500 text-xs font-semibold px-2.5 h-7"
+                            >
+                              Dispatch
+                            </Button>
+                            <a
+                              href={`https://wa.me/${lead.whatsapp.replace(/[^0-9]/g, "")}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Button size="small" className="text-xs text-emerald-700 border-emerald-300 px-2 h-7 hover:bg-emerald-50">
+                                WhatsApp
+                              </Button>
+                            </a>
+                          </div>
+
                           <Button
+                            danger
                             type="text"
                             size="small"
-                            icon={<CopyOutlined className="text-xs text-slate-400" />}
-                            onClick={() => copyToClipboard(lead.whatsapp)}
-                            className="h-4 w-4 p-0"
+                            icon={<DeleteOutlined />}
+                            onClick={() => handleDeleteLead(lead.id, lead.fullName)}
+                            className="h-7 w-7 p-0 flex items-center justify-center text-slate-400 hover:text-red-500"
                           />
                         </div>
-                      </div>
-
-                      {lead.status === "new" ? (
-                        <Tag color="warning" className="text-xs font-semibold m-0">
-                          NEW
-                        </Tag>
-                      ) : lead.status === "dispatched" ? (
-                        <Tag color="processing" className="text-xs font-semibold m-0">
-                          ROUTED
-                        </Tag>
-                      ) : (
-                        <Tag color="success" className="text-xs font-semibold m-0">
-                          CLOSED
-                        </Tag>
-                      )}
-                    </div>
-
-                    <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 text-xs space-y-1.5">
-                      <div className="flex justify-between">
-                        <span className="text-slate-500">Property:</span>
-                        <span className="font-semibold text-slate-800 text-right truncate max-w-[220px]">
-                          {lead.propertyType}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-500">Budget:</span>
-                        <span className="font-bold text-emerald-600 font-mono">{lead.budget}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-500">Move-in:</span>
-                        <span className="text-slate-700">{lead.moveIn}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
-                      <Space size="small">
-                        <Button
-                          type="primary"
-                          size="small"
-                          onClick={() => handleOpenDispatch(lead)}
-                          className="bg-amber-600 hover:bg-amber-500 text-xs font-semibold"
-                        >
-                          Dispatch
-                        </Button>
-                        <a
-                          href={`https://wa.me/${lead.whatsapp.replace(/[^0-9]/g, "")}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Button size="small" className="text-xs text-emerald-700 border-emerald-300">
-                            WhatsApp
-                          </Button>
-                        </a>
-                      </Space>
-
-                      <Button
-                        danger
-                        type="text"
-                        size="small"
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDeleteLead(lead.id, lead.fullName)}
-                      />
-                    </div>
-                  </article>
-                ))}
+                      </article>
+                    </Col>
+                  ))}
+                </Row>
               </div>
             </section>
           )}
@@ -1974,49 +1966,64 @@ export default function AdminClient() {
                 </Button>
               </div>
 
-              <Row gutter={[16, 16]}>
+              <Row gutter={[14, 14]}>
                 {templates.map((tmpl) => (
-                  <Col xs={24} md={12} key={tmpl.id}>
-                    <article className="p-5 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <span className="font-bold text-slate-900 text-sm block">
-                            {tmpl.clientName}
-                          </span>
-                          <span className="text-xs text-slate-500">{tmpl.email}</span>
+                  <Col xs={24} sm={12} lg={8} xl={6} key={tmpl.id}>
+                    <article className="p-4 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3 hover:border-amber-300 transition-colors h-full flex flex-col justify-between">
+                      <div className="space-y-2.5">
+                        <div className="flex items-start justify-between gap-1.5">
+                          <div className="min-w-0 pr-1">
+                            <span className="font-bold text-slate-900 text-sm block truncate" title={tmpl.clientName}>
+                              {tmpl.clientName}
+                            </span>
+                            <span className="text-xs text-slate-500 block truncate" title={tmpl.email}>
+                              {tmpl.email}
+                            </span>
+                          </div>
+                          <Tag
+                            color={tmpl.status === "Active" ? "success" : "error"}
+                            className="text-[10px] font-semibold m-0 px-1 py-0 shrink-0"
+                          >
+                            {tmpl.status}
+                          </Tag>
                         </div>
-                        <Tag color={tmpl.status === "Active" ? "success" : "error"}>
-                          {tmpl.status}
-                        </Tag>
+
+                        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs space-y-1">
+                          <div className="flex justify-between items-center gap-1">
+                            <span className="text-slate-500 text-[11px]">Product:</span>
+                            <span className="font-semibold text-slate-800 text-right truncate text-[11px] max-w-[130px]" title={tmpl.templateName}>
+                              {tmpl.templateName}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-slate-500 text-[11px]">Tier:</span>
+                            <span className="font-semibold text-slate-800 text-[11px]">
+                              {tmpl.tier.replace(/\s*\(\$[\d]+\)/, "")}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-slate-500 text-[11px]">Value:</span>
+                            <span className="font-bold text-emerald-600 font-mono text-xs">
+                              {tmpl.amount}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between pt-1 border-t border-slate-100/80">
+                            <span className="text-slate-500 text-[11px]">Key:</span>
+                            <span className="font-mono text-[10px] font-bold text-slate-800 bg-white px-1.5 py-0.5 rounded border border-slate-200 truncate max-w-[140px]" title={tmpl.licenseKey}>
+                              {tmpl.licenseKey}
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 space-y-1.5 text-xs">
-                        <div className="flex justify-between">
-                          <span className="text-slate-500">Product:</span>
-                          <span className="font-semibold text-slate-800">{tmpl.templateName}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-500">Tier / Value:</span>
-                          <span className="font-bold text-amber-700 font-mono">
-                            {tmpl.tier} • {tmpl.amount}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between pt-1">
-                          <span className="text-slate-500">Key:</span>
-                          <span className="font-mono text-[11px] font-bold text-slate-800 bg-white px-2 py-0.5 rounded border border-slate-200">
-                            {tmpl.licenseKey}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                      <div className="flex items-center justify-between pt-2 mt-1 border-t border-slate-100">
                         <Button
                           size="small"
-                          icon={<CopyOutlined />}
+                          icon={<CopyOutlined className="text-xs" />}
                           onClick={() => copyToClipboard(tmpl.licenseKey)}
-                          className="text-xs"
+                          className="text-xs font-medium h-7 px-2.5"
                         >
-                          Copy License
+                          Copy Key
                         </Button>
                         {tmpl.status === "Active" && (
                           <Button
@@ -2024,7 +2031,7 @@ export default function AdminClient() {
                             type="text"
                             size="small"
                             onClick={() => handleRevokeLicense(tmpl.id)}
-                            className="text-xs"
+                            className="text-xs h-7 text-red-600 hover:text-red-700 p-0"
                           >
                             Revoke Key
                           </Button>
@@ -2051,38 +2058,48 @@ export default function AdminClient() {
                 </div>
               </div>
 
-              <Row gutter={[16, 16]}>
+              <Row gutter={[14, 14]}>
                 {agencyProperties.map((prop) => (
-                  <Col xs={24} md={8} key={prop.id}>
-                    <article className="p-5 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3">
-                      <div className="flex items-start justify-between">
-                        <span className="font-bold text-slate-900 text-sm">{prop.name}</span>
-                        <Tag color="cyan">{prop.status}</Tag>
-                      </div>
-                      <p className="text-xs text-slate-500 m-0">Owner: {prop.ownerName}</p>
+                  <Col xs={24} sm={12} lg={8} xl={6} key={prop.id}>
+                    <article className="p-4 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3 hover:border-emerald-300 transition-colors h-full flex flex-col justify-between">
+                      <div className="space-y-2.5">
+                        <div className="flex items-start justify-between gap-1.5">
+                          <div className="min-w-0 pr-1">
+                            <span className="font-bold text-slate-900 text-sm block truncate" title={prop.name}>
+                              {prop.name}
+                            </span>
+                            <div className="text-xs text-slate-500 mt-0.5 truncate">
+                              Owner: <span className="text-slate-700 font-medium">{prop.ownerName}</span>
+                            </div>
+                          </div>
+                          <Tag color="cyan" className="text-[10px] font-semibold m-0 px-1.5 py-0 shrink-0">
+                            {prop.status}
+                          </Tag>
+                        </div>
 
-                      <div className="p-3 rounded-lg bg-emerald-50/50 border border-emerald-100 space-y-1.5 text-xs">
-                        <div className="flex justify-between">
-                          <span className="text-emerald-900 font-medium">Direct GMV:</span>
-                          <span className="font-bold text-emerald-700 font-mono">
-                            {prop.directGmv}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-emerald-900 font-medium">OTA Saved:</span>
-                          <span className="font-bold text-emerald-800 font-mono">
-                            +{prop.otaSavings}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-emerald-900 font-medium">Direct Share:</span>
-                          <span className="font-bold text-emerald-800">{prop.directShare}</span>
+                        <div className="p-2.5 rounded-lg bg-emerald-50/50 border border-emerald-100 space-y-1.5 text-xs">
+                          <div className="flex justify-between items-center">
+                            <span className="text-emerald-900 font-medium text-[11px]">Direct GMV:</span>
+                            <span className="font-bold text-emerald-700 font-mono text-xs">
+                              {prop.directGmv}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-emerald-900 font-medium text-[11px]">OTA Saved:</span>
+                            <span className="font-bold text-emerald-800 font-mono text-xs">
+                              +{prop.otaSavings}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center pt-1 border-t border-emerald-100">
+                            <span className="text-emerald-900 font-medium text-[11px]">Direct Share:</span>
+                            <span className="font-bold text-emerald-800 text-xs">{prop.directShare}</span>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-500 flex items-center justify-between">
-                        <span>iCal Sync: {prop.icalStatus}</span>
-                        <Tag color="success" className="m-0 text-[10px]">
+                      <div className="pt-2 mt-1 border-t border-slate-100 text-[11px] text-slate-500 flex items-center justify-between">
+                        <span className="text-[11px] text-slate-500">iCal: {prop.icalStatus}</span>
+                        <Tag color="success" className="m-0 text-[10px] font-medium px-1.5 py-0">
                           Stripe {prop.stripeStatus}
                         </Tag>
                       </div>
@@ -2107,39 +2124,56 @@ export default function AdminClient() {
                 </div>
               </div>
 
-              <Row gutter={[16, 16]}>
+              <Row gutter={[14, 14]}>
                 {escrowDeals.map((deal) => (
-                  <Col xs={24} md={12} key={deal.id}>
-                    <article className="p-5 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <span className="font-bold text-slate-900 text-sm">
-                            {deal.propertyTitle}
-                          </span>
-                          <div className="text-xs text-slate-500 mt-0.5">
-                            Buyer: {deal.buyerName} • {deal.territory}
+                  <Col xs={24} sm={12} lg={8} xl={6} key={deal.id}>
+                    <article className="p-4 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3 hover:border-amber-300 transition-colors h-full flex flex-col justify-between">
+                      <div className="space-y-2.5">
+                        <div className="flex items-start justify-between gap-1.5">
+                          <div className="min-w-0 pr-1">
+                            <span className="font-bold text-slate-900 text-sm block truncate" title={deal.propertyTitle}>
+                              {deal.propertyTitle}
+                            </span>
+                            <div className="text-xs text-slate-500 mt-0.5 truncate">
+                              Buyer: <span className="text-slate-700 font-medium">{deal.buyerName}</span>
+                            </div>
+                            <div className="text-[11px] font-mono font-medium text-amber-700 mt-0.5">
+                              {deal.territory}
+                            </div>
+                          </div>
+                          <Tag
+                            color={deal.status === "Settled" ? "success" : deal.status === "In Escrow" ? "gold" : "processing"}
+                            className="text-[10px] font-semibold m-0 px-1.5 py-0 shrink-0"
+                          >
+                            {deal.status}
+                          </Tag>
+                        </div>
+
+                        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs space-y-1.5">
+                          <div className="flex justify-between items-center">
+                            <span className="text-slate-500 text-[11px]">Contract Value:</span>
+                            <span className="font-bold text-slate-900 font-mono text-xs">{deal.dealValue}</span>
+                          </div>
+                          <div className="flex justify-between items-start gap-1">
+                            <span className="text-slate-500 text-[11px] shrink-0">Escrow Split:</span>
+                            <span className="font-semibold text-amber-700 text-[10px] text-right leading-tight break-words max-w-[150px]">
+                              {deal.escrowSplit}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center pt-1 border-t border-slate-100/80">
+                            <span className="text-slate-500 text-[11px] shrink-0">Broker:</span>
+                            <span className="text-slate-700 text-[11px] truncate max-w-[130px] font-medium" title={deal.brokerFirm}>
+                              {deal.brokerFirm}
+                            </span>
                           </div>
                         </div>
-                        <Tag color={deal.status === "Settled" ? "success" : "processing"}>
-                          {deal.status}
-                        </Tag>
                       </div>
 
-                      <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 space-y-1 text-xs">
-                        <div className="flex justify-between">
-                          <span className="text-slate-500">Contract Value:</span>
-                          <span className="font-bold text-slate-900 font-mono">
-                            {deal.dealValue}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-500">Escrow Split:</span>
-                          <span className="font-semibold text-amber-700">{deal.escrowSplit}</span>
-                        </div>
-                        <div className="flex justify-between pt-1">
-                          <span className="text-slate-500">Partner Broker:</span>
-                          <span className="text-slate-700">{deal.brokerFirm}</span>
-                        </div>
+                      <div className="pt-2 mt-1 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <span className="text-[10px] text-slate-400 font-mono">{deal.dealRef}</span>
+                        <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
+                          {deal.updatedAt || "Verified"}
+                        </span>
                       </div>
                     </article>
                   </Col>
@@ -2164,68 +2198,84 @@ export default function AdminClient() {
                   type="primary"
                   icon={<PlusOutlined />}
                   onClick={() => setAddUserModalOpen(true)}
-                  className="bg-amber-600 hover:bg-amber-500 text-xs font-semibold self-start sm:self-auto"
+                  className="bg-amber-600 hover:bg-amber-500 text-xs font-semibold self-start sm:self-auto h-8 px-3"
                 >
                   Add Team Member
                 </Button>
               </div>
 
-              <Row gutter={[16, 16]}>
+              <Row gutter={[14, 14]}>
                 {adminUsers.map((usr) => (
-                  <Col xs={24} md={12} key={usr.id}>
-                    <article className="p-5 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-3">
-                          <Avatar
-                            style={{ backgroundColor: "#0f172a", color: "#f59e0b" }}
-                            className="font-bold"
+                  <Col xs={24} sm={12} lg={8} xl={6} key={usr.id}>
+                    <article className="p-4 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3 hover:border-amber-300 transition-colors h-full flex flex-col justify-between">
+                      <div className="space-y-2.5">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <Avatar
+                              style={{ backgroundColor: "#0f172a", color: "#f59e0b" }}
+                              className="font-bold shrink-0 text-xs"
+                              size={36}
+                            >
+                              {usr.name.charAt(0)}
+                            </Avatar>
+                            <div className="min-w-0 pr-1">
+                              <span className="font-bold text-slate-900 text-sm block truncate" title={usr.name}>
+                                {usr.name}
+                              </span>
+                              <span className="text-[11px] text-slate-500 block truncate" title={usr.email}>
+                                {usr.email}
+                              </span>
+                            </div>
+                          </div>
+                          <Tag
+                            color={
+                              usr.role === "Platform Owner"
+                                ? "gold"
+                                : usr.role === "Head of Brokerage"
+                                ? "blue"
+                                : "cyan"
+                            }
+                            className="text-[10px] font-semibold m-0 px-1.5 py-0 shrink-0"
                           >
-                            {usr.name.charAt(0)}
-                          </Avatar>
-                          <div>
-                            <span className="font-bold text-slate-900 text-sm block">
-                              {usr.name}
+                            {usr.role}
+                          </Tag>
+                        </div>
+
+                        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs space-y-1.5">
+                          <div className="flex items-center justify-between text-[11px] text-slate-500">
+                            <span>Territorial Access:</span>
+                            <span className="font-semibold text-slate-700">
+                              {usr.territories.length} Region{usr.territories.length > 1 ? "s" : ""}
                             </span>
-                            <span className="text-xs text-slate-500">{usr.email}</span>
+                          </div>
+                          <div className="flex items-center gap-1 flex-wrap">
+                            {usr.territories.map((t) => (
+                              <Tag key={t} className="m-0 text-[10px] bg-white border-slate-200 text-slate-700 px-1.5 py-0">
+                                {t}
+                              </Tag>
+                            ))}
                           </div>
                         </div>
-                        <Tag
-                          color={
-                            usr.role === "Platform Owner"
-                              ? "gold"
-                              : usr.role === "Head of Brokerage"
-                              ? "blue"
-                              : "cyan"
-                          }
-                          className="text-xs font-semibold"
-                        >
-                          {usr.role}
-                        </Tag>
                       </div>
 
-                      <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs space-y-1">
-                        <div className="text-slate-500">Territorial Permissions:</div>
-                        <div className="flex items-center gap-1.5 flex-wrap">
-                          {usr.territories.map((t) => (
-                            <Tag key={t} className="m-0 text-[10px]">
-                              {t}
-                            </Tag>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-                        <span className="text-slate-500">Last Active: {usr.lastLogin}</span>
-                        {usr.role !== "Platform Owner" && (
+                      <div className="pt-2 mt-1 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <span className="text-[11px] text-slate-500">
+                          Active: <span className="text-slate-700 font-medium">{usr.lastLogin}</span>
+                        </span>
+                        {usr.role !== "Platform Owner" ? (
                           <Button
                             danger
                             type="text"
                             size="small"
                             onClick={() => handleDeleteUser(usr.id, usr.name)}
-                            className="text-xs"
+                            className="text-[11px] h-6 px-1.5 text-red-600 hover:text-red-700 hover:bg-red-50"
                           >
-                            Revoke Admin
+                            Revoke
                           </Button>
+                        ) : (
+                          <span className="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                            Root
+                          </span>
                         )}
                       </div>
                     </article>

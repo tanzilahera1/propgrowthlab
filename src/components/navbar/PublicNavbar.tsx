@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PropGrowthLogo } from "@/components/common/PropGrowthLogo";
 import { Button } from "@/components/ui/button";
+import { UserNavDropdown } from "./UserNavDropdown";
 import {
   Sparkles,
   Building2,
@@ -147,14 +148,8 @@ export function PublicNavbar() {
               </Button>
             </Link>
 
-            {/* User Profile Icon Placeholder */}
-            <Link
-              href="/admin"
-              title="User Account / Portal (Demo Placeholder)"
-              className="w-8.5 lg:w-9 h-8.5 lg:h-9 rounded-full bg-stone-900 border border-stone-800 hover:border-amber-500/80 flex items-center justify-center text-amber-400 shadow-xs transition-all active:scale-95 cursor-pointer"
-            >
-              <User className="w-4 h-4 text-amber-400" />
-            </Link>
+            {/* Luxury User Profile Menu Dropdown */}
+            <UserNavDropdown />
           </div>
 
           {/* ================= MOBILE TOP HEADER CONTROLS (CLEAN WITH USER PLACEHOLDER) ================= */}
@@ -169,14 +164,8 @@ export function PublicNavbar() {
               </Button>
             </Link>
 
-            {/* Mobile User Profile Icon Placeholder */}
-            <Link
-              href="/admin"
-              title="User Account / Portal (Demo Placeholder)"
-              className="w-8 h-8 rounded-full bg-stone-900 border border-stone-800 hover:border-amber-500/80 flex items-center justify-center text-amber-400 shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
-            >
-              <User className="w-3.5 h-3.5 text-amber-400" />
-            </Link>
+            {/* Mobile User Profile Menu Dropdown */}
+            <UserNavDropdown isMobile />
           </div>
         </div>
       </div>
