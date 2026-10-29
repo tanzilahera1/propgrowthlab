@@ -4,7 +4,7 @@ import { HomeClient } from "./HomeClient";
 export const metadata: Metadata = {
   title: "PropGrowth Lab | 360° PropTech Systems & Hospitality Growth Engine",
   description:
-    "Empowering boutique resorts, luxury villa operators, and independent brokers worldwide with turnkey booking tech, 360° direct-booking ad funnels, daily qualified lead quotas, and a co-broker closing network across the USA, UK, Canada, Australia, EU, and UAE.",
+    "Turnkey Next.js booking engines in 48 hours, direct guest acquisition eliminating 20% OTA fees, daily verified broker lead quotas, and 70/30 co-broker closing network across the USA, UK, Canada, Australia, EU, and UAE.",
   keywords: [
     "PropTech solutions",
     "turnkey villa booking engine",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "luxury real estate leads USA",
     "broker lead quota UK Europe",
     "global holiday rental marketing",
-    "co-broker real estate network",
+    "co-broker real estate network 70/30",
     "Next.js real estate templates",
   ],
   alternates: {
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "PropGrowth Lab | 360° PropTech Systems & Hospitality Growth Engine",
     description:
-      "Turnkey direct-booking systems, paid guest acquisition, daily lead quota subscriptions, and co-broker network for luxury villas and boutique stays.",
+      "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 co-broker closing network.",
     url: "https://propgrowthlab.com",
     siteName: "PropGrowth Lab",
     images: [
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "PropGrowth Lab | 360° PropTech Systems & Hospitality Growth Engine",
     description:
-      "Turnkey direct-booking systems, paid guest acquisition, daily lead quota subscriptions, and co-broker network.",
+      "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 co-broker closing network.",
     images: ["/og.png"],
     creator: "@propgrowthlab",
   },

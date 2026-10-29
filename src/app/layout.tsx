@@ -37,11 +37,11 @@ const siteUrl = rawBaseUrl.startsWith("http://") || rawBaseUrl.startsWith("https
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PropGrowth Lab | 360° Tech & Hospitality Growth Engine",
+    default: "PropGrowth Lab | 360° PropTech Systems & Hospitality Growth Engine",
     template: "%s | PropGrowth Lab",
   },
   description:
-    "The 360° Tech & Performance Growth Engine for Luxury Stays, Villas & Real Estate. Blazing-fast direct booking systems, paid guest acquisition, and high-ticket broker networks.",
+    "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 co-broker closing network across the USA, UK, Canada, Australia, EU, and UAE.",
   keywords: [
     "PropGrowth Lab",
     "PropTech",
@@ -51,7 +51,8 @@ export const metadata: Metadata = {
     "Real Estate Broker Network",
     "Next.js Real Estate",
     "Hospitality Growth Agency",
-    "E-commerce",
+    "Eliminate Airbnb Fees",
+    "Co-Broker Network 70/30",
   ],
   authors: [{ name: "PropGrowth Lab" }],
   creator: "PropGrowth Lab",
@@ -80,9 +81,9 @@ export const metadata: Metadata = {
     title: "PropGrowth Lab",
   },
   openGraph: {
-    title: "PropGrowth Lab | 360° Tech & Hospitality Growth Engine",
+    title: "PropGrowth Lab | 360° PropTech Systems & Hospitality Growth Engine",
     description:
-      "Scale luxury stays, villas & resorts with high-converting direct booking technology and verified tenant networks.",
+      "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 co-broker closing network.",
     url: siteUrl,
     siteName: "PropGrowth Lab",
     images: [
@@ -90,7 +91,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "PropGrowth Lab - 360° Hospitality & PropTech Growth",
+        alt: "PropGrowth Lab - 360° PropTech & Hospitality Growth Engine",
       },
     ],
     locale: "en_US",
@@ -98,9 +99,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PropGrowth Lab | 360° Tech & Hospitality Growth Engine",
+    title: "PropGrowth Lab | 360° PropTech Systems & Hospitality Growth Engine",
     description:
-      "Scale luxury stays, villas & resorts with high-converting direct booking technology and verified tenant networks.",
+      "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 co-broker closing network.",
     images: ["/og.png"],
     creator: "@propgrowthlab",
   },

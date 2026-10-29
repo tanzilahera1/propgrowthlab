@@ -43,9 +43,9 @@ export function PropGrowthLogo({
       } ${className}`}
       aria-label="PropGrowth Lab"
     >
-      {/* ================= LOGO IMAGE (BORDERLESS, EXPANDED TO FULL BOUNDS) ================= */}
+      {/* ================= LOGO IMAGE (ROUNDED FULL, ZERO BORDER, ZERO PADDING) ================= */}
       <div
-        className={`relative flex-shrink-0 ${currentSize.class} flex items-center justify-center`}
+        className={`relative flex-shrink-0 ${currentSize.class} rounded-full overflow-hidden flex items-center justify-center`}
       >
         <Image
           src="/logo.png"
@@ -54,7 +54,7 @@ export function PropGrowthLogo({
           height={currentSize.height}
           priority
           unoptimized
-          className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full rounded-full object-contain transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 

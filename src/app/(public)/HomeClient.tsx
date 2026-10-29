@@ -130,13 +130,13 @@ export function HomeClient() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
             {/* Ant Design Style Precision Tag */}
-            <div className="inline-flex items-center gap-2 py-0.5 px-2.5 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-800 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase whitespace-nowrap mb-6 mx-auto">
+            <div className="inline-flex items-center gap-2 py-0.5 px-3 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-900 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase whitespace-nowrap mb-6 mx-auto">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
-              <span>Hospitality · PropTech · Growth Engine</span>
+              <span>4-in-1 PropTech Ecosystem · 6 Global Markets</span>
             </div>
 
             {/* Main Headline with property-brokerage Amber Gradient */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-stone-900 leading-[1.14] text-center mx-auto max-w-3xl">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-stone-900 leading-[1.14] text-center mx-auto max-w-4xl">
               The 360° Tech & Performance Growth Engine for{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700">
                 Luxury Stays & Real Estate
@@ -144,9 +144,8 @@ export function HomeClient() {
             </h1>
 
             {/* Sub-headline */}
-            <p className="mt-4 text-sm sm:text-base lg:text-lg text-stone-600 max-w-2xl mx-auto leading-relaxed text-center font-normal">
-              We engineer blazing-fast direct booking systems, run paid guest acquisition to eliminate
-              25% OTA fees, and dispatch verified tenant leads to licensed broker partners.
+            <p className="mt-4 text-sm sm:text-base lg:text-lg text-stone-600 max-w-3xl mx-auto leading-relaxed text-center font-normal">
+              Turnkey Next.js booking engines in 48 hours, full-funnel guest acquisition eliminating 20% OTA fees, and daily pre-screened tenant leads with guaranteed 70/30 co-broker closing splits.
             </p>
 
             {/* CTA Button Cluster */}
@@ -167,24 +166,24 @@ export function HomeClient() {
               </Link>
             </div>
 
-            {/* Micro Trust Markers - Informational Trust Specs (Non-button style) */}
-            <div className="mt-8 pt-4 sm:pt-5 border-t border-stone-200/80 w-full max-w-2xl mx-auto">
+            {/* Micro Trust Markers - 4 Pillars at a glance */}
+            <div className="mt-8 pt-4 sm:pt-5 border-t border-stone-200/80 w-full max-w-3xl mx-auto">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 sm:gap-x-4 gap-y-2 text-[11px] sm:text-xs select-none">
                 <div className="flex items-center justify-center gap-1.5 py-1 text-stone-700">
                   <Zap className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="whitespace-nowrap font-medium">0.8s Modern Next.js</span>
-                </div>
-                <div className="flex items-center justify-center gap-1.5 py-1 text-stone-700">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="whitespace-nowrap font-medium">Google 99+ Score</span>
+                  <span className="whitespace-nowrap font-medium">48h Turnkey Launch</span>
                 </div>
                 <div className="flex items-center justify-center gap-1.5 py-1 text-stone-700">
                   <ShieldCheck className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                   <span className="whitespace-nowrap font-medium">Zero Airbnb Fees</span>
                 </div>
                 <div className="flex items-center justify-center gap-1.5 py-1 text-stone-700">
-                  <Smartphone className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="whitespace-nowrap font-medium">1-Tap WhatsApp Booking</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="whitespace-nowrap font-medium">Daily Verified Quotas</span>
+                </div>
+                <div className="flex items-center justify-center gap-1.5 py-1 text-stone-700">
+                  <Users className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="whitespace-nowrap font-medium">70/30 Co-Broker Split</span>
                 </div>
               </div>
             </div>
