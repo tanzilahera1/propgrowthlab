@@ -11,6 +11,7 @@ import {
   TrendingUp,
   Handshake,
   Layers,
+  User,
 } from "lucide-react";
 
 const NAV_LINKS = [
@@ -105,7 +106,9 @@ export function PublicNavbar() {
           <nav className="hidden md:flex items-center gap-0.5 lg:gap-1.5 bg-stone-100/90 backdrop-blur-md p-1 lg:p-1.5 rounded-full border border-stone-200/90 shadow-xs shrink-0">
             {NAV_LINKS.map((link) => {
               const Icon = link.icon;
-              const isActive = pathname === link.href;
+              const isActive =
+                pathname === link.href ||
+                (link.href !== "/" && pathname.startsWith(link.href + "/"));
               return (
                 <Link
                   key={link.name}
@@ -132,8 +135,8 @@ export function PublicNavbar() {
             })}
           </nav>
 
-          {/* ================= RIGHT: PRIMARY CTA (SINGLE HIGH-CONVERTING ACTION) ================= */}
-          <div className="hidden md:flex items-center gap-2 shrink-0">
+          {/* ================= RIGHT: PRIMARY CTA & USER PROFILE PLACEHOLDER ================= */}
+          <div className="hidden md:flex items-center gap-2.5 shrink-0">
             <Link href="/agency#audit-form">
               <Button
                 size="sm"
@@ -143,18 +146,36 @@ export function PublicNavbar() {
                 <Sparkles className="w-3.5 h-3.5 text-white" />
               </Button>
             </Link>
+
+            {/* User Profile Icon Placeholder */}
+            <Link
+              href="/admin"
+              title="User Account / Portal (Demo Placeholder)"
+              className="w-8.5 lg:w-9 h-8.5 lg:h-9 rounded-full bg-stone-900 border border-stone-800 hover:border-amber-500/80 flex items-center justify-center text-amber-400 shadow-xs transition-all active:scale-95 cursor-pointer"
+            >
+              <User className="w-4 h-4 text-amber-400" />
+            </Link>
           </div>
 
-          {/* ================= MOBILE TOP HEADER CONTROLS (CLEAN: ZERO CLUTTER) ================= */}
-          <div className="flex items-center md:hidden">
+          {/* ================= MOBILE TOP HEADER CONTROLS (CLEAN WITH USER PLACEHOLDER) ================= */}
+          <div className="flex items-center gap-2 md:hidden">
             <Link href="/agency#audit-form">
               <Button
                 size="sm"
-                className="rounded-full text-[11px] font-bold px-3.5 h-8 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white whitespace-nowrap shadow-xs cursor-pointer flex items-center gap-1.5 active:scale-95 transition-transform"
+                className="rounded-full text-[11px] font-bold px-3 h-8 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white whitespace-nowrap shadow-xs cursor-pointer flex items-center gap-1.5 active:scale-95 transition-transform"
               >
                 <span>Book Audit</span>
                 <Sparkles className="w-3.5 h-3.5 text-white" />
               </Button>
+            </Link>
+
+            {/* Mobile User Profile Icon Placeholder */}
+            <Link
+              href="/admin"
+              title="User Account / Portal (Demo Placeholder)"
+              className="w-8 h-8 rounded-full bg-stone-900 border border-stone-800 hover:border-amber-500/80 flex items-center justify-center text-amber-400 shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
+            >
+              <User className="w-3.5 h-3.5 text-amber-400" />
             </Link>
           </div>
         </div>
@@ -171,7 +192,9 @@ export function PublicNavbar() {
       <div className="bg-[#fbfbfa]/95 text-stone-700 backdrop-blur-xl border border-stone-200/90 shadow-xl shadow-stone-950/12 rounded-full py-1 px-2 flex items-center justify-between gap-1">
         {NAV_LINKS.map((link) => {
           const Icon = link.icon;
-          const isActive = pathname === link.href;
+          const isActive =
+            pathname === link.href ||
+            (link.href !== "/" && pathname.startsWith(link.href + "/"));
           return (
             <Link
               key={link.name}

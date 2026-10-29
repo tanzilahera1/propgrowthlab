@@ -21,9 +21,9 @@ export default async function AdminPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-slate-900 text-emerald-400 font-mono text-sm">
+        <div className="min-h-screen flex items-center justify-center bg-slate-900 text-amber-400 font-mono text-sm">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
             <span>Loading Operations Console...</span>
           </div>
         </div>

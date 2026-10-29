@@ -71,31 +71,33 @@ export function CaseStudyClient({ study }: Props) {
         </div>
       </section>
 
-      {/* Hero Section */}
-      <section className="w-full pt-3 sm:pt-4 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-stone-200/80">
-        <div className="max-w-5xl mx-auto space-y-4 sm:space-y-5">
-          {/* Status Tag Group - Balanced Crisp Spacing & Uniform Height */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
-            <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-[4px] bg-stone-900 text-white text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider shadow-2xs whitespace-nowrap shrink-0">
-              {study.badge}
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-[4px] border border-stone-200 bg-white text-stone-700 text-[10px] sm:text-xs font-medium shadow-2xs whitespace-nowrap shrink-0">
-              <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-600 shrink-0" />
-              <span>{study.location}</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-[4px] border border-stone-200 bg-white text-stone-600 text-[10px] sm:text-xs font-mono shadow-2xs whitespace-nowrap shrink-0">
-              <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-stone-400 shrink-0" />
-              <span>Timeline: {study.duration}</span>
-            </span>
-          </div>
-
-          <div className="space-y-3">
+      {/* Hero Section (Halved Bottom Padding, Zero Separator) */}
+      <section className="w-full pt-4 sm:pt-6 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto space-y-5 sm:space-y-6">
+          <div className="space-y-2 sm:space-y-3">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-stone-950 tracking-tight leading-[1.15]">
               {study.title}
             </h1>
             <p className="text-base sm:text-xl text-stone-600 font-normal leading-relaxed max-w-3xl">
               {study.subtitle}
             </p>
+            {/* Clean Editorial Metadata Line (Zero Tag Clutter) */}
+            <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-stone-500 font-medium pt-1 flex-wrap">
+              <span className="inline-flex items-center gap-1 text-stone-700 font-semibold">
+                <MapPin className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                {study.location}
+              </span>
+              <span className="text-stone-300">•</span>
+              <span className="inline-flex items-center gap-1 text-stone-600">
+                <Calendar className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                {study.duration}
+              </span>
+              <span className="text-stone-300">•</span>
+              <span className="inline-flex items-center gap-1 text-amber-800 font-mono text-[11px] uppercase tracking-wider font-bold">
+                <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                {study.badge}
+              </span>
+            </div>
           </div>
 
           {/* Property Image Banner */}
@@ -118,9 +120,9 @@ export function CaseStudyClient({ study }: Props) {
         </div>
       </section>
 
-      {/* Verified KPI & Performance Scorecard */}
-      <section className="w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-stone-100/60 border-b border-stone-200/80">
-        <div className="max-w-5xl mx-auto space-y-8">
+      {/* Verified KPI & Performance Scorecard (Halved Gap, Seamless Transition) */}
+      <section className="w-full pt-4 sm:pt-6 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-8 bg-stone-100/60">
+        <div className="max-w-5xl mx-auto space-y-6 sm:space-y-7">
           <div>
             <span className="text-xs font-mono font-semibold text-amber-800 uppercase tracking-wider block">
               Verified ROI Scorecard
@@ -130,21 +132,21 @@ export function CaseStudyClient({ study }: Props) {
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {study.metrics.map((metric, i) => (
               <div
                 key={i}
-                className="bg-white rounded-xl border border-stone-200/90 p-5 shadow-xs flex flex-col justify-between space-y-2"
+                className="bg-white rounded-xl border border-stone-200/90 p-3.5 sm:p-4.5 shadow-xs flex flex-col justify-between space-y-2.5 min-h-[110px] sm:min-h-[120px]"
               >
-                <span className="text-xs font-mono font-medium text-stone-500 uppercase tracking-wider">
+                <span className="text-[10px] sm:text-[11px] font-mono font-medium text-stone-500 uppercase tracking-wider line-clamp-1">
                   {metric.label}
                 </span>
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-950">
+                <div className="text-xl sm:text-2xl lg:text-2xl xl:text-3xl font-extrabold text-stone-950 tracking-tight whitespace-nowrap">
                   {metric.value}
                 </div>
-                <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700">
-                  <TrendingUp className="w-3.5 h-3.5" />
-                  <span>{metric.sublabel}</span>
+                <div className="flex items-center gap-1 text-[10.5px] sm:text-xs font-medium text-emerald-700 leading-tight">
+                  <TrendingUp className="w-3.5 h-3.5 shrink-0" />
+                  <span className="line-clamp-1">{metric.sublabel}</span>
                 </div>
               </div>
             ))}
@@ -152,10 +154,10 @@ export function CaseStudyClient({ study }: Props) {
         </div>
       </section>
 
-      {/* Executive Summary & Client Testimonial */}
-      <section className="w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-white border-b border-stone-200/80">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-7 space-y-4">
+      {/* Executive Summary & Client Testimonial (Halved Gap, Zero Separator Line) */}
+      <section className="w-full pt-6 sm:pt-8 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+          <div className="lg:col-span-7 space-y-3.5 sm:space-y-4">
             <span className="text-xs font-mono font-semibold text-stone-500 uppercase tracking-wider block">
               Executive Brief
             </span>
@@ -165,7 +167,7 @@ export function CaseStudyClient({ study }: Props) {
             <p className="text-sm sm:text-base text-stone-600 leading-relaxed">
               {study.executiveSummary}
             </p>
-            <div className="pt-2 flex flex-wrap gap-2">
+            <div className="pt-1 flex flex-wrap gap-2">
               {study.techStack.map((tech) => (
                 <span
                   key={tech}
@@ -178,12 +180,12 @@ export function CaseStudyClient({ study }: Props) {
           </div>
 
           {/* Testimonial Card */}
-          <div className="lg:col-span-5 bg-stone-950 text-white rounded-2xl p-6 sm:p-7 shadow-lg relative overflow-hidden space-y-4">
-            <Quote className="w-8 h-8 text-amber-400/40" />
+          <div className="lg:col-span-5 bg-stone-950 text-white rounded-2xl p-5 sm:p-7 shadow-lg relative overflow-hidden space-y-3.5 sm:space-y-4">
+            <Quote className="w-7 h-7 sm:w-8 sm:h-8 text-amber-400/40" />
             <p className="text-xs sm:text-sm text-stone-200 leading-relaxed italic">
               &ldquo;{study.clientQuote}&rdquo;
             </p>
-            <div className="pt-4 border-t border-stone-800 flex items-center justify-between">
+            <div className="pt-3.5 border-t border-stone-800 flex items-center justify-between">
               <div>
                 <div className="text-sm font-bold text-white">{study.clientAuthor}</div>
                 <div className="text-xs text-stone-400">{study.clientRole}</div>
@@ -196,9 +198,9 @@ export function CaseStudyClient({ study }: Props) {
         </div>
       </section>
 
-      {/* The Challenge vs The Solution Grid */}
-      <section className="w-full py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#fbfbfa] border-b border-stone-200/80">
-        <div className="max-w-5xl mx-auto space-y-12">
+      {/* The Challenge vs The Solution Grid (Halved Gap, Seamless Flow) */}
+      <section className="w-full pt-6 sm:pt-8 pb-10 sm:pb-14 px-4 sm:px-6 lg:px-8 bg-[#fbfbfa]">
+        <div className="max-w-5xl mx-auto space-y-8 sm:space-y-10">
           {/* Challenges */}
           <div className="space-y-6">
             <div className="flex items-center gap-2">

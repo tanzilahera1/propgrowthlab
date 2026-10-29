@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   StandalonePillTabBar,
@@ -32,6 +32,7 @@ import {
   Bell,
   Lock,
   ExternalLink,
+  ChevronLeft,
   ChevronRight,
   Info,
   DollarSign,
@@ -40,6 +41,12 @@ import {
   AlertCircle,
   Download,
   Check,
+  Code2,
+  Key,
+  Copy,
+  FileCode,
+  FolderGit2,
+  Terminal,
 } from "lucide-react";
 
 // ================= DUMMY USER & CLIENT DATA =================
@@ -131,16 +138,144 @@ const INITIAL_LEADS: LeadRecord[] = [
   },
 ];
 
-const DASHBOARD_TABS: TabCategory[] = [
+export type PersonaType = "all" | "leads" | "templates" | "stays" | "escrow";
+
+interface PersonaConfig {
+  id: PersonaType;
+  label: string;
+  roleBadge: string;
+  clientName: string;
+  organization: string;
+  territoryOrAsset: string;
+  allowedTabs: string[];
+  defaultTab: string;
+  tagline: string;
+}
+
+const PERSONAS: Record<PersonaType, PersonaConfig> = {
+  all: {
+    id: "all",
+    label: "👑 Enterprise (All-Access)",
+    roleBadge: "Full-Stack Portfolio",
+    clientName: "Harrison Gray & Partners",
+    organization: "Global Real Estate Capital Inc.",
+    territoryOrAsset: "Miami, London & Swiss Alps",
+    allowedTabs: ["leads", "stays", "escrow", "templates", "routing"],
+    defaultTab: "leads",
+    tagline: "Unified command center managing 4 active verticals across 6 markets.",
+  },
+  leads: {
+    id: "leads",
+    label: "💼 Broker Lead Client",
+    roleBadge: "Gold Power Broker",
+    clientName: "Marcus Vance",
+    organization: "Premier Florida Realty (FL-BK349102)",
+    territoryOrAsset: "Miami Tier-1 Hub (USA)",
+    allowedTabs: ["leads", "routing"],
+    defaultTab: "leads",
+    tagline: "Active daily lead quota subscriber with sub-90s WhatsApp routing.",
+  },
+  templates: {
+    id: "templates",
+    label: "🏷️ Template & Code Buyer",
+    roleBadge: "Verified Licensee",
+    clientName: "Elena Rostova",
+    organization: "Nordic PropTech Studio",
+    territoryOrAsset: "Next.js 16 / Turbopack",
+    allowedTabs: ["templates", "routing"],
+    defaultTab: "templates",
+    tagline: "Production-ready source code repository, license keys, and 48h turnkey status.",
+  },
+  stays: {
+    id: "stays",
+    label: "🏡 Stay Growth Agency Client",
+    roleBadge: "Verified Stay Owner",
+    clientName: "Christian Sommer",
+    organization: "Chalet Horizon & Serena Villas",
+    territoryOrAsset: "Zermatt, Swiss Alps & Bali",
+    allowedTabs: ["stays", "routing"],
+    defaultTab: "stays",
+    tagline: "Direct booking engine client eliminating OTA commission bleed.",
+  },
+  escrow: {
+    id: "escrow",
+    label: "🤝 Co-Broker Partner",
+    roleBadge: "70/30 Partner Network",
+    clientName: "David Sterling",
+    organization: "Sterling Prime Real Estate (Lic. 98124)",
+    territoryOrAsset: "London & Prime Commuter Ring (UK)",
+    allowedTabs: ["escrow", "leads", "routing"],
+    defaultTab: "escrow",
+    tagline: "Licensed co-broker partner in the 70/30 commission split escrow network.",
+  },
+};
+
+const ALL_DASHBOARD_TABS: TabCategory[] = [
   { id: "leads", label: "Broker Lead Quota", badge: "84/120" },
   { id: "stays", label: "Direct Stay Engine", badge: "3 Villas" },
   { id: "escrow", label: "Co-Broker Escrow", badge: "$48k In Pipeline" },
+  { id: "templates", label: "Codebase & Licenses", badge: "2 Active" },
   { id: "routing", label: "WhatsApp Routing", badge: "Active" },
 ];
 
+interface PurchasedTemplate {
+  id: string;
+  title: string;
+  tier: "Source Code ($19)" | "Turnkey 48h ($199)";
+  licenseKey: string;
+  repo: string;
+  version: string;
+  zipFileName: string;
+  purchasedDate: string;
+  domain?: string;
+  status: "Active" | "Delivered (28h)" | "In Progress";
+  framework: string;
+  envSnippet: string;
+}
+
+const INITIAL_PURCHASED_TEMPLATES: PurchasedTemplate[] = [
+  {
+    id: "TMPL-01",
+    title: "Tradie & Contractor Local Lead Engine",
+    tier: "Source Code ($19)",
+    licenseKey: "PG-TRD-99482-LIVE",
+    repo: "prop-growth-lab/tradie-contractor-engine",
+    version: "v2.4.0 (Next.js 16)",
+    zipFileName: "prop-growth-tradie-v2.4.zip",
+    purchasedDate: "Oct 24, 2026",
+    status: "Active",
+    framework: "Next.js 16 + Tailwind v4 + TypeScript",
+    envSnippet: `# Tradie Engine Config
+NEXT_PUBLIC_SITE_NAME="Apex Roofing & Trades"
+NEXT_PUBLIC_WHATSAPP_NUMBER="+13055550192"
+NEXT_PUBLIC_GOOGLE_MAPS_KEY="AIzaSy...PROD"
+RESEND_API_KEY="re_live_..."`,
+  },
+  {
+    id: "TMPL-02",
+    title: "Luxury Stay & Villa Direct-Booking Engine",
+    tier: "Turnkey 48h ($199)",
+    licenseKey: "PG-STY-88201-LIVE",
+    repo: "prop-growth-lab/luxury-villa-stay-engine",
+    version: "v3.1.2 (Next.js 16)",
+    zipFileName: "prop-growth-stay-v3.1.zip",
+    purchasedDate: "Oct 26, 2026",
+    domain: "funchalretreat.com",
+    status: "Delivered (28h)",
+    framework: "Next.js 16 + Stripe Connect + Airbnb iCal Sync",
+    envSnippet: `# Luxury Stay Engine Config
+NEXT_PUBLIC_PROPERTY_NAME="Villa Funchal Retreat"
+STRIPE_SECRET_KEY="sk_live_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
+AIRBNB_ICAL_FEED_URL="https://airbnb.com/calendar/ical/..."`,
+  },
+];
+
 export function DashboardClient() {
+  const [activePersona, setActivePersona] = useState<PersonaType>("all");
   const [activeTab, setActiveTab] = useState("leads");
   const [leads, setLeads] = useState<LeadRecord[]>(INITIAL_LEADS);
+  const [purchasedTemplates] = useState<PurchasedTemplate[]>(INITIAL_PURCHASED_TEMPLATES);
   const [leadFilter, setLeadFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLead, setSelectedLead] = useState<LeadRecord | null>(null);
@@ -148,6 +283,9 @@ export function DashboardClient() {
   const [replacementTargetLead, setReplacementTargetLead] = useState<LeadRecord | null>(null);
   const [replacementReason, setReplacementReason] = useState("unreachable");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [envModalTemplate, setEnvModalTemplate] = useState<PurchasedTemplate | null>(null);
+  const [githubInviteUsername, setGithubInviteUsername] = useState("");
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   // Settings form states
   const [whatsappNumber, setWhatsappNumber] = useState("+1 (305) 555-0192");
@@ -184,6 +322,73 @@ export function DashboardClient() {
     setTimeout(() => setSettingsSaved(false), 3000);
   };
 
+  // Dynamic Persona & Tab handling
+  const currentPersona = PERSONAS[activePersona];
+  const visibleTabs = ALL_DASHBOARD_TABS.filter((tab) =>
+    currentPersona.allowedTabs.includes(tab.id)
+  );
+
+  // Scroll refs and handlers for Persona Switcher bar
+  const personaListRef = useRef<HTMLDivElement>(null);
+  const [canPersonaScrollLeft, setCanPersonaScrollLeft] = useState(false);
+  const [canPersonaScrollRight, setCanPersonaScrollRight] = useState(false);
+
+  const checkPersonaScroll = useCallback(() => {
+    if (personaListRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = personaListRef.current;
+      setCanPersonaScrollLeft(scrollLeft > 6);
+      setCanPersonaScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkPersonaScroll();
+    const timer = setTimeout(checkPersonaScroll, 120);
+    const handleResize = () => checkPersonaScroll();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [checkPersonaScroll, activePersona]);
+
+  const handleScrollPersona = (direction: "left" | "right") => {
+    if (personaListRef.current) {
+      const offset = direction === "left" ? -200 : 200;
+      personaListRef.current.scrollBy({ left: offset, behavior: "smooth" });
+      setTimeout(checkPersonaScroll, 250);
+    }
+  };
+
+  const handleSelectPersona = (id: PersonaType) => {
+    setActivePersona(id);
+    const target = PERSONAS[id];
+    if (!target.allowedTabs.includes(activeTab)) {
+      setActiveTab(target.defaultTab);
+    }
+    showToast(`Switched workspace view to: ${target.clientName} (${target.roleBadge})`);
+  };
+
+  const handleCopyLicense = (key: string) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(key);
+    }
+    setCopiedKey(key);
+    showToast(`License Key [${key}] copied to clipboard!`);
+    setTimeout(() => setCopiedKey(null), 2500);
+  };
+
+  const handleDownloadZip = (fileName: string) => {
+    showToast(`Preparing secure package: ${fileName}... Instant download ready.`);
+  };
+
+  const handleInviteGithub = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!githubInviteUsername.trim()) return;
+    showToast(`GitHub Repository Collaborator invitation sent to @${githubInviteUsername.trim()}!`);
+    setGithubInviteUsername("");
+  };
+
   // Filter leads
   const filteredLeads = leads.filter((lead) => {
     const matchesFilter =
@@ -208,12 +413,91 @@ export function DashboardClient() {
       {/* ================= TOP HERO & USER GREETING ================= */}
       <section className="w-full border-b border-stone-200/80 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          {/* Developer Preview Banner Notice */}
-          <div className="mb-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-600/25 text-amber-900 text-[11px] sm:text-xs font-semibold tracking-wide">
-            <Lock className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-            <span>
-              Preview Mode · Client session active. Auth gate will protect this route in production.
-            </span>
+          {/* Developer Preview & Persona Switcher */}
+          <div className="mb-6 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-600/25 text-amber-900 text-[11px] sm:text-xs font-semibold tracking-wide">
+                <Lock className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                <span>
+                  Multi-Role Workspace · Switch persona below to preview client-specific dashboard modules
+                </span>
+              </div>
+              <div className="text-[11px] font-mono text-stone-500 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                <span>Tenant Isolation Simulation</span>
+              </div>
+            </div>
+
+            {/* Persona Switcher Bar */}
+            <div className="p-2 sm:p-2.5 rounded-2xl bg-stone-100/90 border border-stone-200/90 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs">
+              <div className="flex items-center gap-2 pl-1.5 shrink-0">
+                <SlidersHorizontal className="w-4 h-4 text-stone-500 shrink-0" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-stone-700 whitespace-nowrap">
+                  Active Persona:
+                </span>
+              </div>
+
+              {/* Scrollable Container with Left/Right Chevrons & Wheel Support */}
+              <div className="relative flex-1 max-w-full overflow-hidden flex items-center min-w-0">
+                {/* Left Scroll Chevron */}
+                {canPersonaScrollLeft && (
+                  <div className="absolute left-0 top-0 bottom-0 z-10 flex items-center pr-2 bg-gradient-to-r from-stone-100 via-stone-100/95 to-transparent">
+                    <button
+                      type="button"
+                      onClick={() => handleScrollPersona("left")}
+                      className="w-6 h-6 rounded-full bg-white shadow-xs border border-stone-300 flex items-center justify-center text-stone-700 hover:text-stone-950 hover:bg-stone-50 active:scale-95 transition-all cursor-pointer"
+                      aria-label="Scroll personas left"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Persona Pills Stream */}
+                <div
+                  ref={personaListRef}
+                  onScroll={checkPersonaScroll}
+                  onWheel={(e) => {
+                    if (personaListRef.current && Math.abs(e.deltaY) > 0) {
+                      personaListRef.current.scrollLeft += e.deltaY;
+                      checkPersonaScroll();
+                    }
+                  }}
+                  className="flex items-center gap-1.5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-0.5 w-full scroll-smooth"
+                >
+                  {Object.values(PERSONAS).map((p) => {
+                    const isSelected = activePersona === p.id;
+                    return (
+                      <button
+                        key={p.id}
+                        onClick={() => handleSelectPersona(p.id)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 ${
+                          isSelected
+                            ? "bg-stone-900 text-white shadow-xs font-bold"
+                            : "bg-white/90 hover:bg-white text-stone-700 hover:text-stone-950 border border-stone-200"
+                        }`}
+                      >
+                        {p.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Right Scroll Chevron */}
+                {canPersonaScrollRight && (
+                  <div className="absolute right-0 top-0 bottom-0 z-10 flex items-center pl-2 bg-gradient-to-l from-stone-100 via-stone-100/95 to-transparent">
+                    <button
+                      type="button"
+                      onClick={() => handleScrollPersona("right")}
+                      className="w-6 h-6 rounded-full bg-white shadow-xs border border-stone-300 flex items-center justify-center text-stone-700 hover:text-stone-950 hover:bg-stone-50 active:scale-95 transition-all cursor-pointer"
+                      aria-label="Scroll personas right"
+                    >
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -223,40 +507,43 @@ export function DashboardClient() {
                   Client & Partner Portal
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-[4px] bg-stone-900 text-amber-400 text-[11px] font-mono font-bold tracking-wider uppercase border border-stone-800">
-                  Gold Power Broker
+                  {currentPersona.roleBadge}
                 </span>
               </div>
               <p className="mt-1 text-sm text-stone-600 flex items-center gap-2 flex-wrap">
-                <span className="font-semibold text-stone-800">Marcus Vance</span>
+                <span className="font-semibold text-stone-800">{currentPersona.clientName}</span>
                 <span>•</span>
-                <span>Premier Florida Realty (FL-BK349102)</span>
+                <span>{currentPersona.organization}</span>
                 <span>•</span>
                 <span className="inline-flex items-center gap-1 text-emerald-700 font-medium">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  Live Dispatch Online
+                  Live Session Active
                 </span>
+              </p>
+              <p className="mt-1 text-xs text-stone-500 font-mono">
+                {currentPersona.tagline}
               </p>
             </div>
 
-            {/* Quick Territory Info */}
-            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              <div className="px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200/90 text-left">
+            {/* Quick Context Info */}
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 w-full md:w-auto shrink-0">
+              <div className="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200/90 text-left min-w-[160px]">
                 <div className="text-[10px] font-mono uppercase tracking-wider text-stone-500 font-bold">
-                  Assigned Territory
+                  Assigned Scope / Territory
                 </div>
-                <div className="text-xs sm:text-sm font-bold text-stone-900 flex items-center gap-1.5 mt-0.5">
+                <div className="text-xs sm:text-sm font-bold text-stone-900 flex items-center gap-1.5 mt-0.5 truncate">
                   <MapPin className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span>Miami Tier-1 Hub (USA)</span>
+                  <span className="truncate">{currentPersona.territoryOrAsset}</span>
                 </div>
               </div>
 
-              <Link href="/leads/usa">
+              <Link href={activePersona === "templates" ? "/templates" : "/leads/usa"} className="w-full sm:w-auto">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-xl border-stone-300 text-xs font-semibold text-stone-700 hover:text-stone-900 hover:bg-stone-100"
+                  className="w-full sm:w-auto rounded-xl border-stone-300 text-xs font-semibold text-stone-700 hover:text-stone-900 hover:bg-stone-100"
                 >
-                  <span>Quota Terms</span>
+                  <span>Terms & SLAs</span>
                   <ExternalLink className="w-3.5 h-3.5 ml-1" />
                 </Button>
               </Link>
@@ -264,11 +551,12 @@ export function DashboardClient() {
           </div>
 
           {/* ================= TABBAR: STANDALONE PILL TABBAR ================= */}
-          <div className="mt-6 sm:mt-8">
+          <div className="mt-5 sm:mt-6">
             <StandalonePillTabBar
-              categories={DASHBOARD_TABS}
+              categories={visibleTabs}
               activeTab={activeTab}
               onTabChange={setActiveTab}
+              size="sm"
             />
           </div>
         </div>
@@ -374,18 +662,18 @@ export function DashboardClient() {
             <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/80 shadow-xs space-y-4">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 {/* Search Bar */}
-                <div className="relative flex-1 max-w-md">
+                <div className="relative flex-1 max-w-md w-full">
                   <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <Input
                     placeholder="Search by client name, building, or district..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 h-9.5 text-xs bg-stone-50/70 border-stone-200 rounded-xl focus:bg-white"
+                    className="pl-9 h-9.5 text-xs bg-stone-50/70 border-stone-200 rounded-xl focus:bg-white w-full"
                   />
                 </div>
 
                 {/* Filter Pills */}
-                <div className="flex items-center gap-1.5 flex-wrap">
+                <div className="flex items-center gap-1.5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-1 w-full md:w-auto">
                   {[
                     { id: "all", label: "All Leads" },
                     { id: "new", label: "New (Uncontacted)" },
@@ -396,9 +684,9 @@ export function DashboardClient() {
                     <button
                       key={filter.id}
                       onClick={() => setLeadFilter(filter.id)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                      className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
                         leadFilter === filter.id
-                          ? "bg-stone-900 text-white shadow-xs"
+                          ? "bg-stone-900 text-white shadow-xs font-bold"
                           : "bg-stone-100 text-stone-600 hover:bg-stone-200/70 hover:text-stone-900"
                       }`}
                     >
@@ -485,17 +773,18 @@ export function DashboardClient() {
                       </div>
 
                       {/* Right: Actions */}
-                      <div className="flex items-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-stone-100">
+                      <div className="flex items-center gap-2 shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-stone-100 w-full lg:w-auto justify-between lg:justify-end">
                         <a
                           href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
                             `Hello ${lead.name}, this is Marcus Vance from Premier Florida Realty. I received your inquiry regarding ${lead.property}. When would you like to arrange a private viewing?`
                           )}`}
                           target="_blank"
                           rel="noreferrer"
+                          className="flex-1 sm:flex-initial"
                         >
                           <Button
                             size="sm"
-                            className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-9 px-4 gap-1.5 shadow-xs cursor-pointer"
+                            className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-9 px-4 gap-1.5 shadow-xs cursor-pointer justify-center"
                           >
                             <MessageCircle className="w-3.5 h-3.5" />
                             <span>WhatsApp Client</span>
@@ -519,7 +808,7 @@ export function DashboardClient() {
                               setReplacementTargetLead(lead);
                               setReplacementModalOpen(true);
                             }}
-                            className="rounded-full text-stone-500 hover:text-stone-900 text-xs h-9 px-2.5"
+                            className="rounded-full text-stone-500 hover:text-stone-900 text-xs h-9 px-2.5 shrink-0"
                             title="Request 100% Replacement Credit if unreachable"
                           >
                             <RefreshCw className="w-3.5 h-3.5" />
@@ -645,7 +934,7 @@ export function DashboardClient() {
                 </Link>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
                 {[
                   {
                     name: "The Palms Villa Estate",
@@ -677,7 +966,7 @@ export function DashboardClient() {
                     className="rounded-xl border border-stone-200 p-4 bg-stone-50/60 hover:bg-stone-50 transition-colors space-y-3"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded-[4px] bg-stone-900 text-white text-[10px] font-bold">
+                      <span className="px-2 py-0.5 rounded-[4px] bg-stone-100 text-stone-800 border border-stone-200 text-[10px] font-bold">
                         {stay.status}
                       </span>
                       <span className="text-xs font-bold text-emerald-700">
@@ -880,16 +1169,18 @@ export function DashboardClient() {
                       </div>
                     </div>
 
-                    <div className="flex flex-col md:items-end justify-center gap-1 border-t md:border-t-0 pt-2 md:pt-0 border-stone-100">
-                      <span className="text-[11px] text-stone-400 font-mono uppercase">
-                        Your 70% Share
-                      </span>
-                      <span className="text-base sm:text-lg font-extrabold text-emerald-700">
-                        {deal.brokerCommission}
-                      </span>
-                      <span className="text-[11px] text-stone-500">
+                    <div className="flex flex-col sm:flex-row md:flex-col sm:items-center md:items-end justify-between md:justify-center gap-1.5 border-t md:border-t-0 pt-3 md:pt-0 border-stone-100 w-full md:w-auto">
+                      <div className="text-left sm:text-left md:text-right">
+                        <span className="text-[11px] text-stone-400 font-mono uppercase block">
+                          Your 70% Share
+                        </span>
+                        <span className="text-base sm:text-lg font-extrabold text-emerald-700">
+                          {deal.brokerCommission}
+                        </span>
+                      </div>
+                      <div className="text-left sm:text-right text-[11px] text-stone-500 font-mono">
                         Target Close: {deal.estClosing}
-                      </span>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -993,7 +1284,362 @@ export function DashboardClient() {
             </div>
           </div>
         )}
+
+        {/* ============================================================== */}
+        {/* TAB 5: TEMPLATES & CODEBASE LICENSE VAULT                      */}
+        {/* ============================================================== */}
+        {activeTab === "templates" && (
+          <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-300">
+            {/* Top 4 KPI Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/80 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-stone-500">
+                    Active Code Licenses
+                  </span>
+                  <span className="px-2 py-0.5 rounded-[4px] bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
+                    Lifetime Valid
+                  </span>
+                </div>
+                <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+                  2 <span className="text-sm font-semibold text-stone-400">Codebases</span>
+                </div>
+                <p className="mt-3 text-[11px] text-stone-500 flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Full source code & commercial rights</span>
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/80 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-stone-500">
+                    Core Tech Engine
+                  </span>
+                  <span className="px-2 py-0.5 rounded-[4px] bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200">
+                    Turbopack
+                  </span>
+                </div>
+                <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+                  Next.js 16
+                </div>
+                <p className="mt-3 text-[11px] text-stone-500">
+                  Tailwind CSS v4 + TypeScript + shadcn/ui
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/80 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-stone-500">
+                    Turnkey Deploy SLA
+                  </span>
+                  <span className="px-2 py-0.5 rounded-[4px] bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
+                    100% On Time
+                  </span>
+                </div>
+                <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+                  28 Hours
+                </div>
+                <p className="mt-3 text-[11px] text-stone-500">
+                  48-Hour SLA Guarantee delivered ahead of schedule
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/80 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-stone-500">
+                    GitHub Org Access
+                  </span>
+                  <span className="px-2 py-0.5 rounded-[4px] bg-purple-50 text-purple-700 text-[10px] font-bold border border-purple-200">
+                    Automated
+                  </span>
+                </div>
+                <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+                  2 Repos Active
+                </div>
+                <p className="mt-3 text-[11px] text-stone-500">
+                  Direct git clone & pull requests enabled
+                </p>
+              </div>
+            </div>
+
+            {/* Codebase Licenses Card List */}
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h2 className="text-lg sm:text-xl font-bold text-stone-900">
+                    Your Licensed Turnkey Codebases
+                  </h2>
+                  <p className="text-xs sm:text-sm text-stone-600">
+                    Production-grade fullstack engines. Download standalone zips, access private GitHub repositories, and copy environment keys.
+                  </p>
+                </div>
+                <Link href="/templates">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-xl border-stone-300 text-xs font-semibold text-stone-700 hover:text-stone-950"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600 mr-1.5" />
+                    Browse All Templates ($19)
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4">
+                {purchasedTemplates.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-white rounded-2xl border border-stone-200/90 p-5 sm:p-6 shadow-xs space-y-4 hover:border-stone-300 transition-all"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h3 className="text-base sm:text-lg font-bold text-stone-900">
+                            {item.title}
+                          </h3>
+                          <span className="px-2 py-0.5 rounded-[4px] bg-stone-900 text-amber-400 text-[10px] font-mono font-bold uppercase tracking-wider">
+                            {item.tier}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-[4px] bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">
+                            {item.status}
+                          </span>
+                        </div>
+                        <p className="text-xs text-stone-500 font-mono mt-1">
+                          {item.framework} · {item.version} · Purchased {item.purchasedDate}
+                        </p>
+                      </div>
+
+                      {item.domain && (
+                        <div className="px-3 py-1.5 rounded-xl bg-stone-50 border border-stone-200 flex items-center gap-2 text-xs">
+                          <span className="text-stone-500 font-medium">Live Domain:</span>
+                          <a
+                            href={`https://${item.domain}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="font-bold text-stone-900 hover:text-amber-800 flex items-center gap-1"
+                          >
+                            <span>{item.domain}</span>
+                            <ExternalLink className="w-3 h-3 text-stone-400" />
+                          </a>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* License Key Box */}
+                    <div className="p-3.5 rounded-xl bg-stone-50/80 border border-stone-200/80 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <Key className="w-4 h-4 text-amber-600 shrink-0" />
+                        <div className="min-w-0">
+                          <div className="text-[10px] font-mono uppercase tracking-wider text-stone-500 font-bold">
+                            Enterprise License Key
+                          </div>
+                          <div className="font-mono text-xs sm:text-sm font-extrabold text-stone-900 tracking-wide select-all truncate">
+                            {item.licenseKey}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleCopyLicense(item.licenseKey)}
+                          className="flex-1 sm:flex-initial h-8 rounded-lg text-xs font-semibold border-stone-300 text-stone-700 hover:text-stone-950 justify-center"
+                        >
+                          {copiedKey === item.licenseKey ? (
+                            <>
+                              <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" />
+                              <span>Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3.5 h-3.5 mr-1 text-stone-500" />
+                              <span>Copy Key</span>
+                            </>
+                          )}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setEnvModalTemplate(item)}
+                          className="flex-1 sm:flex-initial h-8 rounded-lg text-xs font-semibold border-stone-300 text-stone-700 hover:text-stone-950 justify-center"
+                        >
+                          <FileCode className="w-3.5 h-3.5 mr-1 text-stone-500" />
+                          <span>.env Snippet</span>
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Action Bar */}
+                    <div className="pt-2 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-2 text-xs text-stone-600 font-mono min-w-0">
+                        <FolderGit2 className="w-4 h-4 text-stone-400 shrink-0" />
+                        <span className="truncate">{item.repo}</span>
+                      </div>
+
+                      <div className="flex items-center gap-2.5 w-full sm:w-auto">
+                        <Button
+                          size="sm"
+                          onClick={() => handleDownloadZip(item.zipFileName)}
+                          className="w-full sm:w-auto rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs h-9 px-4 gap-1.5 cursor-pointer shadow-xs justify-center"
+                        >
+                          <Download className="w-3.5 h-3.5 text-amber-400" />
+                          <span>Download ZIP ({item.version})</span>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* GitHub Collaborator Invitation & Quickstart */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+              {/* GitHub Invite Card */}
+              <div className="bg-white rounded-2xl border border-stone-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-stone-900 text-white flex items-center justify-center font-mono font-bold text-sm">
+                    GH
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-stone-900">
+                      GitHub Repository Access
+                    </h3>
+                    <p className="text-xs text-stone-500">
+                      Invite your developer or CI/CD bot directly to the source repositories.
+                    </p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleInviteGithub} className="space-y-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-stone-700 uppercase tracking-wide">
+                      GitHub Username / Handle
+                    </label>
+                    <div className="flex gap-2">
+                      <Input
+                        value={githubInviteUsername}
+                        onChange={(e) => setGithubInviteUsername(e.target.value)}
+                        placeholder="e.g. developer-handle"
+                        className="h-10 text-xs bg-stone-50 border-stone-200 rounded-xl"
+                      />
+                      <Button
+                        type="submit"
+                        className="rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold px-4 shrink-0"
+                      >
+                        Send Invite
+                      </Button>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-stone-500">
+                    Invitations grant automated read/write access to your purchased templates on github.com/prop-growth-lab.
+                  </p>
+                </form>
+              </div>
+
+              {/* Terminal Quickstart */}
+              <div className="bg-stone-950 text-white rounded-2xl p-5 sm:p-6 shadow-xs space-y-3 border border-stone-800">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Terminal className="w-4 h-4 text-amber-400" />
+                    <span className="font-mono text-xs font-bold text-stone-200">
+                      Developer Quickstart (Next.js 16)
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono text-emerald-400">
+                    Turbopack Ready
+                  </span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-stone-900 font-mono text-xs text-stone-300 space-y-1.5 overflow-x-auto border border-stone-800">
+                  <p className="text-stone-500"># 1. Unzip or clone codebase</p>
+                  <p className="text-amber-300">unzip prop-growth-tradie-v2.4.zip -d my-app</p>
+                  <p className="text-stone-500 pt-1"># 2. Install dependencies & configure env</p>
+                  <p className="text-stone-200">cd my-app && npm install</p>
+                  <p className="text-stone-500 pt-1"># 3. Launch dev server</p>
+                  <p className="text-emerald-400">npm run dev</p>
+                </div>
+                <p className="text-[11px] text-stone-400">
+                  Pre-configured with zero Tailwind conflicts, Lucide React, and verified TypeScript types.
+                </p>
+              </div>
+            </div>
+
+            {/* Growth Cross-Sell Banner for Template Clients */}
+            <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-850 to-stone-900 text-white border border-stone-800 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-1.5 text-amber-400 text-xs font-mono font-bold uppercase tracking-wider">
+                  <TrendingUp className="w-3.5 h-3.5" />
+                  <span>Next Step: Scale Inbound Traffic</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-white">
+                  Need 2–4 pre-qualified buyer leads every single day for your new site?
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-300 max-w-2xl">
+                  Connect your newly launched template to our exclusive Territory Broker Lead Quota. 100% credit replacement SLA with instant WhatsApp routing.
+                </p>
+              </div>
+              <div className="shrink-0">
+                <Link href="/leads/usa">
+                  <Button className="rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs sm:text-sm px-5 py-2.5 shadow-md">
+                    <span>Unlock Territory Lead Quota →</span>
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
+
+      {/* ================= ENVIRONMENT SNIPPET MODAL ================= */}
+      <Dialog
+        open={!!envModalTemplate}
+        onOpenChange={(open) => !open && setEnvModalTemplate(null)}
+      >
+        <DialogContent className="max-w-md bg-white rounded-2xl p-6 border border-stone-200 shadow-2xl">
+          {envModalTemplate && (
+            <div className="space-y-4">
+              <DialogHeader>
+                <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center mb-1">
+                  <FileCode className="w-5 h-5 text-blue-600" />
+                </div>
+                <DialogTitle className="text-lg font-bold text-stone-900">
+                  .env.local Configuration Snippet
+                </DialogTitle>
+                <DialogDescription className="text-xs text-stone-600">
+                  Copy this snippet into your project root as <code className="font-mono text-stone-900 font-bold">.env.local</code>.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="p-3.5 rounded-xl bg-stone-900 text-stone-200 font-mono text-xs overflow-x-auto whitespace-pre border border-stone-800">
+                {envModalTemplate.envSnippet}
+              </div>
+
+              <div className="flex items-center gap-2 pt-2">
+                <Button
+                  onClick={() => {
+                    if (typeof navigator !== "undefined" && navigator.clipboard) {
+                      navigator.clipboard.writeText(envModalTemplate.envSnippet);
+                    }
+                    showToast(".env.local snippet copied to clipboard!");
+                    setEnvModalTemplate(null);
+                  }}
+                  className="flex-1 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs h-9.5 gap-1.5 cursor-pointer"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copy Configuration</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setEnvModalTemplate(null)}
+                  className="rounded-full text-xs font-semibold h-9.5 px-4 border-stone-300"
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* ================= FULL PROFILE DIALOG MODAL ================= */}
       <Dialog

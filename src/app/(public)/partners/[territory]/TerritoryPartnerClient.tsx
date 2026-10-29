@@ -120,25 +120,8 @@ Email: ${email}`;
       </section>
 
       {/* Hero Section */}
-      <section className="relative w-full pt-3 sm:pt-4 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-stone-200/80">
+      <section className="relative w-full pt-4 sm:pt-6 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-stone-200/80">
         <div className="max-w-6xl mx-auto space-y-4 sm:space-y-5">
-          {/* Status Header Badge Group - Balanced Crisp Spacing & Uniform Height */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-[4px] border border-amber-500/30 bg-amber-500/10 text-amber-900 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider shadow-2xs whitespace-nowrap shrink-0">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-600"></span>
-              </span>
-              <span className="sm:hidden">Exclusive · Max 2 Brokers</span>
-              <span className="hidden sm:inline">Exclusive Allocation · Max 2 Brokers in {territory.country}</span>
-            </div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-[4px] border border-emerald-500/30 bg-emerald-500/10 text-emerald-900 text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider shadow-2xs whitespace-nowrap shrink-0">
-              <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-600 shrink-0" />
-              <span className="sm:hidden">70/30 Split · Zero Desk Fees</span>
-              <span className="hidden sm:inline">70/30 Commission Split · Zero Desk Fees</span>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-8 space-y-4">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-stone-950 tracking-tight leading-[1.15]">
@@ -167,8 +150,12 @@ Email: ${email}`;
             <div className="lg:col-span-4 bg-white rounded-2xl border border-stone-200/90 p-5 shadow-xs space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-stone-100 text-xs">
                 <span className="font-medium text-stone-500">Allocation Status</span>
-                <span className="font-bold text-amber-700 font-mono">
-                  {territory.slotsRemaining} Slots Open
+                <span className="font-bold text-amber-700 font-mono flex items-center gap-1.5">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-600"></span>
+                  </span>
+                  {territory.slotsRemaining} Open Slots (Max 2 in {territory.country})
                 </span>
               </div>
               <div className="space-y-2.5 text-xs sm:text-sm">
@@ -182,7 +169,7 @@ Email: ${email}`;
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-stone-500">Partner Commission</span>
-                  <span className="font-bold text-emerald-700">70% to Broker</span>
+                  <span className="font-bold text-emerald-700">70/30 Split · Zero Desk Fees</span>
                 </div>
               </div>
               <div className="pt-3 border-t border-stone-100">
