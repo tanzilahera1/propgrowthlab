@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CASE_STUDIES } from "@/data/case-studies";
+import { HeroBannerCarousel } from "@/components/common/HeroBannerCarousel";
+import { AGENCY_HERO_SLIDES } from "@/data/hero-banners";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -121,69 +123,8 @@ export function AgencyClient() {
 
   return (
     <div className="w-full flex flex-col bg-[#fbfbfa] overflow-hidden">
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative overflow-x-clip w-full max-w-full pt-18 pb-14 sm:pt-22 sm:pb-18 lg:pt-26 lg:pb-22 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90 text-stone-900">
-        {/* Background ambient warm gold glow (exact property-brokerage style) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent blur-3xl pointer-events-none" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 py-0.5 px-2.5 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-900 text-[10px] sm:text-xs font-mono font-bold tracking-wide uppercase mb-6 mx-auto whitespace-nowrap">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse shrink-0" />
-            <TrendingUp className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-            <span className="hidden sm:inline">Why Hand Over $30K–$60K in Fees Every Year?</span>
-            <span className="sm:hidden">Stop $30K–$60K Annual OTA Fees</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight max-w-4xl mx-auto leading-[1.14] text-stone-900">
-            Stop Losing 25% of Your Revenue to OTAs.{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700">
-              Keep 100% of Guest Income With Direct Bookings.
-            </span>
-          </h1>
-
-          <p className="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
-            Third-party booking platforms take up to 25% on every reservation and withhold guest data. We engineer your direct booking engine and run targeted guest acquisition funnels on flat <strong className="text-amber-700 font-bold">$350–$697/month retainers</strong>.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
-            <a href="#calculator" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto h-11 px-6 rounded-xl font-bold bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-md shadow-amber-500/20 cursor-pointer">
-                Calculate Your OTA Savings
-                <ArrowRight className="w-4 h-4 ml-2 shrink-0" />
-              </Button>
-            </a>
-            <a href="#audit-form" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto h-11 px-6 rounded-xl font-bold bg-white hover:bg-stone-100 hover:border-amber-400 text-stone-700 border border-stone-200/90 shadow-xs transition-colors cursor-pointer"
-              >
-                Book Free Growth Audit
-              </Button>
-            </a>
-          </div>
-
-          {/* Quick Problem-to-Gain Cards */}
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Keep 100%</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Zero Airbnb & OTA fees</p>
-            </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Sub-Second Speed</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Hotel • Resort • Villa engine</p>
-            </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">2-Way iCal</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Zero double-booking risk</p>
-            </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">$350 – $697</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Flat monthly retainers</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ================= HERO CAROUSEL ================= */}
+      <HeroBannerCarousel slides={AGENCY_HERO_SLIDES} />
 
       {/* ================= INTERACTIVE OTA SAVINGS CALCULATOR ================= */}
       <section id="calculator" className="py-16 sm:py-20 bg-stone-50/70 border-b border-stone-200/80">
@@ -588,27 +529,30 @@ export function AgencyClient() {
       </section>
 
       {/* ================= AUDIT REQUEST FORM ================= */}
-      <section id="audit-form" className="py-16 sm:py-20 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden">
-        {/* Ambient gold glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/10 blur-[130px] pointer-events-none" />
+      <section id="audit-form" className="py-16 sm:py-24 bg-gradient-to-b from-[#fbfbfa] via-[#f6f3eb] to-[#fbfbfa] text-stone-900 relative overflow-hidden border-t border-stone-200/90">
+        {/* Ambient warm gold glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/12 blur-[130px] pointer-events-none" />
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="p-5 sm:p-8 md:p-12 rounded-3xl bg-stone-900/90 border border-stone-800 shadow-2xl">
+          <div className="p-5 sm:p-8 md:p-12 rounded-3xl bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-xl shadow-stone-200/50 relative overflow-hidden">
+            {/* Top subtle golden ambient flare */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent pointer-events-none" />
+
             <div className="text-center max-w-xl mx-auto mb-8">
-              <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono text-[11px] uppercase tracking-wider mb-3 rounded-full">
+              <Badge className="bg-amber-500/10 text-amber-800 border border-amber-500/30 font-mono text-[11px] uppercase tracking-wider mb-3 rounded-full">
                 No Risk · No Obligation
               </Badge>
-              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-stone-950">
                 Request a Free 15-Minute Direct Booking Audit
               </h2>
-              <p className="text-xs sm:text-sm text-stone-400 mt-2">
+              <p className="text-xs sm:text-sm text-stone-600 mt-2">
                 Paste your Airbnb or website link. Our senior hospitality growth strategist will send you a personalized video breakdown showing exactly where you are losing direct bookings.
               </p>
             </div>
 
             <form onSubmit={handleAuditSubmit} className="space-y-4 max-w-lg mx-auto">
               <div>
-                <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                   Property Airbnb URL or Current Website *
                 </label>
                 <Input
@@ -617,13 +561,13 @@ export function AgencyClient() {
                   placeholder="https://airbnb.com/rooms/... or yourdomain.com"
                   value={propertyUrl}
                   onChange={(e) => setPropertyUrl(e.target.value)}
-                  className="bg-stone-950 border-stone-800 text-white placeholder:text-stone-500 text-xs h-11 rounded-xl"
+                  className="bg-stone-50/70 border-stone-300 text-stone-900 placeholder:text-stone-400 text-xs h-11 rounded-xl focus-visible:ring-amber-500 focus-visible:border-amber-500 focus-visible:bg-white transition-colors"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                     Your Name *
                   </label>
                   <Input
@@ -632,12 +576,12 @@ export function AgencyClient() {
                     placeholder="e.g. David Silva"
                     value={contactName}
                     onChange={(e) => setContactName(e.target.value)}
-                    className="bg-stone-950 border-stone-800 text-white placeholder:text-stone-500 text-xs h-11 rounded-xl"
+                    className="bg-stone-50/70 border-stone-300 text-stone-900 placeholder:text-stone-400 text-xs h-11 rounded-xl focus-visible:ring-amber-500 focus-visible:border-amber-500 focus-visible:bg-white transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                     WhatsApp Number (with country code) *
                   </label>
                   <Input
@@ -646,13 +590,13 @@ export function AgencyClient() {
                     placeholder="+351 912 345 678"
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
-                    className="bg-stone-950 border-stone-800 text-white placeholder:text-stone-500 text-xs h-11 rounded-xl"
+                    className="bg-stone-50/70 border-stone-300 text-stone-900 placeholder:text-stone-400 text-xs h-11 rounded-xl focus-visible:ring-amber-500 focus-visible:border-amber-500 focus-visible:bg-white transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                   Preferred Partnership Track
                 </label>
                 <Select
@@ -662,15 +606,15 @@ export function AgencyClient() {
                     if (val) setPreferredTier(val);
                   }}
                 >
-                  <SelectTrigger className="w-full bg-stone-950 border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500">
+                  <SelectTrigger className="w-full bg-stone-50/70 border-stone-300 text-stone-900 text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500 focus:bg-white transition-colors">
                     <SelectValue placeholder="Select preferred track" />
                   </SelectTrigger>
-                  <SelectContent className="bg-stone-900 border border-stone-700/80 text-white rounded-xl shadow-2xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
+                  <SelectContent className="bg-white border border-stone-200 text-stone-900 rounded-xl shadow-2xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
                     {TIER_OPTIONS.map((opt) => (
                       <SelectItem
                         key={opt.value}
                         value={opt.value}
-                        className="text-xs text-stone-200 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-stone-800 data-[highlighted]:!text-white data-[highlighted]:font-semibold hover:!bg-stone-800 hover:!text-white focus:!bg-stone-800 focus:!text-white data-[selected]:!text-amber-400 data-[selected]:font-bold data-[selected]:!bg-amber-500/10 [&_[data-slot=select-item-text]]:whitespace-normal [&_[data-slot=select-item-text]]:break-words"
+                        className="text-xs text-stone-700 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-amber-50 data-[highlighted]:!text-stone-900 data-[highlighted]:font-semibold hover:!bg-amber-50 hover:!text-stone-900 focus:!bg-amber-50 focus:!text-stone-900 data-[selected]:!text-amber-700 data-[selected]:font-bold data-[selected]:!bg-amber-500/15 [&_[data-slot=select-item-text]]:whitespace-normal [&_[data-slot=select-item-text]]:break-words"
                       >
                         {opt.label}
                       </SelectItem>
@@ -680,7 +624,7 @@ export function AgencyClient() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                   Location / Territory
                 </label>
                 <Select
@@ -690,15 +634,15 @@ export function AgencyClient() {
                     if (val) setTerritory(val);
                   }}
                 >
-                  <SelectTrigger className="w-full bg-stone-950 border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500">
+                  <SelectTrigger className="w-full bg-stone-50/70 border-stone-300 text-stone-900 text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500 focus:bg-white transition-colors">
                     <SelectValue placeholder="Select location or territory" />
                   </SelectTrigger>
-                  <SelectContent className="bg-stone-900 border border-stone-700/80 text-white rounded-xl shadow-2xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
+                  <SelectContent className="bg-white border border-stone-200 text-stone-900 rounded-xl shadow-2xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
                     {TERRITORY_OPTIONS.map((opt) => (
                       <SelectItem
                         key={opt.value}
                         value={opt.value}
-                        className="text-xs text-stone-200 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-stone-800 data-[highlighted]:!text-white data-[highlighted]:font-semibold hover:!bg-stone-800 hover:!text-white focus:!bg-stone-800 focus:!text-white data-[selected]:!text-amber-400 data-[selected]:font-bold data-[selected]:!bg-amber-500/10 [&_[data-slot=select-item-text]]:whitespace-normal [&_[data-slot=select-item-text]]:break-words"
+                        className="text-xs text-stone-700 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-amber-50 data-[highlighted]:!text-stone-900 data-[highlighted]:font-semibold hover:!bg-amber-50 hover:!text-stone-900 focus:!bg-amber-50 focus:!text-stone-900 data-[selected]:!text-amber-700 data-[selected]:font-bold data-[selected]:!bg-amber-500/15 [&_[data-slot=select-item-text]]:whitespace-normal [&_[data-slot=select-item-text]]:break-words"
                       >
                         {opt.label}
                       </SelectItem>
@@ -710,7 +654,7 @@ export function AgencyClient() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-11 sm:h-12 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-bold rounded-xl text-xs sm:text-sm mt-4 shadow-lg shadow-amber-500/25 cursor-pointer flex items-center justify-center gap-2 px-3"
+                className="w-full h-11 sm:h-12 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold rounded-xl text-xs sm:text-sm mt-4 shadow-lg shadow-amber-500/25 cursor-pointer flex items-center justify-center gap-2 px-3 transition-transform active:scale-95 border-0"
               >
                 {isSubmitting ? (
                   "Submitting Request..."
@@ -723,7 +667,7 @@ export function AgencyClient() {
                 )}
               </Button>
 
-              <p className="text-[11px] text-center text-stone-400 pt-2">
+              <p className="text-[11px] text-center text-stone-500 pt-2">
                 Strict privacy guarantee. We never share your revenue numbers or property data.
               </p>
             </form>

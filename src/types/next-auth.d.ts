@@ -1,4 +1,4 @@
-import { UserRole } from "./auth";
+import { UserRole } from "./enums";
 
 declare module "next-auth" {
   interface Session {

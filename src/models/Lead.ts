@@ -1,10 +1,20 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
+export interface ILeadLocation {
+  countryCode: string;
+  divisionOrState: string;
+  districtOrCity: string;
+  upazilaOrThana: string;
+  microZone?: string;
+}
+
 export interface ILead extends Document {
   fullName: string;
   whatsapp: string;
   email?: string;
   territory: string;
+  territoryCode?: string;
+  locationDetails?: ILeadLocation;
   propertyType: string;
   budget: string;
   moveInTimeframe: string;
@@ -22,6 +32,14 @@ const LeadSchema = new Schema<ILead>(
     whatsapp: { type: String, required: true, trim: true },
     email: { type: String, trim: true },
     territory: { type: String, required: true, default: "Global / Worldwide" },
+    territoryCode: { type: String, uppercase: true, trim: true },
+    locationDetails: {
+      countryCode: { type: String },
+      divisionOrState: { type: String },
+      districtOrCity: { type: String },
+      upazilaOrThana: { type: String },
+      microZone: { type: String },
+    },
     propertyType: { type: String, required: true, default: "Luxury Villa" },
     budget: { type: String, required: true },
     moveInTimeframe: { type: String, required: true, default: "Within 30 days" },

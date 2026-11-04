@@ -5,6 +5,8 @@ import Link from "next/link";
 import { TERRITORIES_DATA } from "@/data/territories";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { HeroBannerCarousel } from "@/components/common/HeroBannerCarousel";
+import { PARTNERS_HERO_SLIDES } from "@/data/hero-banners";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -79,69 +81,8 @@ export function PartnersClient() {
 
   return (
     <div className="w-full flex flex-col bg-[#fbfbfa] overflow-hidden">
-      {/* ================= HERO HEADER ================= */}
-      <section className="relative overflow-x-clip w-full max-w-full pt-18 pb-14 sm:pt-22 sm:pb-18 lg:pt-26 lg:pb-22 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90 text-stone-900">
-        {/* Background ambient warm gold glow (exact property-brokerage style) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent blur-3xl pointer-events-none" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 py-0.5 px-2.5 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-800 text-[10px] sm:text-[11px] font-mono font-bold tracking-wide uppercase mb-6 mx-auto max-w-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse shrink-0" />
-            <Users className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-            <span className="sm:hidden truncate">Stop 50% Brokerage Commission Splits</span>
-            <span className="hidden sm:inline">Why Give 50% of Your Commission to Traditional Brokerages?</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight max-w-4xl mx-auto leading-[1.14] text-stone-900">
-            Stop Giving Half Your Commission Away.{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700">
-              Close Ready Inbound Deals & Keep 70%.
-            </span>
-          </h1>
-
-          <p className="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
-            Stop giving 50% of your commission away while doing all the prospecting. We deliver verified luxury buyers and tenants directly to your phone—you handle local viewings and keep a <strong className="text-stone-900 font-bold">guaranteed 70% commission</strong> with zero desk fees.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-            <a href="#partner-form" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto h-11 px-6 rounded-xl font-bold bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-md shadow-amber-500/20 cursor-pointer">
-                Apply for Territory Partnership
-                <ArrowRight className="w-4 h-4 ml-2 shrink-0" />
-              </Button>
-            </a>
-            <a href="#how-it-works" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto h-11 px-6 rounded-xl font-bold bg-white hover:bg-stone-100 hover:border-amber-400 text-stone-700 border border-stone-200/90 shadow-xs transition-colors cursor-pointer"
-              >
-                How Co-Brokering Works
-              </Button>
-            </a>
-          </div>
-
-          {/* Quick Problem-to-Gain Cards - Strict 1-Line Title & Subtitle Consistency */}
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 max-w-3xl mx-auto">
-            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
-              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">70% Payout</p>
-              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">Guaranteed deal payout</p>
-            </div>
-            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
-              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">Zero Desk Fees</p>
-              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">No desk fees or lock-in</p>
-            </div>
-            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
-              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">No Prospecting</p>
-              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">Ready clients delivered</p>
-            </div>
-            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
-              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">Max 2 Agents</p>
-              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">Exclusive territory lock</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ================= HERO CAROUSEL ================= */}
+      <HeroBannerCarousel slides={PARTNERS_HERO_SLIDES} />
 
       {/* ================= COMMISSION SPLIT COMPARISON ================= */}
       <section id="how-it-works" className="py-16 sm:py-20 bg-stone-50/70 border-b border-stone-200/80">
@@ -232,7 +173,7 @@ export function PartnersClient() {
       </section>
 
       {/* ================= DEDICATED TERRITORY HUBS ================= */}
-      <section className="py-16 sm:py-20 bg-stone-100/60 border-b border-stone-200/80">
+      <section id="territories" className="py-16 sm:py-20 bg-stone-100/60 border-b border-stone-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
             <Badge className="bg-amber-500/10 text-amber-800 border-amber-500/30 font-mono text-[11px] uppercase tracking-wider rounded-[4px]">
@@ -295,20 +236,23 @@ export function PartnersClient() {
       </section>
 
       {/* ================= PARTNER APPLICATION FORM ================= */}
-      <section id="partner-form" className="py-16 sm:py-20 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden">
-        {/* Ambient gold glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/10 blur-[130px] pointer-events-none" />
+      <section id="partner-form" className="py-16 sm:py-24 bg-gradient-to-b from-[#fbfbfa] via-[#f6f3eb] to-[#fbfbfa] text-stone-900 relative overflow-hidden border-t border-stone-200/90">
+        {/* Ambient warm gold glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/12 blur-[130px] pointer-events-none" />
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="p-8 sm:p-12 rounded-3xl bg-stone-900/90 border border-stone-800 shadow-2xl">
+          <div className="p-8 sm:p-12 rounded-3xl bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-xl shadow-stone-200/50 relative overflow-hidden">
+            {/* Top subtle golden ambient flare */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent pointer-events-none" />
+
             <div className="text-center max-w-xl mx-auto mb-8">
-              <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono text-[11px] uppercase tracking-wider mb-3 rounded-[4px]">
+              <Badge className="bg-amber-500/10 text-amber-800 border border-amber-500/30 font-mono text-[11px] uppercase tracking-wider mb-3 rounded-[4px]">
                 Agent Application
               </Badge>
-              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-stone-950">
                 Apply to Become an Exclusive Co-Broker Partner
               </h2>
-              <p className="text-xs sm:text-sm text-stone-400 mt-2">
+              <p className="text-xs sm:text-sm text-stone-600 mt-2">
                 We accept only 2 licensed agents per city territory to prevent internal competition and guarantee deal volume.
               </p>
             </div>
@@ -316,7 +260,7 @@ export function PartnersClient() {
             <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                     Full Legal Name *
                   </label>
                   <Input
@@ -325,12 +269,12 @@ export function PartnersClient() {
                     placeholder="e.g. Sofia Martins"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="bg-stone-950 border-stone-800 text-white placeholder:text-stone-500 text-xs h-11 rounded-xl"
+                    className="bg-stone-50/70 border-stone-300 text-stone-900 placeholder:text-stone-400 text-xs h-11 rounded-xl focus-visible:ring-amber-500 focus-visible:border-amber-500 focus-visible:bg-white transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                     WhatsApp Phone Number *
                   </label>
                   <Input
@@ -339,13 +283,13 @@ export function PartnersClient() {
                     placeholder="+351 961 234 567"
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
-                    className="bg-stone-950 border-stone-800 text-white placeholder:text-stone-500 text-xs h-11 rounded-xl"
+                    className="bg-stone-50/70 border-stone-300 text-stone-900 placeholder:text-stone-400 text-xs h-11 rounded-xl focus-visible:ring-amber-500 focus-visible:border-amber-500 focus-visible:bg-white transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                   Professional Email Address *
                 </label>
                 <Input
@@ -354,13 +298,13 @@ export function PartnersClient() {
                   placeholder="sofia@agency.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-stone-950 border-stone-800 text-white placeholder:text-stone-500 text-xs h-11 rounded-xl"
+                  className="bg-stone-50/70 border-stone-300 text-stone-900 placeholder:text-stone-400 text-xs h-11 rounded-xl focus-visible:ring-amber-500 focus-visible:border-amber-500 focus-visible:bg-white transition-colors"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                     Target Territory *
                   </label>
                   <Select
@@ -370,15 +314,15 @@ export function PartnersClient() {
                       if (val) setTerritory(val);
                     }}
                   >
-                    <SelectTrigger className="w-full bg-stone-950 border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500">
+                    <SelectTrigger className="w-full bg-stone-50/70 border-stone-300 text-stone-900 text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500 focus:bg-white transition-colors">
                       <SelectValue placeholder="Select target territory" />
                     </SelectTrigger>
-                    <SelectContent className="bg-stone-900 border border-stone-700/80 text-white rounded-xl shadow-2xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
+                    <SelectContent className="bg-white border border-stone-200 text-stone-900 rounded-xl shadow-2xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
                       {PARTNER_TERRITORIES.map((opt) => (
                         <SelectItem
                           key={opt.value}
                           value={opt.value}
-                          className="text-xs text-stone-200 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-stone-800 data-[highlighted]:!text-white data-[highlighted]:font-semibold hover:!bg-stone-800 hover:!text-white focus:!bg-stone-800 focus:!text-white data-[selected]:!text-amber-400 data-[selected]:font-bold data-[selected]:!bg-amber-500/10 [&_span]:whitespace-normal [&_span]:break-words"
+                          className="text-xs text-stone-700 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-amber-50 data-[highlighted]:!text-stone-900 data-[highlighted]:font-semibold hover:!bg-amber-50 hover:!text-stone-900 focus:!bg-amber-50 focus:!text-stone-900 data-[selected]:!text-amber-700 data-[selected]:font-bold data-[selected]:!bg-amber-500/15 [&_span]:whitespace-normal [&_span]:break-words"
                         >
                           {opt.label}
                         </SelectItem>
@@ -388,7 +332,7 @@ export function PartnersClient() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-700 mb-1.5">
                     Experience in Real Estate
                   </label>
                   <Select
@@ -398,15 +342,15 @@ export function PartnersClient() {
                       if (val) setExperience(val);
                     }}
                   >
-                    <SelectTrigger className="w-full bg-stone-950 border-stone-800 text-white text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500">
+                    <SelectTrigger className="w-full bg-stone-50/70 border-stone-300 text-stone-900 text-xs h-11 rounded-xl px-3 focus:outline-none focus:border-amber-500 focus:bg-white transition-colors">
                       <SelectValue placeholder="Select years of experience" />
                     </SelectTrigger>
-                    <SelectContent className="bg-stone-900 border border-stone-700/80 text-white rounded-xl shadow-2xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
+                    <SelectContent className="bg-white border border-stone-200 text-stone-900 rounded-xl shadow-2xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
                       {EXPERIENCE_OPTIONS.map((opt) => (
                         <SelectItem
                           key={opt.value}
                           value={opt.value}
-                          className="text-xs text-stone-200 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-stone-800 data-[highlighted]:!text-white data-[highlighted]:font-semibold hover:!bg-stone-800 hover:!text-white focus:!bg-stone-800 focus:!text-white data-[selected]:!text-amber-400 data-[selected]:font-bold data-[selected]:!bg-amber-500/10 [&_span]:whitespace-normal [&_span]:break-words"
+                          className="text-xs text-stone-700 font-medium rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150 data-[highlighted]:!bg-amber-50 data-[highlighted]:!text-stone-900 data-[highlighted]:font-semibold hover:!bg-amber-50 hover:!text-stone-900 focus:!bg-amber-50 focus:!text-stone-900 data-[selected]:!text-amber-700 data-[selected]:font-bold data-[selected]:!bg-amber-500/15 [&_span]:whitespace-normal [&_span]:break-words"
                         >
                           {opt.label}
                         </SelectItem>
@@ -419,13 +363,13 @@ export function PartnersClient() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-11 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-bold rounded-xl text-xs sm:text-sm mt-4 shadow-lg shadow-amber-500/25 cursor-pointer"
+                className="w-full h-11 sm:h-12 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold rounded-xl text-xs sm:text-sm mt-4 shadow-lg shadow-amber-500/25 cursor-pointer flex items-center justify-center gap-2 border-0 transition-transform active:scale-95"
               >
-                {isSubmitting ? "Submitting Application..." : "Submit Partner Agent Application"}
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <span>{isSubmitting ? "Submitting Application..." : "Submit Partner Agent Application"}</span>
+                <ArrowRight className="w-4 h-4 ml-1" />
               </Button>
 
-              <p className="text-[11px] text-center text-stone-400 pt-2">
+              <p className="text-[11px] text-center text-stone-500 pt-2">
                 No upfront fee required. Applications are reviewed within 24 business hours.
               </p>
             </form>

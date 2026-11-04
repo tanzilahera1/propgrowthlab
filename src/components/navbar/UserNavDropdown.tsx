@@ -14,9 +14,11 @@ import {
   LogIn,
   UserPlus,
   ChevronDown,
+  Settings,
   Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
+import { isStaffRole, formatUserRole } from "@/types/enums";
 
 interface UserNavDropdownProps {
   className?: string;
@@ -58,11 +60,8 @@ export function UserNavDropdown({
 
   const user = session?.user;
   const isAuthenticated = status === "authenticated" && Boolean(user);
-  const isAdminOrOwner =
-    user?.role === "Platform Owner" ||
-    user?.role === "System Administrator" ||
-    user?.role === "admin" ||
-    user?.role === "owner";
+  const isAdminOrOwner = isStaffRole(user?.role);
+  const displayRole = formatUserRole(user?.role);
 
   // Initial letter for fallback avatar
   const initial = user?.name ? user.name.charAt(0).toUpperCase() : "U";
@@ -77,7 +76,7 @@ export function UserNavDropdown({
         aria-haspopup="true"
         title={isAuthenticated ? `${user?.name} (${user?.role})` : "Account & Navigation"}
         className={`rounded-full flex items-center justify-center transition-all active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500/30 ${
-          isMobile ? "w-8 h-8" : "w-8.5 lg:w-9 h-8.5 lg:h-9"
+          isMobile ? "w-7.5 h-7.5" : "w-8 h-8"
         } ${
           isAuthenticated
             ? "border border-amber-500/60 shadow-xs hover:border-amber-400"
@@ -94,6 +93,7 @@ export function UserNavDropdown({
                 alt={user.name || "Avatar"}
                 fill
                 sizes="36px"
+                unoptimized
                 className="object-cover"
               />
             ) : (
@@ -123,7 +123,7 @@ export function UserNavDropdown({
                     {user?.name || "PropGrowth User"}
                   </span>
                   <span className="text-[10px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded-md bg-amber-100/80 text-amber-800 border border-amber-200/60 shrink-0">
-                    {user?.role || "Member"}
+                    {displayRole}
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 truncate font-mono" title={user?.email || ""}>
@@ -151,6 +151,15 @@ export function UserNavDropdown({
                 >
                   <LayoutDashboard className="w-4 h-4 text-slate-500 shrink-0" />
                   <span>Client Dashboard</span>
+                </Link>
+
+                <Link
+                  href="/dashboard?tab=settings"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                >
+                  <Settings className="w-4 h-4 text-slate-500 shrink-0" />
+                  <span>Account & Security</span>
                 </Link>
 
                 <Link

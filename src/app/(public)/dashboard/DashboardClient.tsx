@@ -2,12 +2,23 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import {
   StandalonePillTabBar,
   TabCategory,
 } from "@/components/common/StandalonePillTabBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { formatUserRole } from "@/types/enums";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -47,6 +58,15 @@ import {
   FileCode,
   FolderGit2,
   Terminal,
+  Settings,
+  UserCheck,
+  CreditCard,
+  Landmark,
+  Eye,
+  EyeOff,
+  Shield,
+  KeyRound,
+  FileSpreadsheet,
 } from "lucide-react";
 
 // ================= DUMMY USER & CLIENT DATA =================
@@ -160,7 +180,7 @@ const PERSONAS: Record<PersonaType, PersonaConfig> = {
     clientName: "Harrison Gray & Partners",
     organization: "Global Real Estate Capital Inc.",
     territoryOrAsset: "Miami, London & Swiss Alps",
-    allowedTabs: ["leads", "stays", "escrow", "templates", "routing"],
+    allowedTabs: ["leads", "stays", "escrow", "templates", "routing", "settings"],
     defaultTab: "leads",
     tagline: "Unified command center managing 4 active verticals across 6 markets.",
   },
@@ -171,7 +191,7 @@ const PERSONAS: Record<PersonaType, PersonaConfig> = {
     clientName: "Marcus Vance",
     organization: "Premier Florida Realty (FL-BK349102)",
     territoryOrAsset: "Miami Tier-1 Hub (USA)",
-    allowedTabs: ["leads", "routing"],
+    allowedTabs: ["leads", "routing", "settings"],
     defaultTab: "leads",
     tagline: "Active daily lead quota subscriber with sub-90s WhatsApp routing.",
   },
@@ -182,7 +202,7 @@ const PERSONAS: Record<PersonaType, PersonaConfig> = {
     clientName: "Elena Rostova",
     organization: "Nordic PropTech Studio",
     territoryOrAsset: "Next.js 16 / Turbopack",
-    allowedTabs: ["templates", "routing"],
+    allowedTabs: ["templates", "routing", "settings"],
     defaultTab: "templates",
     tagline: "Production-ready source code repository, license keys, and 48h turnkey status.",
   },
@@ -193,7 +213,7 @@ const PERSONAS: Record<PersonaType, PersonaConfig> = {
     clientName: "Christian Sommer",
     organization: "Chalet Horizon & Serena Villas",
     territoryOrAsset: "Zermatt, Swiss Alps & Bali",
-    allowedTabs: ["stays", "routing"],
+    allowedTabs: ["stays", "routing", "settings"],
     defaultTab: "stays",
     tagline: "Direct booking engine client eliminating OTA commission bleed.",
   },
@@ -204,7 +224,7 @@ const PERSONAS: Record<PersonaType, PersonaConfig> = {
     clientName: "David Sterling",
     organization: "Sterling Prime Real Estate (Lic. 98124)",
     territoryOrAsset: "London & Prime Commuter Ring (UK)",
-    allowedTabs: ["escrow", "leads", "routing"],
+    allowedTabs: ["escrow", "leads", "routing", "settings"],
     defaultTab: "escrow",
     tagline: "Licensed co-broker partner in the 70/30 commission split escrow network.",
   },
@@ -216,6 +236,22 @@ const ALL_DASHBOARD_TABS: TabCategory[] = [
   { id: "escrow", label: "Co-Broker Escrow", badge: "$48k In Pipeline" },
   { id: "templates", label: "Codebase & Licenses", badge: "2 Active" },
   { id: "routing", label: "WhatsApp Routing", badge: "Active" },
+  { id: "settings", label: "Account & Security", badge: "Settings" },
+];
+
+const DASHBOARD_TERRITORY_OPTIONS = [
+  { value: "Miami Tier-1 Hub", label: "Miami Tier-1 Hub (Brickell, South Beach, Sunny Isles)" },
+  { value: "London Commuter Ring", label: "London & Commuter Ring (Mayfair, Kensington, Surrey)" },
+  { value: "New York Metro", label: "New York Metro & Manhattan Ultra-Luxury" },
+  { value: "Dubai Downtown & Marina", label: "Dubai Downtown, Palm Jumeirah & Marina" },
+  { value: "Global Portfolio", label: "Global Multi-Asset Portfolio" },
+];
+
+const REPLACEMENT_REASONS_OPTIONS = [
+  { value: "unreachable", label: "Client unreachable via WhatsApp / Phone after 48h" },
+  { value: "budget_mismatch", label: "Budget bracket does not match property tier" },
+  { value: "outside_territory", label: "Client relocated outside Miami Tier-1" },
+  { value: "already_contracted", label: "Client signed elsewhere prior to dispatch" },
 ];
 
 interface PurchasedTemplate {
@@ -272,9 +308,50 @@ AIRBNB_ICAL_FEED_URL="https://airbnb.com/calendar/ical/..."`,
 ];
 
 export function DashboardClient() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const { data: session } = useSession();
+  const displayRole = formatUserRole(session?.user?.role);
+
+  const tabParam = searchParams.get("tab");
+  const validTabs = ["leads", "stays", "escrow", "templates", "routing", "settings"];
+
   const [activePersona, setActivePersona] = useState<PersonaType>("all");
-  const [activeTab, setActiveTab] = useState("leads");
+  const [activeTab, setActiveTab] = useState(() => {
+    if (tabParam && validTabs.includes(tabParam)) {
+      return tabParam;
+    }
+    return "leads";
+  });
+
+  // Sync activeTab when query param changes
+  useEffect(() => {
+    if (tabParam && validTabs.includes(tabParam) && tabParam !== activeTab) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam, activeTab]);
+
+  const handleTabChange = (newTab: string) => {
+    setActiveTab(newTab);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", newTab);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
   const [leads, setLeads] = useState<LeadRecord[]>(INITIAL_LEADS);
+
+  // Fetch live leads from MongoDB Atlas on mount
+  useEffect(() => {
+    fetch("/api/leads")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.success && Array.isArray(data.leads) && data.leads.length > 0) {
+          setLeads(data.leads);
+        }
+      })
+      .catch(() => {});
+  }, []);
   const [purchasedTemplates] = useState<PurchasedTemplate[]>(INITIAL_PURCHASED_TEMPLATES);
   const [leadFilter, setLeadFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -287,7 +364,29 @@ export function DashboardClient() {
   const [githubInviteUsername, setGithubInviteUsername] = useState("");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  // Settings form states
+  // Live profile & Security states
+  const [profileName, setProfileName] = useState(session?.user?.name || "");
+  const [profilePhone, setProfilePhone] = useState("");
+  const [profileTerritory, setProfileTerritory] = useState("Miami Tier-1 Hub");
+  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+  const [hasAccountPassword, setHasAccountPassword] = useState<boolean>(
+    Boolean(session?.user?.hasPassword)
+  );
+
+  // Escrow Payout Modal states
+  const [payoutModalOpen, setPayoutModalOpen] = useState(false);
+  const [payoutMethod, setPayoutMethod] = useState<"wire" | "stripe" | "wise">("wire");
+  const [payoutAmount, setPayoutAmount] = useState("48000");
+  const [payoutBankDetails, setPayoutBankDetails] = useState("");
+  const [isSubmittingPayout, setIsSubmittingPayout] = useState(false);
+
+  // WhatsApp routing form states
   const [whatsappNumber, setWhatsappNumber] = useState("+1 (305) 555-0192");
   const [instantAlerts, setInstantAlerts] = useState(true);
   const [minBudget, setMinBudget] = useState("$5,000 / mo or $1,000,000 Purchase");
@@ -296,6 +395,149 @@ export function DashboardClient() {
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4000);
+  };
+
+  // Fetch live profile details on mount
+  useEffect(() => {
+    if (session?.user) {
+      if (session.user.name) setProfileName(session.user.name);
+      setHasAccountPassword(Boolean(session.user.hasPassword));
+      fetch("/api/user/profile")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success && data?.user) {
+            if (data.user.fullname) setProfileName(data.user.fullname);
+            if (data.user.mobile) setProfilePhone(data.user.mobile);
+            if (data.user.territories?.length > 0) setProfileTerritory(data.user.territories[0]);
+            if (typeof data.user.hasPassword === "boolean") setHasAccountPassword(data.user.hasPassword);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [session]);
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!profileName.trim()) {
+      showToast("Full name cannot be empty.");
+      return;
+    }
+    setIsUpdatingProfile(true);
+    try {
+      const res = await fetch("/api/user/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullname: profileName,
+          mobile: profilePhone,
+          territories: [profileTerritory],
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to update profile.");
+      showToast("Profile details updated successfully.");
+    } catch (err: unknown) {
+      const error = err as Error;
+      showToast(error.message || "Error updating profile.");
+    } finally {
+      setIsUpdatingProfile(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      showToast("New passwords do not match.");
+      return;
+    }
+    if (newPassword.length < 8) {
+      showToast("Password must be at least 8 characters.");
+      return;
+    }
+    setIsUpdatingPassword(true);
+    try {
+      const res = await fetch("/api/user/password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to update password.");
+      showToast(data.message || "Password updated successfully.");
+      setHasAccountPassword(true);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (err: unknown) {
+      const error = err as Error;
+      showToast(error.message || "Error updating password.");
+    } finally {
+      setIsUpdatingPassword(false);
+    }
+  };
+
+  const handleRequestPayout = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmittingPayout(true);
+    setTimeout(() => {
+      setIsSubmittingPayout(false);
+      setPayoutModalOpen(false);
+      showToast(
+        `Settlement Request Submitted: $${Number(payoutAmount).toLocaleString()} escrow wire initiated for compliance dispatch.`
+      );
+    }, 1200);
+  };
+
+  const handleExportLeadsCSV = () => {
+    const headers = ["ID", "Name", "Phone", "Property", "Neighborhood", "Budget", "Deal Type", "Move-In", "Qualification", "Status"];
+    const rows = leads.map((l) => [
+      l.id,
+      `"${l.name}"`,
+      l.phone,
+      `"${l.property}"`,
+      `"${l.neighborhood}"`,
+      `"${l.budget}"`,
+      l.dealType,
+      `"${l.moveIn}"`,
+      `"${l.qualification}"`,
+      l.status,
+    ]);
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute(
+      "download",
+      `propgrowth_leads_quota_${new Date().toISOString().slice(0, 10)}.csv`
+    );
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast("Leads quota ledger exported to CSV successfully.");
+  };
+
+  const handleExportEscrowCSV = () => {
+    const csvContent =
+      "data:text/csv;charset=utf-8,Deal,Location,Deal Value,Total Commission,Broker Share (70%),Status,Closing Date\n" +
+      `"One Island Park Bay Villa","Star Island, Miami Beach","$4,200,000","$42,000","$29,400","In Escrow","Nov 14 2026"\n` +
+      `"Venetian Islands Bayfront Estate","San Marino Island, Miami Beach","$3,500,000","$35,000","$24,500","In Escrow","Nov 28 2026"\n` +
+      `"Continuum South Beach #2804","South of Fifth, Miami Beach","$2,100,000","$21,000","$14,700","Paid","Oct 18 2026"\n`;
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute(
+      "download",
+      `propgrowth_escrow_ledger_${new Date().toISOString().slice(0, 10)}.csv`
+    );
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast("Escrow settlements ledger exported to CSV successfully.");
   };
 
   const handleTriggerReplacement = () => {
@@ -364,7 +606,7 @@ export function DashboardClient() {
     setActivePersona(id);
     const target = PERSONAS[id];
     if (!target.allowedTabs.includes(activeTab)) {
-      setActiveTab(target.defaultTab);
+      handleTabChange(target.defaultTab);
     }
     showToast(`Switched workspace view to: ${target.clientName} (${target.roleBadge})`);
   };
@@ -413,6 +655,60 @@ export function DashboardClient() {
       {/* ================= TOP HERO & USER GREETING ================= */}
       <section className="w-full border-b border-stone-200/80 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          {/* Live Authenticated User Recognition Banner */}
+          {session?.user && (
+            <div className="mb-5 p-3.5 sm:p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-full bg-stone-900 text-amber-400 font-bold flex items-center justify-center shrink-0 border border-amber-500/40 relative overflow-hidden">
+                  {session.user.image ? (
+                    <Image
+                      src={session.user.image}
+                      alt={session.user.name || "User"}
+                      fill
+                      sizes="40px"
+                      className="object-cover"
+                      unoptimized
+                    />
+                  ) : (
+                    <span>{session.user.name ? session.user.name.charAt(0).toUpperCase() : "U"}</span>
+                  )}
+                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-stone-900" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-extrabold text-sm text-stone-900 truncate">
+                      {session.user.name || "Authenticated Partner"}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-md bg-stone-900 text-amber-400 text-[10px] font-mono font-bold tracking-wider uppercase">
+                      {displayRole}
+                    </span>
+                    <span className="px-1.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-bold inline-flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                      Live Account
+                    </span>
+                  </div>
+                  <div className="text-xs text-stone-500 font-mono truncate mt-0.5 flex items-center gap-2">
+                    <span>{session.user.email}</span>
+                    <span>•</span>
+                    <span>Instant background sync active</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleTabChange("settings")}
+                  className="rounded-full text-xs font-bold border-amber-300 bg-white hover:bg-amber-100/70 text-amber-950 h-8.5 px-3.5 cursor-pointer shadow-xs gap-1.5"
+                >
+                  <Settings className="w-3.5 h-3.5 text-amber-700" />
+                  <span>Account & Password</span>
+                </Button>
+              </div>
+            </div>
+          )}
+
           {/* Developer Preview & Persona Switcher */}
           <div className="mb-6 space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
@@ -555,7 +851,7 @@ export function DashboardClient() {
             <StandalonePillTabBar
               categories={visibleTabs}
               activeTab={activeTab}
-              onTabChange={setActiveTab}
+              onTabChange={handleTabChange}
               size="sm"
             />
           </div>
@@ -672,27 +968,40 @@ export function DashboardClient() {
                   />
                 </div>
 
-                {/* Filter Pills */}
-                <div className="flex items-center gap-1.5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-1 w-full md:w-auto">
-                  {[
-                    { id: "all", label: "All Leads" },
-                    { id: "new", label: "New (Uncontacted)" },
-                    { id: "contacted", label: "In Discussion" },
-                    { id: "scheduled", label: "Showing Set" },
-                    { id: "replaced", label: "Replaced" },
-                  ].map((filter) => (
-                    <button
-                      key={filter.id}
-                      onClick={() => setLeadFilter(filter.id)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
-                        leadFilter === filter.id
-                          ? "bg-stone-900 text-white shadow-xs font-bold"
-                          : "bg-stone-100 text-stone-600 hover:bg-stone-200/70 hover:text-stone-900"
-                      }`}
-                    >
-                      {filter.label}
-                    </button>
-                  ))}
+                <div className="flex items-center gap-2 w-full md:w-auto justify-between md:justify-end">
+                  {/* Filter Pills */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-1">
+                    {[
+                      { id: "all", label: "All Leads" },
+                      { id: "new", label: "New (Uncontacted)" },
+                      { id: "contacted", label: "In Discussion" },
+                      { id: "scheduled", label: "Showing Set" },
+                      { id: "replaced", label: "Replaced" },
+                    ].map((filter) => (
+                      <button
+                        key={filter.id}
+                        onClick={() => setLeadFilter(filter.id)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+                          leadFilter === filter.id
+                            ? "bg-stone-900 text-white shadow-xs font-bold"
+                            : "bg-stone-100 text-stone-600 hover:bg-stone-200/70 hover:text-stone-900"
+                        }`}
+                      >
+                        {filter.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Export CSV */}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleExportLeadsCSV}
+                    className="h-8.5 rounded-xl border-stone-200 text-xs font-semibold text-stone-700 hover:bg-stone-100 shrink-0 gap-1.5 cursor-pointer shadow-2xs"
+                  >
+                    <Download className="w-3.5 h-3.5 text-stone-500" />
+                    <span className="hidden sm:inline">Export CSV</span>
+                  </Button>
                 </div>
               </div>
 
@@ -1098,15 +1407,34 @@ export function DashboardClient() {
                     Live deal status, title escrow verification, and scheduled settlement dates.
                   </p>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => showToast("Downloading Escrow Co-Broker PDF Agreement...")}
-                  className="rounded-full text-xs font-semibold border-stone-300"
-                >
-                  <Download className="w-3.5 h-3.5 mr-1.5" />
-                  <span>Download Agreement Template</span>
-                </Button>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Button
+                    size="sm"
+                    onClick={() => setPayoutModalOpen(true)}
+                    className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold h-8.5 px-3.5 cursor-pointer gap-1.5 shadow-2xs"
+                  >
+                    <Landmark className="w-3.5 h-3.5" />
+                    <span>Request Settlement Wire</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleExportEscrowCSV}
+                    className="rounded-full text-xs font-semibold border-stone-300 h-8.5 px-3.5 gap-1.5 cursor-pointer hover:bg-stone-50"
+                  >
+                    <Download className="w-3.5 h-3.5 text-stone-500" />
+                    <span>Export Ledger CSV</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => showToast("Downloading Escrow Co-Broker PDF Agreement...")}
+                    className="rounded-full text-xs font-semibold border-stone-300 h-8.5 px-3.5 gap-1.5 cursor-pointer hover:bg-stone-50"
+                  >
+                    <FileSpreadsheet className="w-3.5 h-3.5 text-stone-500" />
+                    <span>Agreement Template</span>
+                  </Button>
+                </div>
               </div>
 
               <div className="space-y-3 pt-2">
@@ -1588,6 +1916,353 @@ export function DashboardClient() {
             </div>
           </div>
         )}
+
+        {/* ============================================================== */}
+        {/* TAB 6: ACCOUNT PROFILE & SECURITY SETTINGS                     */}
+        {/* ============================================================== */}
+        {activeTab === "settings" && (
+          <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-300">
+            {/* Account Overview Header */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-stone-900 text-amber-400 font-extrabold text-xl flex items-center justify-center shrink-0 border border-amber-500/40 relative overflow-hidden shadow-sm">
+                  {session?.user?.image ? (
+                    <Image
+                      src={session.user.image}
+                      alt={session.user.name || "User"}
+                      fill
+                      sizes="56px"
+                      className="object-cover"
+                      unoptimized
+                    />
+                  ) : (
+                    <span>{profileName ? profileName.charAt(0).toUpperCase() : "U"}</span>
+                  )}
+                  <span className="absolute bottom-1 right-1 w-3 h-3 rounded-full bg-emerald-500 border-2 border-stone-900" />
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h2 className="text-lg sm:text-xl font-extrabold text-stone-900">
+                      {profileName || "PropGrowth Account"}
+                    </h2>
+                    <span className="px-2.5 py-0.5 rounded-md bg-stone-900 text-amber-400 text-[10px] font-mono font-bold tracking-wider uppercase border border-stone-800">
+                      {displayRole}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-bold inline-flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                      Active
+                    </span>
+                  </div>
+                  <p className="text-xs text-stone-500 font-mono flex items-center gap-2 flex-wrap">
+                    <span>{session?.user?.email || "Signed In"}</span>
+                    <span>•</span>
+                    <span>Territory: {profileTerritory}</span>
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 self-start md:self-center">
+                <div className="px-3 py-2 rounded-xl bg-stone-50 border border-stone-200 text-left">
+                  <div className="text-[10px] font-mono uppercase text-stone-400 font-bold">
+                    Smart Sync Status
+                  </div>
+                  <div className="text-xs font-bold text-stone-800 flex items-center gap-1 mt-0.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>60s Live Polling (Zero Re-Login)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2-Column Settings Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Form 1: Profile & WhatsApp Dispatch */}
+              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200/80 shadow-xs space-y-5">
+                <div className="flex items-center gap-2.5 border-b border-stone-100 pb-3">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-800 flex items-center justify-center shrink-0">
+                    <UserCheck className="w-4 h-4 text-amber-700" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-stone-900">
+                      Personal & WhatsApp Dispatch
+                    </h3>
+                    <p className="text-[11px] text-stone-500">
+                      Update your contact and primary real estate territory preferences.
+                    </p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleUpdateProfile} className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-stone-700">
+                      Full Legal / Professional Name
+                    </label>
+                    <Input
+                      value={profileName}
+                      onChange={(e) => setProfileName(e.target.value)}
+                      placeholder="e.g. Alexander Wright"
+                      className="h-10 text-xs rounded-xl bg-stone-50/70 border-stone-200 focus:bg-white"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-stone-700">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <Input
+                        value={session?.user?.email || ""}
+                        disabled
+                        className="h-10 text-xs rounded-xl bg-stone-100/90 text-stone-600 border-stone-200 cursor-not-allowed font-mono pr-20"
+                      />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+                        Verified
+                      </span>
+                    </div>
+                    <span className="text-[11px] text-stone-400">
+                      Managed by authentication provider. Contact support to change email.
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-stone-700">
+                      WhatsApp Dispatch Phone Number
+                    </label>
+                    <Input
+                      value={profilePhone}
+                      onChange={(e) => setProfilePhone(e.target.value)}
+                      placeholder="+1 (305) 555-0192"
+                      className="h-10 text-xs rounded-xl bg-stone-50/70 border-stone-200 focus:bg-white font-mono"
+                    />
+                    <span className="text-[11px] text-stone-500">
+                      New buyer inquiries and appointment notifications are dispatched here.
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-stone-700">
+                      Primary Real Estate Market Territory
+                    </label>
+                    <Select
+                      items={DASHBOARD_TERRITORY_OPTIONS}
+                      value={profileTerritory}
+                      onValueChange={(val) => {
+                        if (val) setProfileTerritory(val);
+                      }}
+                    >
+                      <SelectTrigger className="w-full h-10 rounded-xl border border-stone-200 bg-stone-50/70 px-3 text-xs text-stone-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20">
+                        <SelectValue placeholder="Select primary territory" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white border border-stone-200 text-stone-900 rounded-xl shadow-xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
+                        {DASHBOARD_TERRITORY_OPTIONS.map((opt) => (
+                          <SelectItem
+                            key={opt.value}
+                            value={opt.value}
+                            className="text-xs text-stone-700 font-medium rounded-lg px-3 py-2 cursor-pointer transition-colors duration-150 hover:bg-stone-100 hover:text-stone-950 focus:bg-stone-100 focus:text-stone-950 data-[selected]:text-amber-800 data-[selected]:font-bold data-[selected]:bg-amber-50"
+                          >
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="pt-2">
+                    <Button
+                      type="submit"
+                      disabled={isUpdatingProfile}
+                      className="w-full rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs h-10 cursor-pointer shadow-xs gap-1.5"
+                    >
+                      {isUpdatingProfile ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Saving Profile...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Check className="w-3.5 h-3.5" />
+                          <span>Save Contact Preferences</span>
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Form 2: Password & Authentication Security */}
+              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200/80 shadow-xs space-y-5">
+                <div className="flex items-center gap-2.5 border-b border-stone-100 pb-3">
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
+                    <KeyRound className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-stone-900">
+                      Password & Account Security
+                    </h3>
+                    <p className="text-[11px] text-stone-500">
+                      {hasAccountPassword
+                        ? "Change your password or manage credentials."
+                        : "Set a password to enable email & password sign-in."}
+                    </p>
+                  </div>
+                </div>
+
+                {!hasAccountPassword && (
+                  <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200/90 text-xs text-amber-900 space-y-1.5">
+                    <div className="flex items-center gap-1.5 font-bold">
+                      <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+                      <span>Google OAuth Account (No Password Set)</span>
+                    </div>
+                    <p className="text-[11px] text-amber-800/90 leading-relaxed">
+                      You are currently signed in via Google. You can create a password below so you can also log in directly using your email and password if Google is ever unavailable.
+                    </p>
+                  </div>
+                )}
+
+                <form onSubmit={handleUpdatePassword} className="space-y-4">
+                  {hasAccountPassword && (
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-stone-700">
+                        Current Password
+                      </label>
+                      <Input
+                        type="password"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        placeholder="••••••••••••"
+                        className="h-10 text-xs rounded-xl bg-stone-50/70 border-stone-200 focus:bg-white"
+                        required
+                      />
+                    </div>
+                  )}
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-stone-700">
+                      {hasAccountPassword ? "New Password" : "Create Account Password"}
+                    </label>
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="8+ chars, uppercase, lowercase, number"
+                        className="h-10 text-xs rounded-xl bg-stone-50/70 border-stone-200 focus:bg-white pr-10"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 cursor-pointer"
+                      >
+                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-stone-700">
+                      Confirm New Password
+                    </label>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Repeat new password"
+                      className="h-10 text-xs rounded-xl bg-stone-50/70 border-stone-200 focus:bg-white"
+                      required
+                    />
+                  </div>
+
+                  <div className="pt-2">
+                    <Button
+                      type="submit"
+                      disabled={isUpdatingPassword}
+                      className="w-full rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs h-10 cursor-pointer shadow-xs gap-1.5"
+                    >
+                      {isUpdatingPassword ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Updating Password...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Lock className="w-3.5 h-3.5" />
+                          <span>{hasAccountPassword ? "Update Password" : "Set Account Password"}</span>
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            {/* Developer & CRM Dispatch Webhooks Card */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200/80 shadow-xs space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+                    <Code2 className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-stone-900">
+                      Broker CRM & Webhook Integration
+                    </h3>
+                    <p className="text-[11px] text-stone-500">
+                      Sync live WhatsApp and lead inquiries into Follow Up Boss, KVCore, HubSpot, or Salesforce.
+                    </p>
+                  </div>
+                </div>
+
+                <span className="px-2.5 py-1 rounded-md bg-stone-100 text-stone-700 text-xs font-mono font-bold">
+                  API Version: 2026.1
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1 text-xs">
+                <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-2">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase tracking-wider font-mono">
+                    Webhook Destination Endpoint
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-stone-900 text-emerald-400 font-mono text-xs overflow-x-auto select-all">
+                    https://propgrowthlab.com/api/v1/webhook/leads
+                  </div>
+                  <p className="text-[11px] text-stone-500">
+                    Delivers payload with buyer budget, property intent, and pre-screened qualifications in under 90s.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-2">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase tracking-wider font-mono">
+                    PropGrowth API Secret Key
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 p-2.5 rounded-lg bg-stone-900 text-stone-300 font-mono text-xs overflow-hidden text-ellipsis">
+                      pg_live_948f2a••••••••••••••c901
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        if (typeof navigator !== "undefined" && navigator.clipboard) {
+                          navigator.clipboard.writeText("pg_live_948f2a99148bc827103caec901");
+                        }
+                        showToast("API secret key copied to clipboard.");
+                      }}
+                      className="rounded-lg h-9 text-xs font-semibold px-3 border-stone-300 hover:bg-stone-100 shrink-0 gap-1"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy</span>
+                    </Button>
+                  </div>
+                  <p className="text-[11px] text-stone-500">
+                    Do not expose this secret key in client-side code.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* ================= ENVIRONMENT SNIPPET MODAL ================= */}
@@ -1756,16 +2431,28 @@ export function DashboardClient() {
 
               <div className="space-y-1.5">
                 <label className="font-bold text-stone-700">Reason for Replacement:</label>
-                <select
+                <Select
+                  items={REPLACEMENT_REASONS_OPTIONS}
                   value={replacementReason}
-                  onChange={(e) => setReplacementReason(e.target.value)}
-                  className="w-full h-9 rounded-xl border border-stone-200 bg-white px-3 text-xs text-stone-800"
+                  onValueChange={(val) => {
+                    if (val) setReplacementReason(val);
+                  }}
                 >
-                  <option value="unreachable">Client unreachable via WhatsApp / Phone after 48h</option>
-                  <option value="budget_mismatch">Budget bracket does not match property tier</option>
-                  <option value="outside_territory">Client relocated outside Miami Tier-1</option>
-                  <option value="already_contracted">Client signed elsewhere prior to dispatch</option>
-                </select>
+                  <SelectTrigger className="w-full h-9.5 rounded-xl border border-stone-200 bg-white px-3 text-xs text-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-500/20">
+                    <SelectValue placeholder="Select reason for replacement" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border border-stone-200 text-stone-900 rounded-xl shadow-xl p-1 z-50 w-(--anchor-width) max-w-[calc(100vw-32px)]">
+                    {REPLACEMENT_REASONS_OPTIONS.map((opt) => (
+                      <SelectItem
+                        key={opt.value}
+                        value={opt.value}
+                        className="text-xs text-stone-700 font-medium rounded-lg px-3 py-2 cursor-pointer transition-colors duration-150 hover:bg-stone-100 hover:text-stone-950 focus:bg-stone-100 focus:text-stone-950 data-[selected]:text-amber-800 data-[selected]:font-bold data-[selected]:bg-amber-50"
+                      >
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="flex items-center gap-2 pt-2">
@@ -1785,6 +2472,114 @@ export function DashboardClient() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* ================= ESCROW WIRE SETTLEMENT MODAL ================= */}
+      <Dialog open={payoutModalOpen} onOpenChange={setPayoutModalOpen}>
+        <DialogContent className="max-w-md bg-white rounded-2xl p-6 border border-stone-200 shadow-2xl">
+          <DialogHeader>
+            <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mb-1">
+              <Landmark className="w-5 h-5 text-emerald-600" />
+            </div>
+            <DialogTitle className="text-lg font-bold text-stone-900">
+              Request Escrow Commission Wire
+            </DialogTitle>
+            <DialogDescription className="text-xs text-stone-600">
+              Disburse your verified 70% co-broker commission shares directly to your firm escrow account under our Title Guarantee SLA.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleRequestPayout} className="space-y-4 pt-2 text-xs">
+            <div className="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-950 flex items-center justify-between">
+              <div>
+                <span className="text-[11px] text-emerald-800 block">Pending Escrow Balance</span>
+                <span className="text-xl font-extrabold text-emerald-900">$48,000.00</span>
+              </div>
+              <span className="px-2 py-0.5 rounded-[4px] bg-emerald-200 text-emerald-900 font-bold text-[10px]">
+                Ready for Settlement
+              </span>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="font-bold text-stone-700">Settlement Method:</label>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { id: "wire", label: "Bank Wire" },
+                  { id: "stripe", label: "Stripe Connect" },
+                  { id: "wise", label: "Wise Business" },
+                ].map((m) => (
+                  <button
+                    key={m.id}
+                    type="button"
+                    onClick={() => setPayoutMethod(m.id as "wire" | "stripe" | "wise")}
+                    className={`py-2 px-2 rounded-xl text-center font-bold text-xs border transition-all cursor-pointer ${
+                      payoutMethod === m.id
+                        ? "border-emerald-600 bg-emerald-50 text-emerald-900"
+                        : "border-stone-200 text-stone-600 hover:bg-stone-50"
+                    }`}
+                  >
+                    {m.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="font-bold text-stone-700">Disbursement Amount ($ USD):</label>
+              <Input
+                type="number"
+                value={payoutAmount}
+                onChange={(e) => setPayoutAmount(e.target.value)}
+                max="48000"
+                min="1000"
+                className="h-9.5 text-xs rounded-xl bg-white border-stone-200 font-bold font-mono"
+                required
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="font-bold text-stone-700">Firm Escrow Wire Instructions / Account #:</label>
+              <Input
+                value={payoutBankDetails}
+                onChange={(e) => setPayoutBankDetails(e.target.value)}
+                placeholder="Routing # / IBAN / Account Name"
+                className="h-9.5 text-xs rounded-xl bg-white border-stone-200"
+                required
+              />
+              <span className="text-[10px] text-stone-500">
+                Wires are processed same-day via Fedwire/SWIFT after closing title verification.
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2 pt-2">
+              <Button
+                type="submit"
+                disabled={isSubmittingPayout}
+                className="flex-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-10 cursor-pointer shadow-xs gap-1.5"
+              >
+                {isSubmittingPayout ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Initiating Wire...</span>
+                  </>
+                ) : (
+                  <>
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Confirm Wire Request</span>
+                  </>
+                )}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setPayoutModalOpen(false)}
+                className="rounded-full text-xs font-semibold h-10 px-4 border-stone-300"
+              >
+                Cancel
+              </Button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

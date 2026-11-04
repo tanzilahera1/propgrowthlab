@@ -1,0 +1,6 @@
+import { redirect } from "next/navigation";
+
+export default function DashboardSettingsRedirect() {
+  redirect("/dashboard?tab=settings");
+}
+

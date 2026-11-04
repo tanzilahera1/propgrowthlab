@@ -89,22 +89,14 @@ export function PublicNavbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8">
-        <div className="flex items-center justify-between h-13.5 sm:h-16 lg:h-18">
+        <div className="flex items-center justify-between h-12 sm:h-13.5 lg:h-14">
           {/* ================= LEFT: SINGLE-LINE LOGO ================= */}
           <div className="flex-shrink-0">
-            <div className="sm:hidden">
-              <PropGrowthLogo size="sm" />
-            </div>
-            <div className="hidden sm:block md:hidden lg:block">
-              <PropGrowthLogo size="md" />
-            </div>
-            <div className="hidden md:block lg:hidden">
-              <PropGrowthLogo size="sm" />
-            </div>
+            <PropGrowthLogo size="sm" />
           </div>
 
           {/* ================= CENTER: DESKTOP PILLAR NAVIGATION ================= */}
-          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1.5 bg-stone-100/90 backdrop-blur-md p-1 lg:p-1.5 rounded-full border border-stone-200/90 shadow-xs shrink-0">
+          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1 bg-stone-100/90 backdrop-blur-md p-0.5 lg:p-1 rounded-full border border-stone-200/90 shadow-2xs shrink-0">
             {NAV_LINKS.map((link) => {
               const Icon = link.icon;
               const isActive =
@@ -114,7 +106,7 @@ export function PublicNavbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`group relative px-2.5 lg:px-3.5 py-1 lg:py-1.5 rounded-full text-[11px] lg:text-xs font-semibold tracking-wide transition-all duration-200 whitespace-nowrap flex items-center gap-1.5 ${
+                  className={`group relative px-2.5 lg:px-3 py-1 rounded-full text-[11px] lg:text-xs font-semibold tracking-wide transition-all duration-200 whitespace-nowrap flex items-center gap-1.5 ${
                     isActive
                       ? "bg-stone-900 text-white font-bold shadow-xs"
                       : "text-stone-600 hover:text-stone-900 hover:bg-white/90"
@@ -137,11 +129,11 @@ export function PublicNavbar() {
           </nav>
 
           {/* ================= RIGHT: PRIMARY CTA & USER PROFILE PLACEHOLDER ================= */}
-          <div className="hidden md:flex items-center gap-2.5 shrink-0">
+          <div className="hidden md:flex items-center gap-2 shrink-0">
             <Link href="/agency#audit-form">
               <Button
                 size="sm"
-                className="rounded-full text-[11px] lg:text-xs font-bold px-3 lg:px-4 h-8.5 lg:h-9 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-md shadow-amber-500/20 border border-amber-600/30 transition-all active:scale-95 whitespace-nowrap gap-1.5 cursor-pointer"
+                className="rounded-full text-[11px] font-bold px-3 h-8 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-xs border border-amber-600/30 transition-all active:scale-95 whitespace-nowrap gap-1.5 cursor-pointer"
               >
                 <span>Book Audit</span>
                 <Sparkles className="w-3.5 h-3.5 text-white" />
@@ -153,14 +145,14 @@ export function PublicNavbar() {
           </div>
 
           {/* ================= MOBILE TOP HEADER CONTROLS (CLEAN WITH USER PLACEHOLDER) ================= */}
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-1.5 md:hidden">
             <Link href="/agency#audit-form">
               <Button
                 size="sm"
-                className="rounded-full text-[11px] font-bold px-3 h-8 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white whitespace-nowrap shadow-xs cursor-pointer flex items-center gap-1.5 active:scale-95 transition-transform"
+                className="rounded-full text-[11px] font-bold px-2.5 h-7.5 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white whitespace-nowrap shadow-xs cursor-pointer flex items-center gap-1 active:scale-95 transition-transform"
               >
                 <span>Book Audit</span>
-                <Sparkles className="w-3.5 h-3.5 text-white" />
+                <Sparkles className="w-3 h-3 text-white" />
               </Button>
             </Link>
 

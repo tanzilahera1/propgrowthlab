@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { HeroBannerCarousel } from "@/components/common/HeroBannerCarousel";
+import { LEADS_HERO_SLIDES } from "@/data/hero-banners";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import {
   Building2,
@@ -101,51 +103,13 @@ export function LeadsClient() {
 
   return (
     <div className="w-full flex flex-col bg-[#fbfbfa] overflow-hidden">
-      {/* ================= HERO HEADER ================= */}
-      <section className="relative overflow-x-clip w-full max-w-full pt-18 pb-14 sm:pt-22 sm:pb-18 lg:pt-26 lg:pb-22 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90 text-stone-900">
-        {/* Background ambient warm gold glow (exact property-brokerage style) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent blur-3xl pointer-events-none" />
+      {/* ================= HERO CAROUSEL ================= */}
+      <HeroBannerCarousel slides={LEADS_HERO_SLIDES} />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 py-0.5 px-2.5 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-800 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase mb-6 mx-auto">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
-            <Building2 className="w-3.5 h-3.5 text-amber-600" />
-            <span>Tired of Cold Calling Dead Numbers?</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight max-w-4xl mx-auto leading-[1.14] text-stone-900">
-            Never Chase Cold Leads Again.{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700">
-              Get High-Budget Inquiries Dispatched Daily to Your WhatsApp.
-            </span>
-          </h1>
-
-          <p className="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
-            Stop wasting hours cold-prospecting dead numbers. We deliver verified high-budget inquiries (<strong className="text-stone-900 font-bold">$2,500/mo to $1M+ sales</strong>) directly to your WhatsApp with move-in dates under 30 days—so you focus on closing deals.
-          </p>
-
-          {/* Quick Problem-to-Gain Cards - Strict 1-Line Title & Subtitle Consistency */}
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 max-w-3xl mx-auto">
-            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
-              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">No Cold Calls</p>
-              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">Inbound ready clients</p>
-            </div>
-            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
-              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">Vetted Budgets</p>
-              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">$2,500/mo+ & buyers</p>
-            </div>
-            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
-              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">Territory Lock</p>
-              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">Exclusive city rights</p>
-            </div>
-            <div className="p-3 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[88px] sm:min-h-[92px]">
-              <p className="text-xs sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug">Instant Alerts</p>
-              <p className="text-[10px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal">Sub-90s WhatsApp ping</p>
-            </div>
-          </div>
-
-          {/* ================= INSTITUTIONAL TERRITORY ALLOCATION CONSOLE ================= */}
-          <div className="mt-8 max-w-4xl mx-auto p-3.5 sm:p-5 rounded-3xl bg-white/90 backdrop-blur-md border border-stone-200/90 shadow-sm shadow-stone-900/5 transition-all text-left">
+      {/* ================= INSTITUTIONAL TERRITORY ALLOCATION CONSOLE ================= */}
+      <section id="territories" className="py-8 sm:py-12 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto p-3.5 sm:p-5 rounded-3xl bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-sm shadow-stone-900/5 transition-all text-left">
             {/* Console Header Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3.5 border-b border-stone-200/70">
               <div className="flex items-center gap-2">
@@ -241,7 +205,7 @@ export function LeadsClient() {
       </section>
 
       {/* ================= HOW LEADS ARE VETTED ================= */}
-      <section className="py-14 sm:py-20 bg-stone-50/70 border-b border-stone-200/80">
+      <section id="verification" className="py-14 sm:py-20 bg-stone-50/70 border-b border-stone-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             {/* Left: Verification Protocol */}
@@ -366,7 +330,7 @@ export function LeadsClient() {
       </section>
 
       {/* ================= PRICING SUBSCRIPTION TIERS ================= */}
-      <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="quotas" className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-14">
           <Badge className="bg-amber-500/10 text-amber-800 border-amber-500/30 font-mono text-[11px] uppercase tracking-wider mb-3 rounded-full">
             Predictable Deal Flow
@@ -456,23 +420,23 @@ export function LeadsClient() {
       </section>
 
       {/* ================= PRE-FOOTER CTA SECTION ================= */}
-      <section className="py-16 sm:py-24 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden border-t border-stone-800">
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-[#fbfbfa] via-[#f6f3eb] to-[#fbfbfa] relative overflow-hidden border-t border-stone-200/90">
         {/* Ambient gold glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-amber-500/10 blur-[130px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-amber-500/15 blur-[130px] pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="p-6 sm:p-10 md:p-14 rounded-3xl bg-stone-900/90 border border-amber-500/30 shadow-2xl flex flex-col items-center space-y-6 relative overflow-hidden backdrop-blur-xs">
+          <div className="p-6 sm:p-10 md:p-14 rounded-3xl bg-gradient-to-b from-white via-amber-50/30 to-white border-2 border-amber-400/60 shadow-xl shadow-amber-500/10 flex flex-col items-center space-y-6 relative overflow-hidden backdrop-blur-xs">
             {/* Ambient Radiant Gold Lights */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-48 bg-amber-500/15 blur-3xl pointer-events-none" />
 
             <div className="space-y-3 max-w-2xl relative z-10">
-              <span className="inline-flex items-center gap-1.5 py-0.5 px-2.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase">
+              <span className="inline-flex items-center gap-1.5 py-0.5 px-2.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase">
                 Exclusive Territory Quota
               </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              <h2 className="text-2xl sm:text-4xl font-black text-stone-950 tracking-tight">
                 Ready to Lock in Your Daily High-Budget Tenant Leads?
               </h2>
-              <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                 Connect directly with our territory dispatch team via WhatsApp. Start receiving verified Nomad & Expat rental inquiries delivered straight to your phone.
               </p>
             </div>
@@ -486,13 +450,13 @@ export function LeadsClient() {
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"
               >
-                <Button className="w-full sm:w-auto min-h-[48px] h-auto py-3 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 hover:from-amber-600 hover:to-amber-800 text-white shadow-lg shadow-amber-500/25 transition-transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
+                <Button className="w-full sm:w-auto min-h-[48px] h-auto py-3 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 shadow-lg shadow-amber-500/25 transition-transform active:scale-95 cursor-pointer flex items-center justify-center gap-2 border-0">
                   <span>Subscribe on WhatsApp</span>
                   <ArrowRight className="w-4 h-4 shrink-0" />
                 </Button>
               </a>
               <Link href="/partners" className="w-full sm:w-auto">
-                <Button className="w-full sm:w-auto min-h-[48px] h-auto py-3 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-stone-700 backdrop-blur-xs transition-colors cursor-pointer flex items-center justify-center">
+                <Button className="w-full sm:w-auto min-h-[48px] h-auto py-3 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold bg-stone-900 hover:bg-stone-800 text-white border border-stone-800 shadow-md transition-colors cursor-pointer flex items-center justify-center">
                   Explore Co-Broker Partnership
                 </Button>
               </Link>

@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-import { UserRole, AccountType } from "@/types/auth";
+import { UserRole, AccountType } from "@/types/enums";
 
 export interface IUserDocument extends Document {
   userId: string;
@@ -31,12 +31,27 @@ const UserSchema = new Schema<IUserDocument>(
     profilePicture: { type: String, default: "" },
     role: {
       type: String,
-      enum: Object.values(UserRole),
+      enum: [
+        ...Object.values(UserRole),
+        "owner",
+        "superadmin",
+        "operator",
+        "Platform Owner",
+        "System Administrator",
+        "Broker Partner",
+        "Property Owner",
+        "User",
+      ],
       default: UserRole.USER,
     },
     accountType: {
       type: String,
-      enum: Object.values(AccountType),
+      enum: [
+        ...Object.values(AccountType),
+        "Free Prospect",
+        "Verified Client",
+        "Enterprise Fleet",
+      ],
       default: AccountType.FREE,
     },
     territories: { type: [String], default: ["Global"] },

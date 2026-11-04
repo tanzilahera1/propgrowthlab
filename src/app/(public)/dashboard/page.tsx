@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { DashboardClient } from "./DashboardClient";
 
@@ -14,6 +14,20 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage() {
-  return <DashboardClient />;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#fcfcfb] flex items-center justify-center p-8">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 rounded-full border-2 border-amber-500 border-t-transparent animate-spin" />
+            <span className="text-xs font-semibold text-stone-500 tracking-wide uppercase">
+              Loading PropGrowth Portal...
+            </span>
+          </div>
+        </div>
+      }
+    >
+      <DashboardClient />
+    </Suspense>
+  );
 }
-

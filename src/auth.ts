@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 import { connectToDatabase } from "@/lib/mongodb";
 import UserModel from "@/models/User";
-import { UserRole, AccountType } from "@/types/auth";
+import { UserRole, AccountType } from "@/types/enums";
 import { generateUserId } from "@/lib/generateUserId";
 
 // Custom typed error codes

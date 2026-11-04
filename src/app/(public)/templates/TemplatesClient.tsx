@@ -2,10 +2,11 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { HeroBannerCarousel } from "@/components/common/HeroBannerCarousel";
+import { TEMPLATES_HERO_SLIDES } from "@/data/hero-banners";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
@@ -15,22 +16,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  Layers,
   Sparkles,
   ExternalLink,
   CheckCircle2,
-  Clock,
-  ShieldCheck,
-  Zap,
   Code2,
   Rocket,
   ArrowRight,
-  Server,
   Smartphone,
-  Globe2,
-  Lock,
-  ArrowUpRight,
-  Check,
   Crown,
   CreditCard,
   MessageSquare,
@@ -329,53 +321,11 @@ export function TemplatesClient() {
 
   return (
     <div className="w-full flex flex-col bg-[#fbfbfa] overflow-hidden">
-      {/* ================= HERO HEADER ================= */}
-      <section className="relative overflow-x-clip w-full max-w-full pt-18 pb-14 sm:pt-22 sm:pb-18 lg:pt-26 lg:pb-22 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90 text-stone-900">
-        {/* Background ambient warm gold glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent blur-3xl pointer-events-none" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-          <div className="inline-flex items-center gap-2 py-0.5 px-2.5 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-900 text-[11px] sm:text-xs font-mono font-bold tracking-wide uppercase mb-6 mx-auto">
-            <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
-            <Zap className="w-3.5 h-3.5 text-amber-600" />
-            <span>Sub-Second Next.js Web Engineering</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight max-w-4xl mx-auto leading-[1.14] text-stone-900">
-            Stop Losing Clients to Slow Websites.{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700">
-              Launch a Sub-Second Next.js Platform in 48 Hours.
-            </span>
-          </h1>
-
-          <p className="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-normal leading-relaxed">
-            Slow websites kill conversions. We build sub-second Next.js platforms with <strong className="text-stone-900 font-bold">99+ PageSpeed</strong>. Buy clean source code from <strong className="text-stone-900 font-bold">$19–$69</strong> or get a 48-hour turnkey launch from <strong className="text-amber-700 font-bold">$99–$199</strong> with our &quot;Pay After Live&quot; guarantee.
-          </p>
-
-          {/* Quick Value Metrics (Problem -> Gain) */}
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">0.8s Speed</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Google 99+ Score & SEO</p>
-            </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Figma → Next.js</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Turnkey live in 48 hours</p>
-            </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">1-Click PWA</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Native app UX on mobile</p>
-            </div>
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs hover:border-amber-400 hover:shadow-md transition-all flex flex-col items-center justify-center text-center min-h-[92px]">
-              <p className="text-sm sm:text-base lg:text-[17px] font-black text-amber-600 tracking-tight leading-snug whitespace-nowrap">Instant Checkout</p>
-              <p className="text-[11px] sm:text-xs text-stone-600 mt-1 font-medium leading-normal whitespace-nowrap">Smart cart & WhatsApp</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ================= HERO CAROUSEL ================= */}
+      <HeroBannerCarousel slides={TEMPLATES_HERO_SLIDES} />
 
       {/* ================= FILTER & CATALOG ================= */}
-      <section className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <section id="catalog" className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Category Header & Tabs */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-stone-200/80">
           <div>
@@ -483,7 +433,7 @@ export function TemplatesClient() {
           {filteredTemplates.map((template) => (
             <Card
               key={template.id}
-              className={`border shadow-xs hover:border-amber-400 hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col justify-between group bg-white ${
+              className={`pt-0 border shadow-xs hover:border-amber-400 hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden flex flex-col justify-between group bg-white ${
                 template.isFullstack ? "border-amber-400/80 ring-1 ring-amber-400/30" : "border-stone-200/90"
               }`}
             >
@@ -694,7 +644,7 @@ export function TemplatesClient() {
       </section>
 
       {/* ================= TURNKEY 48-HOUR SLA PROCESS ================= */}
-      <section className="py-16 sm:py-20 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden">
+      <section id="how-it-works" className="py-16 sm:py-20 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden">
         {/* Ambient gold glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/10 blur-[130px] pointer-events-none" />
 

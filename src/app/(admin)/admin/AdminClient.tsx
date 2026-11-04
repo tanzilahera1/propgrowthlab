@@ -28,6 +28,7 @@ import {
   Timeline,
   Dropdown,
   App,
+  Spin,
 } from "antd";
 import type { TableColumnsType, MenuProps } from "antd";
 import {
@@ -55,6 +56,9 @@ import {
   HistoryOutlined,
   LogoutOutlined,
   ExportOutlined,
+  CompassOutlined,
+  SafetyCertificateOutlined,
+  LinkOutlined,
 } from "@ant-design/icons";
 
 const { Sider } = Layout;
@@ -120,12 +124,37 @@ export interface EscrowDealItem {
   dealRef: string;
   propertyTitle: string;
   buyerName: string;
+  buyerEmail?: string;
+  ownerName?: string;
   brokerFirm: string;
   territory: string;
+  territoryCode?: string;
   dealValue: string;
+  depositAmount?: string;
+  directPaymentLink?: string;
+  escrowCustodyStatus?: "AWAITING_CLIENT_DEPOSIT" | "HELD_IN_ESCROW" | "DISBURSED" | "REFUNDED";
+  ownerDisbursement?: string;
+  platformFee?: string;
   escrowSplit: string;
   status: "Under Contract" | "In Escrow" | "Settled";
   updatedAt: string;
+}
+
+export interface TerritoryItem {
+  id: string;
+  code: string;
+  countryCode: string;
+  countryName: string;
+  divisionOrState: string;
+  districtOrCity: string;
+  upazilaOrThana: string;
+  microZone: string;
+  postalCode: string;
+  tier: "Tier-1" | "Tier-2" | "Tier-3";
+  activeBrokersCount: number;
+  monthlyQuotaAllocation: number;
+  exclusiveBroker: string;
+  status: string;
 }
 
 export interface AdminUserItem {
@@ -561,10 +590,57 @@ export default function AdminClient() {
   const [leads, setLeads] = useState<LeadItem[]>(INITIAL_LEADS);
   const [subscriptions, setSubscriptions] = useState<SubscriptionItem[]>(INITIAL_SUBSCRIPTIONS);
   const [templates, setTemplates] = useState<TemplateSaleItem[]>(INITIAL_TEMPLATES);
-  const [agencyProperties] = useState<AgencyPropertyItem[]>(INITIAL_AGENCY_PROPERTIES);
-  const [escrowDeals] = useState<EscrowDealItem[]>(INITIAL_ESCROW_DEALS);
+  const [agencyProperties, setAgencyProperties] = useState<AgencyPropertyItem[]>(INITIAL_AGENCY_PROPERTIES);
+  const [escrowDeals, setEscrowDeals] = useState<EscrowDealItem[]>(INITIAL_ESCROW_DEALS);
   const [adminUsers, setAdminUsers] = useState<AdminUserItem[]>(INITIAL_ADMIN_USERS);
   const [auditLogs, setAuditLogs] = useState<AuditLogItem[]>(INITIAL_AUDIT_LOGS);
+  const [territories, setTerritories] = useState<TerritoryItem[]>([]);
+  const [loadingData, setLoadingData] = useState<boolean>(true);
+
+  // Fetch Live MongoDB Atlas Data
+  const refreshAdminData = async () => {
+    try {
+      setLoadingData(true);
+      const res = await fetch("/api/admin/data");
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.data) {
+          if (json.data.leads && json.data.leads.length > 0) {
+            setLeads(json.data.leads);
+          }
+          if (json.data.subscriptions && json.data.subscriptions.length > 0) {
+            setSubscriptions(json.data.subscriptions);
+          }
+          if (json.data.templates && json.data.templates.length > 0) {
+            setTemplates(json.data.templates);
+          }
+          if (json.data.agencyProperties && json.data.agencyProperties.length > 0) {
+            setAgencyProperties(json.data.agencyProperties);
+          }
+          if (json.data.escrowDeals && json.data.escrowDeals.length > 0) {
+            setEscrowDeals(json.data.escrowDeals);
+          }
+          if (json.data.adminUsers && json.data.adminUsers.length > 0) {
+            setAdminUsers(json.data.adminUsers);
+          }
+          if (json.data.auditLogs && json.data.auditLogs.length > 0) {
+            setAuditLogs(json.data.auditLogs);
+          }
+          if (json.data.territories && json.data.territories.length > 0) {
+            setTerritories(json.data.territories);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load admin data from MongoDB:", err);
+    } finally {
+      setLoadingData(false);
+    }
+  };
+
+  useEffect(() => {
+    refreshAdminData();
+  }, []);
 
   // Filters
   const [selectedTerritory, setSelectedTerritory] = useState<string>("All");
@@ -701,12 +777,29 @@ export default function AdminClient() {
     message.success("Executive Leads CSV exported successfully!");
   };
 
-  const handleBroadcastAlert = (values: any) => {
+  const handleBroadcastAlert = async (values: any) => {
+    try {
+      await fetch("/api/admin/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "broadcast_alert",
+          payload: { message: values.message },
+        }),
+      });
+      await refreshAdminData();
+      broadcastForm.resetFields();
+      setBroadcastModalOpen(false);
+      message.success("High-priority alert transmitted to all licensed broker channels!");
+      return;
+    } catch (err) {
+      console.error("Broadcast failed:", err);
+    }
     setAuditLogs((prev) => [
       {
         id: `log-${Date.now()}`,
         title: "CEO Broadcast Sent to All Brokers",
-        detail: `Notice: "${values.message}" broadcasted across all 6 active markets.`,
+        detail: `Notice: "${values.message}" broadcasted across all active markets.`,
         time: "Just now",
         tag: "BROADCAST",
         color: "red",
@@ -719,7 +812,34 @@ export default function AdminClient() {
   };
 
   // ----------------- CRUD HANDLERS -----------------
-  const handleCreateLead = (values: any) => {
+  const handleCreateLead = async (values: any) => {
+    try {
+      const res = await fetch("/api/admin/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create_lead",
+          payload: {
+            fullName: values.fullName,
+            whatsapp: values.whatsapp,
+            territory: values.territory,
+            propertyType: values.propertyType,
+            budget: values.budget,
+            moveIn: values.moveIn || "Within 30 Days",
+          },
+        }),
+      });
+      if (res.ok) {
+        await refreshAdminData();
+        leadForm.resetFields();
+        setAddLeadModalOpen(false);
+        message.success(`Lead for ${values.fullName} logged into live stream!`);
+        return;
+      }
+    } catch (err) {
+      console.error("Create lead failed:", err);
+    }
+
     const newLead: LeadItem = {
       id: `lead-${Date.now().toString().slice(-4)}`,
       fullName: values.fullName,
@@ -755,8 +875,30 @@ export default function AdminClient() {
     setDispatchModalOpen(true);
   };
 
-  const handleConfirmDispatch = (brokerName: string) => {
+  const handleConfirmDispatch = async (brokerName: string) => {
     if (!selectedLeadForDispatch) return;
+    try {
+      const res = await fetch("/api/admin/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "dispatch_lead",
+          payload: {
+            leadId: selectedLeadForDispatch.id,
+            brokerName,
+          },
+        }),
+      });
+      if (res.ok) {
+        await refreshAdminData();
+        setDispatchModalOpen(false);
+        message.success(`Lead "${selectedLeadForDispatch.fullName}" routed to ${brokerName}!`);
+        return;
+      }
+    } catch (err) {
+      console.error("Dispatch lead failed:", err);
+    }
+
     setLeads(
       leads.map((l) =>
         l.id === selectedLeadForDispatch.id
@@ -788,7 +930,24 @@ export default function AdminClient() {
       okText: "Delete",
       okType: "danger",
       cancelText: "Cancel",
-      onOk: () => {
+      onOk: async () => {
+        try {
+          const res = await fetch("/api/admin/data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "delete_lead",
+              payload: { leadId },
+            }),
+          });
+          if (res.ok) {
+            await refreshAdminData();
+            message.info(`Lead "${leadName}" removed from repository.`);
+            return;
+          }
+        } catch (err) {
+          console.error("Delete lead failed:", err);
+        }
         setLeads(leads.filter((l) => l.id !== leadId));
         message.info(`Lead "${leadName}" removed from repository.`);
       },
@@ -824,7 +983,24 @@ export default function AdminClient() {
       okText: "Revoke Key",
       okType: "danger",
       cancelText: "Keep Active",
-      onOk: () => {
+      onOk: async () => {
+        try {
+          const res = await fetch("/api/admin/data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "revoke_license",
+              payload: { orderId: licenseId },
+            }),
+          });
+          if (res.ok) {
+            await refreshAdminData();
+            message.warning("License key revoked.");
+            return;
+          }
+        } catch (err) {
+          console.error("Revoke license failed:", err);
+        }
         setTemplates(
           templates.map((t) =>
             t.id === licenseId ? { ...t, status: "Revoked" } : t
@@ -835,7 +1011,24 @@ export default function AdminClient() {
     });
   };
 
-  const handleToggleSubscription = (subId: string) => {
+  const handleToggleSubscription = async (subId: string) => {
+    try {
+      const res = await fetch("/api/admin/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "toggle_subscription",
+          payload: { subscriptionId: subId },
+        }),
+      });
+      if (res.ok) {
+        await refreshAdminData();
+        message.info("Broker subscription status updated.");
+        return;
+      }
+    } catch (err) {
+      console.error("Toggle subscription failed:", err);
+    }
     setSubscriptions(
       subscriptions.map((s) =>
         s.id === subId
@@ -844,6 +1037,41 @@ export default function AdminClient() {
       )
     );
     message.info("Broker subscription status updated.");
+  };
+
+  const handleDisburseEscrow = (dealId: string, dealRef: string) => {
+    modal.confirm({
+      title: "Plan-1 Escrow: Confirm Fund Disbursement",
+      content: `Disburse locked escrow funds for deal ${dealRef}? This triggers automated payout: 70% to Property Host, Broker Commission to Partner, and platform fee to PropGrowth Lab.`,
+      okText: "Disburse Funds",
+      okType: "primary",
+      cancelText: "Cancel",
+      onOk: async () => {
+        try {
+          const res = await fetch("/api/admin/data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "disburse_escrow",
+              payload: { dealId },
+            }),
+          });
+          if (res.ok) {
+            await refreshAdminData();
+            message.success(`Escrow funds for ${dealRef} disbursed via secure platform wire!`);
+            return;
+          }
+        } catch (err) {
+          console.error("Disburse escrow failed:", err);
+        }
+        setEscrowDeals(
+          escrowDeals.map((d) =>
+            d.id === dealId ? { ...d, status: "Settled", escrowCustodyStatus: "DISBURSED" } : d
+          )
+        );
+        message.success(`Escrow funds for ${dealRef} marked disbursed.`);
+      },
+    });
   };
 
   const handleCreateUser = (values: any) => {
@@ -963,6 +1191,19 @@ export default function AdminClient() {
           <span>70/30 Escrow Deals</span>
           <Badge
             count={escrowDeals.length}
+            style={{ backgroundColor: "#f1f5f9", color: "#475569", boxShadow: "none" }}
+          />
+        </span>
+      ),
+    },
+    {
+      key: "territories",
+      icon: <CompassOutlined className="text-base" />,
+      label: (
+        <span className="flex items-center justify-between w-full">
+          <span>5-Lvl Territories</span>
+          <Badge
+            count={territories.length}
             style={{ backgroundColor: "#f1f5f9", color: "#475569", boxShadow: "none" }}
           />
         </span>
@@ -2113,14 +2354,27 @@ export default function AdminClient() {
           {/* ================= TAB 6: 70/30 ESCROW DEALS ================= */}
           {activeTab === "deals" && (
             <section className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                 <div>
                   <h2 className="text-base font-bold text-slate-900 m-0">
-                    70/30 Performance Escrow Pipeline
+                    Plan-1 True Escrow Transaction Pipeline
                   </h2>
                   <p className="text-xs text-slate-500 m-0">
-                    Direct partner luxury transactions held in legal escrow
+                    Direct client escrow checkout with automated 70% Host / Broker split upon deed closing
                   </p>
+                </div>
+              </div>
+
+              {/* Plan-1 Security Architecture Banner */}
+              <div className="p-3 bg-amber-50/80 border border-amber-200 rounded-xl flex items-start gap-3 text-xs">
+                <SafetyCertificateOutlined className="text-amber-600 text-base mt-0.5 shrink-0" />
+                <div>
+                  <span className="font-bold text-amber-900 block">
+                    Plan-1 Escrow Protocol Active: Zero Cash Leakage Guarantee
+                  </span>
+                  <span className="text-amber-800 leading-relaxed block mt-0.5">
+                    Clients deposit funds directly to the platform&apos;s neutral escrow account via official payment links. Partners and brokers never collect cash offline, preventing fraudulent non-booking claims. Upon closing, 70% is wired to the Property Host and broker commissions are released automatically.
+                  </span>
                 </div>
               </div>
 
@@ -2138,7 +2392,7 @@ export default function AdminClient() {
                               Buyer: <span className="text-slate-700 font-medium">{deal.buyerName}</span>
                             </div>
                             <div className="text-[11px] font-mono font-medium text-amber-700 mt-0.5">
-                              {deal.territory}
+                              {deal.territory} ({deal.territoryCode || "Tier-1"})
                             </div>
                           </div>
                           <Tag
@@ -2154,26 +2408,146 @@ export default function AdminClient() {
                             <span className="text-slate-500 text-[11px]">Contract Value:</span>
                             <span className="font-bold text-slate-900 font-mono text-xs">{deal.dealValue}</span>
                           </div>
-                          <div className="flex justify-between items-start gap-1">
-                            <span className="text-slate-500 text-[11px] shrink-0">Escrow Split:</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-slate-500 text-[11px]">Custody Status:</span>
+                            <Tag
+                              color={deal.escrowCustodyStatus === "DISBURSED" ? "green" : "blue"}
+                              className="text-[10px] m-0 font-medium font-mono"
+                            >
+                              {deal.escrowCustodyStatus || "HELD_IN_ESCROW"}
+                            </Tag>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-slate-500 text-[11px]">Deposit Held:</span>
+                            <span className="font-bold text-emerald-700 font-mono text-xs">
+                              {deal.depositAmount || "In Platform Trust"}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-start gap-1 pt-1 border-t border-slate-100/80">
+                            <span className="text-slate-500 text-[11px] shrink-0">Split Ratio:</span>
                             <span className="font-semibold text-amber-700 text-[10px] text-right leading-tight break-words max-w-[150px]">
                               {deal.escrowSplit}
                             </span>
                           </div>
-                          <div className="flex justify-between items-center pt-1 border-t border-slate-100/80">
-                            <span className="text-slate-500 text-[11px] shrink-0">Broker:</span>
-                            <span className="text-slate-700 text-[11px] truncate max-w-[130px] font-medium" title={deal.brokerFirm}>
-                              {deal.brokerFirm}
+                        </div>
+
+                        {/* Direct Payment Link (Plan-1) */}
+                        <div className="p-2 rounded-lg bg-amber-50/50 border border-amber-100 flex items-center justify-between gap-1 text-[11px]">
+                          <div className="flex items-center gap-1.5 truncate text-amber-900">
+                            <LinkOutlined className="text-amber-600 shrink-0" />
+                            <span className="truncate font-mono text-[10px]">
+                              {deal.directPaymentLink || `/escrow/checkout?dealRef=${deal.dealRef}`}
                             </span>
+                          </div>
+                          <Button
+                            type="text"
+                            size="small"
+                            icon={<CopyOutlined />}
+                            onClick={() =>
+                              copyToClipboard(
+                                deal.directPaymentLink ||
+                                  `https://propgrowthlab.com/escrow/checkout?dealRef=${deal.dealRef}`
+                              )
+                            }
+                            className="text-amber-700 hover:text-amber-900 h-6 px-1.5"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="pt-2 mt-1 border-t border-slate-100 space-y-2">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-[10px] text-slate-400 font-mono">{deal.dealRef}</span>
+                          <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
+                            {deal.updatedAt || "Verified"}
+                          </span>
+                        </div>
+
+                        {deal.status !== "Settled" && (
+                          <Button
+                            type="primary"
+                            size="small"
+                            onClick={() => handleDisburseEscrow(deal.id, deal.dealRef)}
+                            className="w-full bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold h-7"
+                          >
+                            Disburse 70/30 Wire
+                          </Button>
+                        )}
+                      </div>
+                    </article>
+                  </Col>
+                ))}
+              </Row>
+            </section>
+          )}
+
+          {/* ================= TAB 7: 5-LEVEL HIERARCHICAL TERRITORIES ================= */}
+          {activeTab === "territories" && (
+            <section className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                <div>
+                  <h2 className="text-base font-bold text-slate-900 m-0">
+                    5-Level Geographic Hierarchy Directory
+                  </h2>
+                  <p className="text-xs text-slate-500 m-0">
+                    Country ➔ Division ➔ District ➔ Upazila / Thana ➔ Micro-Zone quota routing
+                  </p>
+                </div>
+              </div>
+
+              <Row gutter={[14, 14]}>
+                {territories.map((terr) => (
+                  <Col xs={24} sm={12} lg={8} xl={6} key={terr.id}>
+                    <article className="p-4 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3 hover:border-amber-300 transition-colors h-full flex flex-col justify-between">
+                      <div className="space-y-2.5">
+                        <div className="flex items-start justify-between gap-1.5">
+                          <div className="min-w-0 pr-1">
+                            <span className="font-bold text-slate-900 text-sm block truncate">
+                              {terr.upazilaOrThana}
+                            </span>
+                            <div className="text-xs text-slate-500 mt-0.5 truncate">
+                              {terr.districtOrCity}, {terr.divisionOrState}
+                            </div>
+                            <div className="text-[11px] font-mono text-amber-700 mt-0.5">
+                              {terr.countryName} ({terr.countryCode})
+                            </div>
+                          </div>
+                          <Tag
+                            color={terr.tier === "Tier-1" ? "gold" : "blue"}
+                            className="text-[10px] font-semibold m-0 px-1.5 py-0 shrink-0"
+                          >
+                            {terr.tier}
+                          </Tag>
+                        </div>
+
+                        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs space-y-1.5">
+                          <div className="flex justify-between items-start gap-1">
+                            <span className="text-slate-500 text-[11px] shrink-0">Micro-Zone:</span>
+                            <span className="font-medium text-slate-800 text-[11px] text-right truncate max-w-[150px]">
+                              {terr.microZone}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-slate-500 text-[11px]">Postal Code:</span>
+                            <span className="font-mono text-slate-700 text-xs">{terr.postalCode || "N/A"}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-slate-500 text-[11px]">Monthly Quota:</span>
+                            <span className="font-bold text-amber-700 font-mono text-xs">
+                              {terr.monthlyQuotaAllocation} Leads/mo
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center pt-1 border-t border-slate-100/80">
+                            <span className="text-slate-500 text-[11px]">Brokers Active:</span>
+                            <span className="font-semibold text-slate-800 text-xs">{terr.activeBrokersCount} Brokers</span>
                           </div>
                         </div>
                       </div>
 
                       <div className="pt-2 mt-1 border-t border-slate-100 flex items-center justify-between text-xs">
-                        <span className="text-[10px] text-slate-400 font-mono">{deal.dealRef}</span>
-                        <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
-                          {deal.updatedAt || "Verified"}
-                        </span>
+                        <span className="text-[10px] text-slate-400 font-mono">{terr.code}</span>
+                        <Tag color="cyan" className="m-0 text-[10px] font-medium px-1.5 py-0">
+                          {terr.exclusiveBroker}
+                        </Tag>
                       </div>
                     </article>
                   </Col>

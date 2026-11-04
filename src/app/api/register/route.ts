@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { connectToDatabase } from "@/lib/mongodb";
 import UserModel from "@/models/User";
-import { UserRole, AccountType } from "@/types/auth";
+import { UserRole, AccountType } from "@/types/enums";
 import { generateUserId } from "@/lib/generateUserId";
 
 export async function POST(request: NextRequest) {

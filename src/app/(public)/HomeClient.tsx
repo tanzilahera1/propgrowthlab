@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { HeroBannerCarousel } from "@/components/common/HeroBannerCarousel";
+import { HOME_HERO_SLIDES } from "@/data/hero-banners";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Layers,
@@ -122,74 +123,8 @@ export function HomeClient() {
 
   return (
     <div className="w-full flex flex-col bg-[#fbfbfa] overflow-hidden">
-      {/* ================= SECTION 1: HERO SECTION ================= */}
-      <section className="relative overflow-x-clip w-full max-w-full pt-18 pb-14 sm:pt-22 sm:pb-18 lg:pt-26 lg:pb-22 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90 text-stone-900">
-        {/* Background ambient warm gold glow (exact property-brokerage style) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
-            {/* Ant Design Style Precision Tag */}
-            <div className="inline-flex items-center gap-2 py-0.5 px-3 rounded-[4px] bg-amber-500/10 border border-amber-500/30 text-amber-900 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase whitespace-nowrap mb-6 mx-auto">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
-              <span>4-in-1 PropTech Ecosystem · 6 Global Markets</span>
-            </div>
-
-            {/* Main Headline with property-brokerage Amber Gradient */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-stone-900 leading-[1.14] text-center mx-auto max-w-4xl">
-              The 360° Tech & Performance Growth Engine for{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700">
-                Luxury Stays & Real Estate
-              </span>
-            </h1>
-
-            {/* Sub-headline */}
-            <p className="mt-4 text-sm sm:text-base lg:text-lg text-stone-600 max-w-3xl mx-auto leading-relaxed text-center font-normal">
-              Turnkey Next.js booking engines in 48 hours, full-funnel guest acquisition eliminating 20% OTA fees, and daily pre-screened tenant leads with guaranteed 70/30 co-broker closing splits.
-            </p>
-
-            {/* CTA Button Cluster */}
-            <div className="mt-8 w-full flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto">
-              <Link href="/agency" className="w-full sm:w-auto">
-                <Button className="w-full sm:w-auto h-12 px-8 rounded-full text-sm font-bold bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-md shadow-amber-500/20 transition-all active:scale-95 gap-2 group cursor-pointer">
-                  <span>Explore 360° Agency</span>
-                  <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
-                </Button>
-              </Link>
-              <Link href="/leads" className="w-full sm:w-auto">
-                <Button
-                  variant="outline"
-                  className="w-full sm:w-auto h-12 px-8 rounded-full text-sm font-semibold bg-white border border-stone-200 hover:border-amber-400 hover:bg-stone-50 text-stone-700 shadow-xs transition-all cursor-pointer"
-                >
-                  Broker Daily Leads
-                </Button>
-              </Link>
-            </div>
-
-            {/* Micro Trust Markers - 4 Pillars at a glance */}
-            <div className="mt-8 pt-4 sm:pt-5 border-t border-stone-200/80 w-full max-w-3xl mx-auto">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 sm:gap-x-4 gap-y-2 text-[11px] sm:text-xs select-none">
-                <div className="flex items-center justify-center gap-1.5 py-1 text-stone-700">
-                  <Zap className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="whitespace-nowrap font-medium">48h Turnkey Launch</span>
-                </div>
-                <div className="flex items-center justify-center gap-1.5 py-1 text-stone-700">
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="whitespace-nowrap font-medium">Zero Airbnb Fees</span>
-                </div>
-                <div className="flex items-center justify-center gap-1.5 py-1 text-stone-700">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="whitespace-nowrap font-medium">Daily Verified Quotas</span>
-                </div>
-                <div className="flex items-center justify-center gap-1.5 py-1 text-stone-700">
-                  <Users className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="whitespace-nowrap font-medium">70/30 Co-Broker Split</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ================= SECTION 1: HERO CAROUSEL ================= */}
+      <HeroBannerCarousel slides={HOME_HERO_SLIDES} />
 
       {/* ================= SECTION 2: METRICS BAR (4 STAT CARDS) ================= */}
       <section className="relative w-full py-8 sm:py-12 bg-gradient-to-b from-[#fbfbfa] via-[#f7f5f0] to-[#fbfbfa] border-b border-stone-200/90 overflow-hidden">
@@ -316,19 +251,19 @@ export function HomeClient() {
       </section>
 
       {/* ================= SECTION 4: DIRECT BOOKING VS OTA SAVINGS ================= */}
-      <section className="py-20 sm:py-28 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden">
+      <section className="py-20 sm:py-28 bg-gradient-to-b from-[#fbfbfa] via-[#f7f4ec] to-[#fbfbfa] text-stone-900 relative overflow-hidden border-b border-stone-200/80">
         {/* Ambient warm gold glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-64 bg-amber-500/10 blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-3 mb-12">
-            <span className="inline-flex items-center gap-1.5 py-1 px-3.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase">
+            <span className="inline-flex items-center gap-1.5 py-1 px-3.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase">
               The Math That Matters
             </span>
-            <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
+            <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-stone-950">
               Why Luxury Operators Are Leaving 25% OTA Fees Behind
             </h2>
-            <p className="text-sm sm:text-base text-stone-400">
+            <p className="text-sm sm:text-base text-stone-600">
               A luxury villa generating $15,000 monthly loses over $3,750 every 30 days to Airbnb
               and Booking.com. Here is what happens when you switch to PropGrowth Lab.
             </p>
@@ -336,58 +271,58 @@ export function HomeClient() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {/* Card A: The Traditional OTA Way */}
-            <div className="bg-stone-900/80 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-stone-800 shadow-lg flex flex-col justify-between space-y-6">
+            <div className="bg-white/90 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-rose-200 shadow-md flex flex-col justify-between space-y-6">
               <div className="space-y-3">
-                <span className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-rose-400 bg-rose-950/40 px-3 py-1 rounded-full border border-rose-900/60 w-fit">
+                <span className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200/80 w-fit">
                   The Traditional OTA Trap
                 </span>
-                <h3 className="text-xl font-bold text-white">Airbnb & Booking.com</h3>
-                <ul className="space-y-2.5 text-xs sm:text-sm text-stone-300 pt-2">
+                <h3 className="text-xl font-bold text-stone-900">Airbnb & Booking.com</h3>
+                <ul className="space-y-2.5 text-xs sm:text-sm text-stone-700 pt-2">
                   <li className="flex items-center gap-2">
-                    <span className="text-rose-400 font-black">✕</span>
+                    <span className="text-rose-500 font-black">✕</span>
                     <span>15% to 25% commissions on every single reservation.</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="text-rose-400 font-black">✕</span>
+                    <span className="text-rose-500 font-black">✕</span>
                     <span>Zero guest data ownership (Email & phone hidden).</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="text-rose-400 font-black">✕</span>
+                    <span className="text-rose-500 font-black">✕</span>
                     <span>Guests see competitor villas recommended right on your page.</span>
                   </li>
                 </ul>
               </div>
-              <div className="pt-4 border-t border-stone-800">
-                <span className="text-xs text-stone-400 block">Annual Commission Lost</span>
-                <span className="text-2xl font-black text-rose-400">~$45,000 / year</span>
+              <div className="pt-4 border-t border-stone-100">
+                <span className="text-xs text-stone-500 block">Annual Commission Lost</span>
+                <span className="text-2xl font-black text-rose-600">~$45,000 / year</span>
               </div>
             </div>
 
             {/* Card B: The PropGrowth Lab Way (property-brokerage styling) */}
-            <div className="bg-gradient-to-b from-stone-900 to-stone-950 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border-2 border-amber-500/70 shadow-xl shadow-amber-500/10 flex flex-col justify-between space-y-6 relative overflow-hidden group">
+            <div className="bg-gradient-to-b from-amber-50/70 via-white to-amber-50/40 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border-2 border-amber-500 shadow-xl shadow-amber-500/10 flex flex-col justify-between space-y-6 relative overflow-hidden group">
               <div className="space-y-3">
-                <span className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30 w-fit">
+                <span className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-amber-900 bg-amber-500/15 px-3 py-1 rounded-full border border-amber-500/40 w-fit">
                   The PropGrowth Lab Way
                 </span>
-                <h3 className="text-xl font-bold text-white">Direct Booking Engine</h3>
-                <ul className="space-y-2.5 text-xs sm:text-sm text-stone-300 pt-2">
+                <h3 className="text-xl font-bold text-stone-950">Direct Booking Engine</h3>
+                <ul className="space-y-2.5 text-xs sm:text-sm text-stone-800 pt-2">
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0" />
                     <span><strong>0% Commission</strong> — You keep 100% of guest rent.</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0" />
                     <span><strong>Full Guest CRM</strong> — Collect direct email & WhatsApp.</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0" />
                     <span><strong>Sub-second Speed</strong> — Next.js loads in 0.8s on 4G.</span>
                   </li>
                 </ul>
               </div>
-              <div className="pt-4 border-t border-stone-800">
-                <span className="text-xs text-stone-400 block">Net Annual Profit Saved</span>
-                <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500">
+              <div className="pt-4 border-t border-amber-200/70">
+                <span className="text-xs text-stone-500 block">Net Annual Profit Saved</span>
+                <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-700 to-amber-600">
                   Keep All $45,000
                 </span>
               </div>
@@ -447,23 +382,23 @@ export function HomeClient() {
       </section>
 
       {/* ================= SECTION 6: READY TO SCALE CTA ================= */}
-      <section className="py-20 sm:py-24 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden border-t border-stone-800">
+      <section className="py-20 sm:py-24 bg-gradient-to-b from-[#fbfbfa] via-[#f6f3eb] to-[#fbfbfa] relative overflow-hidden border-t border-stone-200/90">
         {/* Ambient gold glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-amber-500/10 blur-[130px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-amber-500/15 blur-[130px] pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="p-8 sm:p-14 rounded-3xl bg-stone-900/90 border border-amber-500/30 shadow-2xl flex flex-col items-center text-center space-y-6 relative overflow-hidden backdrop-blur-xs">
+          <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-b from-white via-amber-50/30 to-white border-2 border-amber-400/60 shadow-xl shadow-amber-500/10 flex flex-col items-center text-center space-y-6 relative overflow-hidden backdrop-blur-xs">
             {/* Ambient Radiant Gold Lights */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-48 bg-amber-500/15 blur-3xl pointer-events-none" />
 
             <div className="space-y-3 max-w-2xl relative z-10">
-              <span className="inline-flex items-center gap-1.5 py-1 px-3.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase">
+              <span className="inline-flex items-center gap-1.5 py-1 px-3.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-[10.5px] sm:text-[11px] font-mono font-bold tracking-wide uppercase">
                 Start Scaling Today
               </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              <h2 className="text-2xl sm:text-4xl font-black text-stone-950 tracking-tight">
                 Ready to Accelerate Your Hospitality or Brokerage Business?
               </h2>
-              <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                 Whether you need a turnkey direct booking website, want to eliminate OTA fees,
                 or need daily qualified tenant leads delivered to your WhatsApp—we are ready.
               </p>
@@ -471,13 +406,13 @@ export function HomeClient() {
 
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto relative z-10">
               <Link href="/agency" className="w-full sm:w-auto">
-                <Button className="w-full sm:w-auto h-12 px-8 rounded-full text-xs font-bold bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 hover:from-amber-600 hover:to-amber-800 text-white shadow-lg shadow-amber-500/25 transition-transform active:scale-95 cursor-pointer">
+                <Button className="w-full sm:w-auto h-12 px-8 rounded-full text-xs font-bold bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 shadow-lg shadow-amber-500/25 transition-transform active:scale-95 cursor-pointer border-0">
                   Book 360° Growth Audit
                 </Button>
               </Link>
               <Link href="/leads" className="w-full sm:w-auto">
                 <Button
-                  className="w-full sm:w-auto h-12 px-8 rounded-full text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-stone-700 backdrop-blur-xs shadow-xs transition-colors cursor-pointer"
+                  className="w-full sm:w-auto h-12 px-8 rounded-full text-xs font-bold bg-stone-900 hover:bg-stone-800 text-white border border-stone-800 shadow-md transition-colors cursor-pointer"
                 >
                   Subscribe to Daily Leads
                 </Button>

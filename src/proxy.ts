@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
-import { UserRole } from "@/types/auth";
+import { isStaffRole } from "@/types/enums";
 
 export const proxy = auth((req) => {
   const { pathname } = req.nextUrl;
@@ -17,12 +17,7 @@ export const proxy = auth((req) => {
 
   // 1. If logged in and visiting login/register, redirect to appropriate portal
   if (isAuthRoute && isAuthenticated) {
-    if (
-      userRole === UserRole.OWNER ||
-      userRole === UserRole.ADMIN ||
-      userRole === "Platform Owner" ||
-      userRole === "System Administrator"
-    ) {
+    if (isStaffRole(userRole)) {
       return NextResponse.redirect(new URL("/admin", req.url));
     }
     return NextResponse.redirect(new URL("/dashboard", req.url));
@@ -35,13 +30,8 @@ export const proxy = auth((req) => {
       loginUrl.searchParams.set("callbackUrl", pathname + req.nextUrl.search);
       return NextResponse.redirect(loginUrl);
     }
-    const isOwnerOrAdmin =
-      userRole === UserRole.OWNER ||
-      userRole === UserRole.ADMIN ||
-      userRole === "Platform Owner" ||
-      userRole === "System Administrator";
 
-    if (!isOwnerOrAdmin) {
+    if (!isStaffRole(userRole)) {
       return NextResponse.redirect(
         new URL("/dashboard?error=access_denied", req.url)
       );
