@@ -583,30 +583,30 @@ export function TemplatesClient() {
           ))}
         </div>
 
-        {/* ================= 105+ SHOWCASE EXPLORER BANNER ================= */}
-        <div className="mt-16 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-stone-950 via-[#181206] to-stone-950 border border-stone-800 text-white shadow-xl relative overflow-hidden">
+        {/* ================= 105+ SHOWCASE EXPLORER BANNER (Light Mode Luxury Card) ================= */}
+        <div className="mt-16 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-white via-amber-50/40 to-stone-50 border border-amber-300/80 text-stone-900 shadow-xl shadow-amber-500/5 relative overflow-hidden">
           {/* Ambient Amber Glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-400/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 py-0.5 px-3 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono font-bold uppercase tracking-wider">
-                <Crown className="w-3.5 h-3.5 text-amber-400" />
+              <div className="inline-flex items-center gap-2 py-0.5 px-3 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs font-mono font-bold uppercase tracking-wider">
+                <Crown className="w-3.5 h-3.5 text-amber-600" />
                 <span>The Master MEST Showcase Portfolio (105+ Demos)</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-stone-950">
                 Looking for a Specific Niche or Industry?
               </h3>
-              <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
-                Beyond hospitality and real estate, we maintain an active master portfolio of <strong>105+ live production websites</strong> across 10 distinct industries. Want full lifetime access to all codebases? Get the <strong>All 105+ Master Pass for only $149 / Tk 16,000</strong>!
+              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                Beyond hospitality and real estate, we maintain an active master portfolio of <strong className="text-stone-900 font-semibold">105+ live production websites</strong> across 10 distinct industries. Want full lifetime access to all codebases? Get the <strong className="text-stone-900 font-semibold">All 105+ Master Pass for only $149 / Tk 16,000</strong>!
               </p>
-              <div className="flex items-center gap-3 text-xs text-stone-400 pt-1">
-                <span className="flex items-center gap-1.5">
-                  <CreditCard className="w-3.5 h-3.5 text-amber-400" /> Card (Stripe)
+              <div className="flex items-center gap-3 text-xs text-stone-500 pt-1">
+                <span className="flex items-center gap-1.5 font-medium text-stone-700">
+                  <CreditCard className="w-3.5 h-3.5 text-amber-600" /> Card (Stripe)
                 </span>
                 <span>•</span>
-                <span className="flex items-center gap-1.5">
-                  <Smartphone className="w-3.5 h-3.5 text-amber-400" /> bKash / Nagad
+                <span className="flex items-center gap-1.5 font-medium text-stone-700">
+                  <Smartphone className="w-3.5 h-3.5 text-amber-600" /> bKash / Nagad
                 </span>
               </div>
             </div>
@@ -618,8 +618,8 @@ export function TemplatesClient() {
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"
               >
-                <Button className="w-full sm:w-auto font-bold bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white rounded-xl h-12 px-6 shadow-lg shadow-amber-500/20">
-                  <Crown className="w-4 h-4 mr-1.5 text-amber-200" />
+                <Button className="w-full sm:w-auto font-bold bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 rounded-xl h-12 px-6 shadow-lg shadow-amber-500/25 cursor-pointer border-0 transition-transform active:scale-95">
+                  <Crown className="w-4 h-4 mr-1.5 text-stone-950" />
                   All 105+ Pass ($149 / Tk 16,000)
                 </Button>
               </a>
@@ -632,9 +632,9 @@ export function TemplatesClient() {
               >
                 <Button
                   variant="outline"
-                  className="w-full sm:w-auto font-bold rounded-xl h-12 px-6 border-stone-700 bg-stone-900/90 text-stone-100 hover:bg-stone-800 hover:!text-white hover:border-emerald-500/80 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                  className="w-full sm:w-auto font-bold rounded-xl h-12 px-6 border-emerald-600/30 bg-white hover:bg-emerald-50 text-stone-800 hover:text-emerald-700 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
                 >
-                  <MessageSquare className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <MessageSquare className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>WhatsApp Instant Order</span>
                 </Button>
               </a>
@@ -643,107 +643,107 @@ export function TemplatesClient() {
         </div>
       </section>
 
-      {/* ================= TURNKEY 48-HOUR SLA PROCESS ================= */}
-      <section id="how-it-works" className="py-16 sm:py-20 bg-gradient-to-b from-stone-950 via-[#14120f] to-stone-950 text-white relative overflow-hidden">
-        {/* Ambient gold glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/10 blur-[130px] pointer-events-none" />
+      {/* ================= TURNKEY 48-HOUR SLA PROCESS (Light Mode Luxury Section) ================= */}
+      <section id="how-it-works" className="py-16 sm:py-24 bg-gradient-to-b from-[#fbfbfa] via-[#f6f3eb] to-[#fbfbfa] text-stone-900 relative overflow-hidden border-t border-stone-200/90">
+        {/* Ambient warm gold glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/15 blur-[130px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-14">
-            <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono text-[11px] uppercase tracking-wider mb-4">
+            <Badge className="bg-amber-500/10 text-amber-800 border border-amber-500/30 font-mono text-[11px] font-bold uppercase tracking-wider mb-4">
               Zero-Friction Deployment
             </Badge>
-            <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
+            <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-stone-950">
               How Our 48-Hour Turnkey Launch Works
             </h2>
-            <p className="text-stone-300 text-xs sm:text-sm mt-3 leading-relaxed">
-              Standard templates launched for <strong>$99 (Tk 9,999)</strong>. Full-Stack systems with MongoDB database & CRM launched for <strong>$199 (Tk 19,999)</strong>. You don&apos;t have to touch a single line of code.
+            <p className="text-stone-600 text-xs sm:text-sm mt-3 leading-relaxed">
+              Standard templates launched for <strong className="text-stone-900 font-semibold">$99 (Tk 9,999)</strong>. Full-Stack systems with MongoDB database & CRM launched for <strong className="text-stone-900 font-semibold">$199 (Tk 19,999)</strong>. You don&apos;t have to touch a single line of code.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-            <div className="p-5 sm:p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3.5 hover:border-amber-500/50 transition-colors flex flex-col justify-between">
+            <div className="p-5 sm:p-6 rounded-2xl bg-white/95 backdrop-blur-sm border border-stone-200/90 hover:border-amber-400/80 shadow-md shadow-stone-900/5 hover:shadow-lg hover:shadow-amber-500/10 space-y-3.5 transition-all flex flex-col justify-between">
               <div className="space-y-3">
                 <div className="flex items-center justify-between w-full">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30 shadow-xs">
                     01
                   </div>
-                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 font-mono text-[10.5px] font-semibold">
+                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-800 font-mono text-[10.5px] font-semibold">
                     Stage 1 · Assets & Scope
                   </div>
                 </div>
-                <h3 className="text-base font-bold text-white">Choose & Brief</h3>
-                <p className="text-xs text-stone-400 leading-relaxed">
+                <h3 className="text-base font-bold text-stone-950">Choose & Brief</h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
                   Pick your preferred template from our catalog, share your branding assets (logo, colors, copy), and provide your target domain.
                 </p>
               </div>
-              <div className="pt-3 border-t border-stone-800/80 flex items-center justify-between text-[11px]">
+              <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[11px]">
                 <span className="font-mono text-stone-500">Timeline:</span>
-                <span className="font-semibold text-amber-400">Hour 0 – 6</span>
+                <span className="font-semibold text-amber-700">Hour 0 – 6</span>
               </div>
             </div>
 
-            <div className="p-5 sm:p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3.5 hover:border-amber-500/50 transition-colors flex flex-col justify-between">
+            <div className="p-5 sm:p-6 rounded-2xl bg-white/95 backdrop-blur-sm border border-stone-200/90 hover:border-amber-400/80 shadow-md shadow-stone-900/5 hover:shadow-lg hover:shadow-amber-500/10 space-y-3.5 transition-all flex flex-col justify-between">
               <div className="space-y-3">
                 <div className="flex items-center justify-between w-full">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30 shadow-xs">
                     02
                   </div>
-                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 font-mono text-[10.5px] font-semibold">
+                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-800 font-mono text-[10.5px] font-semibold">
                     Stage 2 · Stripe & iCal
                   </div>
                 </div>
-                <h3 className="text-base font-bold text-white">Integration Setup</h3>
-                <p className="text-xs text-stone-400 leading-relaxed">
+                <h3 className="text-base font-bold text-stone-950">Integration Setup</h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
                   We integrate your Stripe payment account, configure WhatsApp inquiry routing, connect iCal calendars, and configure local SEO.
                 </p>
               </div>
-              <div className="pt-3 border-t border-stone-800/80 flex items-center justify-between text-[11px]">
+              <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[11px]">
                 <span className="font-mono text-stone-500">Timeline:</span>
-                <span className="font-semibold text-amber-400">Hour 6 – 24</span>
+                <span className="font-semibold text-amber-700">Hour 6 – 24</span>
               </div>
             </div>
 
-            <div className="p-5 sm:p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3.5 hover:border-amber-500/50 transition-colors flex flex-col justify-between">
+            <div className="p-5 sm:p-6 rounded-2xl bg-white/95 backdrop-blur-sm border border-stone-200/90 hover:border-amber-400/80 shadow-md shadow-stone-900/5 hover:shadow-lg hover:shadow-amber-500/10 space-y-3.5 transition-all flex flex-col justify-between">
               <div className="space-y-3">
                 <div className="flex items-center justify-between w-full">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30 shadow-xs">
                     03
                   </div>
-                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 font-mono text-[10.5px] font-semibold">
+                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-800 font-mono text-[10.5px] font-semibold">
                     Stage 3 · Edge & SSL
                   </div>
                 </div>
-                <h3 className="text-base font-bold text-white">Edge Deployment</h3>
-                <p className="text-xs text-stone-400 leading-relaxed">
+                <h3 className="text-base font-bold text-stone-950">Edge Deployment</h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
                   Production deployment on high-speed global edge networks with automatic SSL certificates, asset optimization, and sub-second caching.
                 </p>
               </div>
-              <div className="pt-3 border-t border-stone-800/80 flex items-center justify-between text-[11px]">
+              <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[11px]">
                 <span className="font-mono text-stone-500">Timeline:</span>
-                <span className="font-semibold text-amber-400">Hour 24 – 36</span>
+                <span className="font-semibold text-amber-700">Hour 24 – 36</span>
               </div>
             </div>
 
-            <div className="p-5 sm:p-6 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3.5 hover:border-amber-500/50 transition-colors flex flex-col justify-between">
+            <div className="p-5 sm:p-6 rounded-2xl bg-white/95 backdrop-blur-sm border border-stone-200/90 hover:border-amber-400/80 shadow-md shadow-stone-900/5 hover:shadow-lg hover:shadow-amber-500/10 space-y-3.5 transition-all flex flex-col justify-between">
               <div className="space-y-3">
                 <div className="flex items-center justify-between w-full">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center font-mono font-bold text-base border border-amber-500/30 shadow-xs">
                     04
                   </div>
-                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 font-mono text-[10.5px] font-semibold">
+                  <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-800 font-mono text-[10.5px] font-semibold">
                     Stage 4 · 48h Handover
                   </div>
                 </div>
-                <h3 className="text-base font-bold text-white">Live Handover</h3>
-                <p className="text-xs text-stone-400 leading-relaxed">
+                <h3 className="text-base font-bold text-stone-950">Live Handover</h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
                   Full repository and administrative credentials delivered to your inbox with video documentation. You are live within 48 hours!
                 </p>
               </div>
-              <div className="pt-3 border-t border-stone-800/80 flex items-center justify-between text-[11px]">
+              <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[11px]">
                 <span className="font-mono text-stone-500">Guarantee:</span>
-                <span className="font-semibold text-emerald-400 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-semibold text-emerald-700 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   Live in 48 Hours
                 </span>
               </div>

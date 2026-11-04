@@ -47,6 +47,7 @@ export interface HeroSlide {
 
 interface HeroBannerCarouselProps {
   slides: HeroSlide[];
+  enableAutoplay?: boolean;
   autoplayDelay?: number;
   priorityFirst?: boolean;
   className?: string;
@@ -56,6 +57,7 @@ const emptySubscribe = () => () => {};
 
 export function HeroBannerCarousel({
   slides,
+  enableAutoplay = false,
   autoplayDelay = 5000,
   priorityFirst = true,
   className,
@@ -67,9 +69,9 @@ export function HeroBannerCarousel({
   );
 
   const plugins = useMemo(() => {
-    if (!isClient) return [];
+    if (!isClient || !enableAutoplay) return [];
     return [Autoplay({ delay: autoplayDelay, stopOnInteraction: false })];
-  }, [isClient, autoplayDelay]);
+  }, [isClient, enableAutoplay, autoplayDelay]);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
