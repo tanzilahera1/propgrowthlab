@@ -5,7 +5,7 @@
 
 interface NotificationPayload {
   title: string;
-  source: "Lead" | "Order" | "Subscription" | "Partner" | "Audit";
+  source: "Lead" | "Order" | "Subscription" | "Partner" | "Coordinator" | "Audit";
   details: Record<string, string | number | undefined>;
 }
 

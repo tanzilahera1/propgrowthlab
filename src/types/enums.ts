@@ -23,7 +23,10 @@ export enum UserRole {
   /** Luxury hospitality, villa, or boutique stay operator client (/agency) */
   CLIENT = "CLIENT",
 
-  /** Co-Broker partner or regional referral affiliate (/partners) */
+  /** Coordinator managing exclusive ground viewings and 70/30 split (/coordinators) */
+  COORDINATOR = "COORDINATOR",
+
+  /** Legacy alias for Coordinator (/partners) */
   PARTNER = "PARTNER",
 
   /** Default registered end-user / codebase and template licensee (/templates) */
@@ -62,7 +65,7 @@ export enum AccountStatus {
 }
 
 /**
- * Co-broker commission and escrow transaction settlement status.
+ * Coordinator 70/30 commission and escrow transaction settlement status.
  */
 export enum EscrowStatus {
   /** Escrow agreement initiated; awaiting title and deposit confirmation */
@@ -87,7 +90,8 @@ export const USER_ROLE_LABELS: Record<string, string> = {
   [UserRole.OPERATOR]: "Operations Specialist",
   [UserRole.BROKER]: "Licensed Power Broker",
   [UserRole.CLIENT]: "Hospitality Client",
-  [UserRole.PARTNER]: "Co-Broker Partner",
+  [UserRole.COORDINATOR]: "Coordinator",
+  [UserRole.PARTNER]: "Coordinator",
   [UserRole.USER]: "Registered User",
 
   // Lowercase & Legacy normalization mappings
@@ -96,7 +100,10 @@ export const USER_ROLE_LABELS: Record<string, string> = {
   operator: "Operations Specialist",
   broker: "Licensed Power Broker",
   client: "Hospitality Client",
-  partner: "Co-Broker Partner",
+  coordinator: "Coordinator",
+  partner: "Coordinator",
+  "Territory Coordinator": "Coordinator",
+  "Coordinator Partner": "Coordinator",
   user: "Registered User",
   owner: "Super Administrator",
   "Platform Owner": "Super Administrator",

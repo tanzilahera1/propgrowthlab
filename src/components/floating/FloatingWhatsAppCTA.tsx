@@ -28,7 +28,7 @@ export function FloatingWhatsAppCTA() {
   };
 
   const whatsappUrl =
-    "https://wa.me/8801540505122?text=" +
+    "https://wa.me/8801330807372?text=" +
     encodeURIComponent(
       "Hi PropGrowth Lab team, I would like to inquire about your PropTech systems, turnkey launches, and direct booking growth services."
     );

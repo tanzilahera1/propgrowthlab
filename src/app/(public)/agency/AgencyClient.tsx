@@ -106,7 +106,7 @@ export function AgencyClient() {
       if (!res.ok) {
         // Fallback open WhatsApp direct chat
         const waMsg = `Hi PropGrowth Lab, I want a free Direct Booking Growth Audit for my property: ${propertyUrl} in ${territory}. Preferred track: ${tierLabel}. My name: ${contactName}, WhatsApp: ${whatsapp}`;
-        window.open(`https://wa.me/8801540505122?text=${encodeURIComponent(waMsg)}`, "_blank");
+        window.open(`https://wa.me/8801330807372?text=${encodeURIComponent(waMsg)}`, "_blank");
       }
       toast.success("Audit request received! Our growth team will reach out via WhatsApp within 2 hours.");
       setPropertyUrl("");
@@ -115,7 +115,7 @@ export function AgencyClient() {
     } catch {
       toast.success("Redirecting to WhatsApp for instant growth strategy session...");
       const waMsg = `Hi PropGrowth Lab, I want a free Direct Booking Growth Audit for my property: ${propertyUrl} in ${territory}. Preferred track: ${tierLabel}. My name: ${contactName}, WhatsApp: ${whatsapp}`;
-      window.open(`https://wa.me/8801540505122?text=${encodeURIComponent(waMsg)}`, "_blank");
+      window.open(`https://wa.me/8801330807372?text=${encodeURIComponent(waMsg)}`, "_blank");
     } finally {
       setIsSubmitting(false);
     }

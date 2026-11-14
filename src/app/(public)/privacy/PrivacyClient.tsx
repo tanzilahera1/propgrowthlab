@@ -21,7 +21,7 @@ export function PrivacyClient() {
       subtitle="How PropGrowth Lab safeguards high-net-worth traveler inquiries, broker records, and direct booking transaction data worldwide."
       effectiveDate="March 1, 2026"
       badge="Client Data & Privacy Protection"
-      summary="PropGrowth Lab operates on a strict Zero-Data-Resale framework. We collect only verified inquiry records necessary to power direct bookings and dispatch high-budget client inquiries to licensed territory partners. Your data is never sold, leased, or syndicated."
+      summary="PropGrowth Lab operates on a strict Zero-Data-Resale framework. We collect only verified inquiry records necessary to power direct bookings and dispatch high-budget client inquiries to licensed coordinators. Your data is never sold, leased, or syndicated."
       toc={TOC}
     >
       <div className="space-y-12 text-stone-700 leading-relaxed text-sm sm:text-base">
@@ -34,7 +34,7 @@ export function PrivacyClient() {
             </h2>
           </div>
           <p>
-            PropGrowth Lab (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) collects only information that is strictly required to deliver our PropTech direct booking engineering, paid guest acquisition, and territory co-broker quota dispatching.
+            PropGrowth Lab (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) collects only information that is strictly required to deliver our PropTech direct booking engineering, paid guest acquisition, and territory coordinator quota dispatching.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
             <div className="p-4 rounded-xl bg-white border border-stone-200 shadow-2xs">
@@ -72,7 +72,7 @@ export function PrivacyClient() {
               <strong>Direct Booking Systems:</strong> Powering sub-second booking engines, automated calendar availability sync, and direct guest communication.
             </li>
             <li>
-              <strong>Instant Lead Dispatching:</strong> Routing pre-screened luxury inquiries to designated territory broker partners via automated WhatsApp alerts within 90 seconds.
+              <strong>Instant Lead Dispatching:</strong> Routing pre-screened luxury inquiries to designated territory coordinators via automated WhatsApp alerts within 90 seconds.
             </li>
             <li>
               <strong>Escrow Commission Settlement:</strong> Verifying closed transaction logs for 70/30 commission distribution.
@@ -97,7 +97,7 @@ export function PrivacyClient() {
               Institutional Guarantee on Exclusive Lead Data
             </p>
             <p className="text-xs sm:text-sm text-stone-800 leading-relaxed">
-              Unlike generic lead generation agencies, PropGrowth Lab <strong>never sells, leases, rents, or syndicates your contact details or client inquiries</strong> to third-party marketing companies, insurance networks, or public broker directories. Inquiries are dispatched exclusively to your licensed territory partner.
+              Unlike generic lead generation agencies, PropGrowth Lab <strong>never sells, leases, rents, or syndicates your contact details or client inquiries</strong> to third-party marketing companies, insurance networks, or public broker directories. Inquiries are dispatched exclusively to your licensed coordinator.
             </p>
           </div>
         </section>

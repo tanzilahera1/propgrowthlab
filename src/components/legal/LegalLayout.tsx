@@ -171,7 +171,7 @@ export function LegalLayout({
                   Our compliance officer responds within 24 business hours.
                 </p>
                 <a
-                  href="https://wa.me/8801540505122?text=Hi%20PropGrowth%20Lab%20Legal%20Team%2C%20I%20have%20an%20inquiry%20regarding%20compliance."
+                  href="https://wa.me/8801330807372?text=Hi%20PropGrowth%20Lab%20Legal%20Team%2C%20I%20have%20an%20inquiry%20regarding%20compliance."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-bold text-amber-700 hover:text-amber-800 cursor-pointer"

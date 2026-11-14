@@ -48,7 +48,7 @@ export const HOME_HERO_SLIDES: HeroSlide[] = [
       { icon: Zap, label: "48h Turnkey Launch" },
       { icon: ShieldCheck, label: "Zero Airbnb Fees" },
       { icon: CheckCircle2, label: "Daily Verified Quotas" },
-      { icon: Users, label: "70/30 Co-Broker Split" },
+      { icon: Users, label: "70/30 Coordinator Split" },
     ],
   },
   {
@@ -87,10 +87,10 @@ export const HOME_HERO_SLIDES: HeroSlide[] = [
     titleHighlight: "High-Budget Buyers & Tenants",
     hookArrowText: "Verified $2,500/mo to $1M+ Clients Dispatched Daily to WhatsApp",
     subtitle:
-      "Stop wasting hours cold calling dead numbers. Subscribe to exclusive territory quotas or join our 70/30 co-broker network with zero desk fees.",
+      "Stop wasting hours cold calling dead numbers. Subscribe to exclusive territory quotas or join our 70/30 territory coordinator network with zero desk fees.",
     primaryCta: {
-      label: "Co-Broker Network (70%)",
-      href: "/partners",
+      label: "Coordinator Network (70%)",
+      href: "/coordinators",
     },
     secondaryCta: {
       label: "Reserve City Quota",
@@ -290,15 +290,15 @@ export const LEADS_HERO_SLIDES: HeroSlide[] = [
 
 /**
  * =========================================================================
- * 5. PARTNERS ROUTE ("/partners") - 2 HERO SLIDES
- * Focus: Co-broker network, 70/30 commission splits, zero desk fees, escrow
+ * 5. COORDINATORS ROUTE ("/coordinators") - 2 HERO SLIDES
+ * Focus: Coordinator network, 70/30 commission splits, zero desk fees, escrow
  * =========================================================================
  */
-export const PARTNERS_HERO_SLIDES: HeroSlide[] = [
+export const COORDINATORS_HERO_SLIDES: HeroSlide[] = [
   {
-    id: "partners-slide-1",
+    id: "coordinators-slide-1",
     image: "/imges/banner/hero-dubai-skyline-retreat.webp",
-    alt: "The Co-Broker Partner Network - 70/30 Commission Splits",
+    alt: "The Coordinator Network - 70/30 Commission Splits",
     badge: "Why Give 50% of Your Commission Away?",
     badgeIcon: Users,
     titlePrefix: "Stop Giving Half Your Commission Away.",
@@ -307,31 +307,31 @@ export const PARTNERS_HERO_SLIDES: HeroSlide[] = [
     subtitle:
       "Stop giving 50% of your commission away while doing all the prospecting. We deliver verified luxury buyers and tenants directly to your phone—you handle local viewings and keep a guaranteed 70% commission with zero desk fees.",
     primaryCta: {
-      label: "Apply for Territory Partnership",
-      href: "#partner-form",
+      label: "Apply as Coordinator",
+      href: "#coordinator-form",
     },
     secondaryCta: {
-      label: "How Co-Brokering Works",
+      label: "How 70/30 Coordination Works",
       href: "#how-it-works",
     },
     trustPills: [
       { icon: DollarSign, label: "70% Deal Payout" },
       { icon: ShieldCheck, label: "Zero Desk Fees" },
       { icon: CheckCircle2, label: "Pre-Vetted Luxury Clients" },
-      { icon: Users, label: "Max 2 Agents Per Market" },
+      { icon: Users, label: "Max 2 Coordinators Per Market" },
     ],
   },
   {
-    id: "partners-slide-2",
+    id: "coordinators-slide-2",
     image: "/imges/banner/hero-european-investment-suite.webp",
-    alt: "Global Real Estate Co-Brokering and Escrow Settlement Network",
+    alt: "Global Real Estate Coordinator and Escrow Settlement Network",
     badge: "Cross-Border Luxury Mandates & Escrow Title SLA",
     badgeIcon: Globe2,
     titlePrefix: "Scale High-Ticket Transactions in",
     titleHighlight: "Key Global Territories.",
     hookArrowText: "Direct Title Company Escrow Settlements Wired on Closing",
     subtitle:
-      "For licensed principal brokers and high-producing local agents in USA, UK, Europe, UAE, Australia, and Canada. Join our high-ticket co-broker network with full legal escrow protection.",
+      "For licensed principal brokers and high-producing local agents in USA, UK, Europe, UAE, Australia, and Canada. Join our high-ticket coordinator network with full legal escrow protection.",
     primaryCta: {
       label: "Claim Territory Allocation",
       href: "#territories",
@@ -348,4 +348,6 @@ export const PARTNERS_HERO_SLIDES: HeroSlide[] = [
     ],
   },
 ];
+
+export const PARTNERS_HERO_SLIDES: HeroSlide[] = COORDINATORS_HERO_SLIDES;
 

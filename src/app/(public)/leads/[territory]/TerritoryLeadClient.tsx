@@ -96,7 +96,7 @@ export function TerritoryLeadClient({ territory }: Props) {
 
   const getWhatsAppSubscribeUrl = (planName: string, price: number) => {
     const text = `Hi PropGrowth Lab team, I want to lock in the ${planName} (${territory.currency}${price}/mo) for ${territory.name}. Please confirm current slot availability and onboarding steps.`;
-    return `https://wa.me/8801540505122?text=${encodeURIComponent(text)}`;
+    return `https://wa.me/8801330807372?text=${encodeURIComponent(text)}`;
   };
 
   return (

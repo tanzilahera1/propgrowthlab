@@ -59,6 +59,7 @@ import {
   CompassOutlined,
   SafetyCertificateOutlined,
   LinkOutlined,
+  CarOutlined,
 } from "@ant-design/icons";
 
 const { Sider } = Layout;
@@ -66,12 +67,29 @@ const { Sider } = Layout;
 // ================= DATA MODELS (CRUD & AUDIT READY) =================
 export interface LeadItem {
   id: string;
+  ticketId?: string;
   fullName: string;
   whatsapp: string;
   territory: string;
   propertyType: string;
+  leadCategory?: "luxury_stay" | "room_rental";
   budget: string;
   moveIn: string;
+  needsMovingService?: boolean;
+  movingDetails?: {
+    currentArea?: string;
+    preferredDate?: string;
+    assignedMover?: string;
+    moverCommission?: number;
+  };
+  locationDetails?: {
+    countryCode?: string;
+    divisionOrState?: string;
+    districtOrCity?: string;
+    upazilaOrThana?: string;
+    microZone?: string;
+  };
+  feedbackStatus?: "pending" | "viewing_arranged" | "deal_closed" | "rejected";
   status: "new" | "dispatched" | "closed";
   assignedBroker?: string;
   date: string;
@@ -517,7 +535,7 @@ const INITIAL_ADMIN_USERS: AdminUserItem[] = [
 const INITIAL_AUDIT_LOGS: AuditLogItem[] = [
   {
     id: "log-1",
-    title: "Lead Dispatched to Miami Partner",
+    title: "Lead Dispatched to Miami Coordinator",
     detail: "Marcus Vance ($3.8M) routed to Harrison Gray & Partners via WhatsApp router.",
     time: "28 mins ago",
     tag: "DISPATCH",
@@ -644,12 +662,16 @@ export default function AdminClient() {
 
   // Filters
   const [selectedTerritory, setSelectedTerritory] = useState<string>("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // Modals
+  // Modals & Drawers
   const [addLeadModalOpen, setAddLeadModalOpen] = useState(false);
   const [dispatchModalOpen, setDispatchModalOpen] = useState(false);
   const [selectedLeadForDispatch, setSelectedLeadForDispatch] = useState<LeadItem | null>(null);
+  const [leadDrawerOpen, setLeadDrawerOpen] = useState(false);
+  const [inspectedLead, setInspectedLead] = useState<LeadItem | null>(null);
+  const [assignMoverModalOpen, setAssignMoverModalOpen] = useState(false);
   const [addLicenseModalOpen, setAddLicenseModalOpen] = useState(false);
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const [broadcastModalOpen, setBroadcastModalOpen] = useState(false);
@@ -657,6 +679,7 @@ export default function AdminClient() {
 
   // Forms
   const [leadForm] = Form.useForm();
+  const [moverForm] = Form.useForm();
   const [licenseForm] = Form.useForm();
   const [userForm] = Form.useForm();
   const [broadcastForm] = Form.useForm();
@@ -923,6 +946,66 @@ export default function AdminClient() {
     message.success(`Lead "${selectedLeadForDispatch.fullName}" routed to ${brokerName}!`);
   };
 
+  const handleUpdateLeadFeedback = async (
+    leadId: string,
+    feedbackStatus: "pending" | "viewing_arranged" | "deal_closed" | "rejected"
+  ) => {
+    try {
+      const res = await fetch("/api/admin/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update_lead_feedback",
+          payload: {
+            leadId,
+            feedbackStatus,
+          },
+        }),
+      });
+      if (res.ok) {
+        await refreshAdminData();
+        message.success(`Lead status updated to ${feedbackStatus.replace("_", " ").toUpperCase()}!`);
+        if (inspectedLead && inspectedLead.id === leadId) {
+          setInspectedLead({
+            ...inspectedLead,
+            feedbackStatus,
+            status: feedbackStatus === "deal_closed" ? "closed" : inspectedLead.status,
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Failed to update lead feedback:", err);
+      message.error("Failed to update lead status.");
+    }
+  };
+
+  const handleAssignMover = async (values: any) => {
+    if (!inspectedLead) return;
+    try {
+      const res = await fetch("/api/admin/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "dispatch_mover",
+          payload: {
+            leadId: inspectedLead.id,
+            moverName: values.moverName,
+            moverCommission: Number(values.moverCommission) || 0,
+          },
+        }),
+      });
+      if (res.ok) {
+        await refreshAdminData();
+        setAssignMoverModalOpen(false);
+        moverForm.resetFields();
+        message.success(`Moving partner "${values.moverName}" assigned successfully!`);
+      }
+    } catch (err) {
+      console.error("Failed to assign mover:", err);
+      message.error("Failed to assign moving partner.");
+    }
+  };
+
   const handleDeleteLead = (leadId: string, leadName: string) => {
     modal.confirm({
       title: "Confirm Lead Deletion",
@@ -1042,7 +1125,7 @@ export default function AdminClient() {
   const handleDisburseEscrow = (dealId: string, dealRef: string) => {
     modal.confirm({
       title: "Plan-1 Escrow: Confirm Fund Disbursement",
-      content: `Disburse locked escrow funds for deal ${dealRef}? This triggers automated payout: 70% to Property Host, Broker Commission to Partner, and platform fee to PropGrowth Lab.`,
+      content: `Disburse locked escrow funds for deal ${dealRef}? This triggers automated payout: 70% to Property Host, Broker Commission to Coordinator, and platform fee to PropGrowth Lab.`,
       okText: "Disburse Funds",
       okType: "primary",
       cancelText: "Cancel",
@@ -1112,12 +1195,22 @@ export default function AdminClient() {
   // ----------------- FILTERED DATA -----------------
   const filteredLeads = leads.filter((l) => {
     const matchTerritory =
-      selectedTerritory === "All" || l.territory === selectedTerritory;
+      selectedTerritory === "All" ||
+      l.territory.toLowerCase().includes(selectedTerritory.toLowerCase());
+    
+    const matchCategory =
+      selectedCategory === "All" ||
+      (selectedCategory === "room_rental" && l.leadCategory === "room_rental") ||
+      (selectedCategory === "luxury_stay" && l.leadCategory !== "room_rental") ||
+      (selectedCategory === "mover_needed" && l.needsMovingService);
+
     const matchSearch =
       l.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (l.ticketId && l.ticketId.toLowerCase().includes(searchQuery.toLowerCase())) ||
       l.propertyType.toLowerCase().includes(searchQuery.toLowerCase()) ||
       l.territory.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchTerritory && matchSearch;
+
+    return matchTerritory && matchCategory && matchSearch;
   });
 
   // ----------------- SIDEBAR MENU ITEMS -----------------
@@ -1267,12 +1360,48 @@ export default function AdminClient() {
   // ----------------- DESKTOP LEADS TABLE COLUMNS -----------------
   const leadColumns: TableColumnsType<LeadItem> = [
     {
+      title: "Ticket ID",
+      dataIndex: "ticketId",
+      key: "ticketId",
+      width: 150,
+      render: (ticketId: string, record: LeadItem) => {
+        const displayTicket = ticketId || `TKT-${record.id.slice(-6).toUpperCase()}`;
+        return (
+          <div className="flex items-center gap-1 font-mono text-xs">
+            <Tag color="cyan" className="font-bold m-0 text-[11px]">
+              {displayTicket}
+            </Tag>
+            <Button
+              type="text"
+              size="small"
+              icon={<CopyOutlined className="text-slate-400 hover:text-slate-600 text-[10px]" />}
+              onClick={() => copyToClipboard(displayTicket)}
+              className="h-5 w-5 p-0"
+              title="Copy Ticket ID"
+            />
+          </div>
+        );
+      },
+    },
+    {
       title: "Prospect / Client",
       dataIndex: "fullName",
       key: "fullName",
       render: (name: string, record: LeadItem) => (
         <div className="min-w-0">
-          <div className="font-semibold text-slate-900 truncate">{name}</div>
+          <div className="font-semibold text-slate-900 flex items-center gap-1.5 flex-wrap">
+            <span>{name}</span>
+            {record.needsMovingService && (
+              <Tag color="volcano" className="text-[10px] font-semibold leading-tight px-1 py-0 m-0">
+                🚚 Mover Needed
+              </Tag>
+            )}
+            {record.leadCategory === "room_rental" && (
+              <Tag color="purple" className="text-[10px] font-semibold leading-tight px-1 py-0 m-0">
+                Room Rental
+              </Tag>
+            )}
+          </div>
           <div className="text-xs text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
             <span>{record.whatsapp}</span>
             <Button
@@ -1365,7 +1494,7 @@ export default function AdminClient() {
           </Button>
           <a
             href={`https://wa.me/${record.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-              `Hello ${record.fullName}, this is PropGrowth Lab dispatch regarding your ${record.territory} property enquiry.`
+              `Hello ${record.fullName}, this is PropGrowth Lab dispatch regarding your ${record.leadCategory === "room_rental" ? "Room Rental" : "Property"} enquiry (Ticket #${record.ticketId || record.id.slice(-6).toUpperCase()}) in ${record.territory}.`
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -1967,22 +2096,38 @@ export default function AdminClient() {
               <Card className="shadow-xs border-slate-200" styles={{ body: { padding: "12px 16px" } }}>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-semibold text-slate-600">Filter Territory:</span>
+                    <span className="text-xs font-semibold text-slate-600">Market:</span>
                     <Select
                       value={selectedTerritory}
                       onChange={(val) => setSelectedTerritory(val)}
-                      style={{ width: 140 }}
+                      style={{ width: 155 }}
                       size="small"
                       options={[
                         { value: "All", label: "All Territories" },
-                        { value: "USA", label: "USA" },
-                        { value: "UK", label: "UK" },
-                        { value: "Canada", label: "Canada" },
-                        { value: "Australia", label: "Australia" },
-                        { value: "EU", label: "EU" },
-                        { value: "UAE", label: "UAE" },
+                        { value: "Qatar", label: "🇶🇦 Qatar (Doha)" },
+                        { value: "Portugal", label: "🇵🇹 Portugal (Madeira)" },
+                        { value: "UAE", label: "🇦🇪 UAE (Dubai)" },
+                        { value: "USA", label: "🇺🇸 USA (Miami/NY)" },
+                        { value: "UK", label: "🇬🇧 UK (London)" },
+                        { value: "Canada", label: "🇨🇦 Canada" },
+                        { value: "Australia", label: "🇦🇺 Australia" },
                       ]}
                     />
+
+                    <span className="text-xs font-semibold text-slate-600 ml-1">Category:</span>
+                    <Select
+                      value={selectedCategory}
+                      onChange={(val) => setSelectedCategory(val)}
+                      style={{ width: 145 }}
+                      size="small"
+                      options={[
+                        { value: "All", label: "All Inflows" },
+                        { value: "room_rental", label: "🏠 Room Rentals" },
+                        { value: "luxury_stay", label: "🏰 Luxury Stays" },
+                        { value: "mover_needed", label: "🚚 Mover Needed" },
+                      ]}
+                    />
+
                     <Tag color="blue" className="text-xs m-0">
                       {filteredLeads.length} Matches
                     </Tag>
@@ -2009,15 +2154,51 @@ export default function AdminClient() {
                 </div>
               </Card>
 
-              {/* Clean Intentional Gap & Responsive Lead Cards Grid (Mobile: 1, Tablet: 2, Laptop: 3, Desktop: 4) */}
+              {/* Clean Intentional Gap & Responsive Lead Cards Grid */}
               <div className="pt-2">
                 <Row gutter={[14, 14]}>
-                  {filteredLeads.map((lead) => (
-                    <Col xs={24} sm={12} lg={8} xl={6} key={lead.id}>
-                      <article className="p-4 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3 hover:border-amber-300 transition-colors h-full flex flex-col justify-between">
-                        <div className="space-y-2.5">
-                          <div className="flex items-start justify-between gap-1.5">
-                            <div className="min-w-0 pr-1">
+                  {filteredLeads.map((lead) => {
+                    const ticketDisplay = lead.ticketId || `TKT-${lead.id.slice(-6).toUpperCase()}`;
+                    const cleanTerritory = lead.locationDetails?.upazilaOrThana || lead.territory.split(",")[0] || lead.territory;
+                    return (
+                      <Col xs={24} sm={12} lg={8} xl={6} key={lead.id}>
+                        <article className="p-4 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3 hover:border-amber-300 transition-colors h-full flex flex-col justify-between">
+                          <div className="space-y-2.5">
+                            {/* Top Ticket & Status Bar */}
+                            <div className="flex items-center justify-between gap-1.5">
+                              <div className="flex items-center gap-1 font-mono text-xs shrink-0">
+                                <Tag color="cyan" className="font-bold text-[10px] m-0 px-1.5 py-0">
+                                  {ticketDisplay}
+                                </Tag>
+                                <Button
+                                  type="text"
+                                  size="small"
+                                  icon={<CopyOutlined className="text-[10px] text-slate-400 hover:text-slate-600" />}
+                                  onClick={() => copyToClipboard(ticketDisplay)}
+                                  className="h-4 w-4 p-0 shrink-0"
+                                  title="Copy Ticket ID"
+                                />
+                              </div>
+
+                              <div className="shrink-0">
+                                {lead.status === "new" ? (
+                                  <Tag color="warning" className="text-[10px] font-bold m-0 px-1.5 py-0">
+                                    NEW
+                                  </Tag>
+                                ) : lead.status === "dispatched" ? (
+                                  <Tag color="processing" className="text-[10px] font-semibold m-0 px-1.5 py-0">
+                                    ROUTED
+                                  </Tag>
+                                ) : (
+                                  <Tag color="success" className="text-[10px] font-semibold m-0 px-1.5 py-0">
+                                    CLOSED
+                                  </Tag>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Client Name & Category Badges */}
+                            <div>
                               <span className="font-bold text-slate-900 text-sm block truncate" title={lead.fullName}>
                                 {lead.fullName}
                               </span>
@@ -2031,79 +2212,94 @@ export default function AdminClient() {
                                   className="h-4 w-4 p-0 shrink-0"
                                 />
                               </div>
+                              <div className="flex items-center gap-1 flex-wrap mt-1.5">
+                                {lead.needsMovingService && (
+                                  <Tag color="volcano" className="text-[10px] font-bold m-0 px-1.5 py-0">
+                                    🚚 Mover Needed
+                                  </Tag>
+                                )}
+                                {lead.leadCategory === "room_rental" && (
+                                  <Tag color="purple" className="text-[10px] font-bold m-0 px-1.5 py-0">
+                                    Room Rental
+                                  </Tag>
+                                )}
+                              </div>
                             </div>
 
-                            <div className="flex flex-col items-end gap-1 shrink-0">
-                              <Tag color="gold" className="text-[10px] m-0 font-mono font-semibold px-1 py-0">
-                                {lead.territory}
-                              </Tag>
-                              {lead.status === "new" ? (
-                                <Tag color="warning" className="text-[10px] font-semibold m-0 px-1 py-0">
-                                  NEW
+                            {/* Property, Territory & Budget Specs */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs space-y-1.5">
+                              <div className="flex justify-between items-center gap-1.5">
+                                <span className="text-slate-500 text-[11px] shrink-0">Area:</span>
+                                <Tag color="gold" className="text-[10px] m-0 font-mono font-semibold px-1.5 py-0 truncate max-w-[150px]" title={lead.territory}>
+                                  {cleanTerritory}
                                 </Tag>
-                              ) : lead.status === "dispatched" ? (
-                                <Tag color="processing" className="text-[10px] font-semibold m-0 px-1 py-0">
-                                  ROUTED
-                                </Tag>
-                              ) : (
-                                <Tag color="success" className="text-[10px] font-semibold m-0 px-1 py-0">
-                                  CLOSED
-                                </Tag>
-                              )}
+                              </div>
+                              <div className="flex justify-between items-center gap-1.5">
+                                <span className="text-slate-500 text-[11px] shrink-0">Property:</span>
+                                <span className="font-semibold text-slate-800 text-right truncate text-[11px] max-w-[130px]" title={lead.propertyType}>
+                                  {lead.propertyType}
+                                </span>
+                              </div>
+                              <div className="flex justify-between items-center gap-1.5">
+                                <span className="text-slate-500 text-[11px] shrink-0">Budget:</span>
+                                <span className="font-bold text-emerald-600 font-mono text-xs whitespace-nowrap">
+                                  {lead.budget.replace(/\s*\/\s*mo/g, "/mo")}
+                                </span>
+                              </div>
+                              <div className="flex justify-between items-center gap-1.5">
+                                <span className="text-slate-500 text-[11px] shrink-0">Move-in:</span>
+                                <span className="text-slate-700 text-[11px] truncate">{lead.moveIn}</span>
+                              </div>
                             </div>
                           </div>
 
-                          <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-xs space-y-1">
-                            <div className="flex justify-between items-center gap-1">
-                              <span className="text-slate-500 text-[11px]">Property:</span>
-                              <span className="font-semibold text-slate-800 text-right truncate text-[11px] max-w-[130px]">
-                                {lead.propertyType}
-                              </span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                              <span className="text-slate-500 text-[11px]">Budget:</span>
-                              <span className="font-bold text-emerald-600 font-mono text-xs">{lead.budget}</span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                              <span className="text-slate-500 text-[11px]">Move-in:</span>
-                              <span className="text-slate-700 text-[11px]">{lead.moveIn}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between gap-1.5 pt-2 mt-1 border-t border-slate-100">
-                          <div className="flex items-center gap-1.5">
-                            <Button
-                              type="primary"
-                              size="small"
-                              onClick={() => handleOpenDispatch(lead)}
-                              className="bg-amber-600 hover:bg-amber-500 text-xs font-semibold px-2.5 h-7"
-                            >
-                              Dispatch
-                            </Button>
-                            <a
-                              href={`https://wa.me/${lead.whatsapp.replace(/[^0-9]/g, "")}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Button size="small" className="text-xs text-emerald-700 border-emerald-300 px-2 h-7 hover:bg-emerald-50">
-                                WhatsApp
+                          {/* Action Toolbar */}
+                          <div className="flex items-center justify-between gap-1.5 pt-2 mt-1 border-t border-slate-100">
+                            <div className="flex items-center gap-1 flex-wrap">
+                              <Button
+                                size="small"
+                                onClick={() => {
+                                  setInspectedLead(lead);
+                                  setLeadDrawerOpen(true);
+                                }}
+                                className="text-xs text-slate-700 px-2 h-7 font-semibold hover:bg-slate-100"
+                              >
+                                Inspect
                               </Button>
-                            </a>
-                          </div>
+                              <Button
+                                type="primary"
+                                size="small"
+                                onClick={() => handleOpenDispatch(lead)}
+                                className="bg-amber-600 hover:bg-amber-500 text-xs font-semibold px-2 h-7"
+                              >
+                                Dispatch
+                              </Button>
+                              <a
+                                href={`https://wa.me/${lead.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
+                                  `Hello ${lead.fullName}, this is PropGrowth Lab regarding your inquiry (Ticket #${ticketDisplay}) in ${lead.territory}.`
+                                )}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <Button size="small" className="text-xs text-emerald-700 border-emerald-300 px-2 h-7 hover:bg-emerald-50">
+                                  WhatsApp
+                                </Button>
+                              </a>
+                            </div>
 
-                          <Button
-                            danger
-                            type="text"
-                            size="small"
-                            icon={<DeleteOutlined />}
-                            onClick={() => handleDeleteLead(lead.id, lead.fullName)}
-                            className="h-7 w-7 p-0 flex items-center justify-center text-slate-400 hover:text-red-500"
-                          />
-                        </div>
-                      </article>
-                    </Col>
-                  ))}
+                            <Button
+                              danger
+                              type="text"
+                              size="small"
+                              icon={<DeleteOutlined />}
+                              onClick={() => handleDeleteLead(lead.id, lead.fullName)}
+                              className="h-7 w-7 p-0 flex items-center justify-center text-slate-400 hover:text-red-500"
+                            />
+                          </div>
+                        </article>
+                      </Col>
+                    );
+                  })}
                 </Row>
               </div>
             </section>
@@ -2373,7 +2569,7 @@ export default function AdminClient() {
                     Plan-1 Escrow Protocol Active: Zero Cash Leakage Guarantee
                   </span>
                   <span className="text-amber-800 leading-relaxed block mt-0.5">
-                    Clients deposit funds directly to the platform&apos;s neutral escrow account via official payment links. Partners and brokers never collect cash offline, preventing fraudulent non-booking claims. Upon closing, 70% is wired to the Property Host and broker commissions are released automatically.
+                    Clients deposit funds directly to the platform&apos;s neutral escrow account via official payment links. Coordinators and brokers never collect cash offline, preventing fraudulent non-booking claims. Upon closing, 70% is wired to the Property Host and broker commissions are released automatically.
                   </span>
                 </div>
               </div>
@@ -2765,43 +2961,98 @@ export default function AdminClient() {
 
       {/* ================= MODAL: DISPATCH LEAD ================= */}
       <Modal
-        title="Dispatch Lead to Contracted Territory Broker"
+        title="Dispatch Lead & Anti-Cheat Ticket Routing"
         open={dispatchModalOpen}
         onCancel={() => setDispatchModalOpen(false)}
         footer={null}
+        width={600}
         destroyOnHidden
       >
         {selectedLeadForDispatch && (
           <div className="space-y-4">
-            <div className="p-3.5 rounded-xl bg-amber-50/60 border border-amber-200/80 text-xs space-y-1">
-              <div className="font-bold text-slate-900 text-sm">
-                {selectedLeadForDispatch.fullName}
-              </div>
-              <div className="text-slate-600">
-                Territory:{" "}
-                <Tag color="gold" className="font-mono text-xs">
-                  {selectedLeadForDispatch.territory}
+            {/* Lead Brief Box */}
+            <div className="p-4 rounded-xl bg-slate-900 text-white space-y-2">
+              <div className="flex items-center justify-between">
+                <Tag color="cyan" className="font-mono font-bold text-xs">
+                  {selectedLeadForDispatch.ticketId || `TKT-${selectedLeadForDispatch.id.slice(-6).toUpperCase()}`}
                 </Tag>
+                {selectedLeadForDispatch.needsMovingService && (
+                  <Tag color="volcano" className="font-bold text-xs">
+                    🚚 Moving Van Requested
+                  </Tag>
+                )}
               </div>
-              <div className="text-slate-600">
-                Property: {selectedLeadForDispatch.propertyType} • Budget:{" "}
-                <span className="font-bold text-emerald-700">
-                  {selectedLeadForDispatch.budget}
-                </span>
+              <div className="font-bold text-base">
+                {selectedLeadForDispatch.fullName} ({selectedLeadForDispatch.whatsapp})
+              </div>
+              <div className="text-xs text-slate-300">
+                Territory: <span className="text-amber-400 font-semibold">{selectedLeadForDispatch.territory}</span> • Budget: <span className="text-emerald-400 font-bold">{selectedLeadForDispatch.budget}</span>
+              </div>
+              <div className="text-xs text-slate-400">
+                Property: {selectedLeadForDispatch.propertyType} • Move-in: {selectedLeadForDispatch.moveIn}
               </div>
             </div>
 
+            {/* Anti-Cheat One-Click Copy Scripts */}
+            <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 space-y-2">
+              <div className="text-xs font-bold text-amber-950 flex items-center justify-between">
+                <span>📋 Anti-Cheat Copy-Paste Scripts:</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <Button
+                  size="small"
+                  icon={<CopyOutlined />}
+                  onClick={() => {
+                    const tId = selectedLeadForDispatch.ticketId || `TKT-${selectedLeadForDispatch.id.slice(-6).toUpperCase()}`;
+                    const script = `Salam / Hello, verified room lead from PropGrowth Lab:\n• Ticket: #${tId}\n• Tenant: ${selectedLeadForDispatch.fullName}\n• Phone: ${selectedLeadForDispatch.whatsapp}\n• Location: ${selectedLeadForDispatch.territory}\n• Room: ${selectedLeadForDispatch.propertyType}\n• Budget: ${selectedLeadForDispatch.budget}\n• Move-in: ${selectedLeadForDispatch.moveIn}\n*Important:* Please quote Ticket #${tId} during introduction.`;
+                    copyToClipboard(script);
+                    message.success("Broker Handoff script copied!");
+                  }}
+                  className="text-xs font-medium bg-white text-slate-800 border-amber-300 hover:bg-amber-100"
+                >
+                  Copy Broker Script
+                </Button>
+
+                <Button
+                  size="small"
+                  icon={<CopyOutlined />}
+                  onClick={() => {
+                    const tId = selectedLeadForDispatch.ticketId || `TKT-${selectedLeadForDispatch.id.slice(-6).toUpperCase()}`;
+                    const script = `Hello ${selectedLeadForDispatch.fullName}, this is PropGrowth Lab quality control regarding Ticket #${tId}. Did our assigned room broker connect with you and arrange a viewing? Confirm with us to activate your partner moving van assistance voucher!`;
+                    copyToClipboard(script);
+                    message.success("48h Tenant Verification script copied!");
+                  }}
+                  className="text-xs font-medium bg-white text-slate-800 border-amber-300 hover:bg-amber-100"
+                >
+                  Copy Tenant 48h Audit
+                </Button>
+
+                {selectedLeadForDispatch.needsMovingService && (
+                  <Button
+                    size="small"
+                    icon={<CopyOutlined />}
+                    onClick={() => {
+                      const tId = selectedLeadForDispatch.ticketId || `TKT-${selectedLeadForDispatch.id.slice(-6).toUpperCase()}`;
+                      const script = `Hello Mover Partner, luggage shifting request under Ticket #${tId}:\n• Client: ${selectedLeadForDispatch.fullName}\n• Phone: ${selectedLeadForDispatch.whatsapp}\n• Moving To: ${selectedLeadForDispatch.territory}\n• Move-in Date: ${selectedLeadForDispatch.moveIn}\nPlease schedule priority pickup with partner discount rate.`;
+                      copyToClipboard(script);
+                      message.success("Mover Partner script copied!");
+                    }}
+                    className="text-xs font-medium col-span-1 sm:col-span-2 bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100"
+                  >
+                    Copy Mover Van Partner Script
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Select Broker to Route */}
             <div>
               <span className="text-xs font-semibold text-slate-700 block mb-2">
-                Select Active Broker in {selectedLeadForDispatch.territory}:
+                Route to Active Broker:
               </span>
-              <div className="space-y-2">
+              <div className="space-y-2 max-h-60 overflow-y-auto">
                 {subscriptions
-                  .filter(
-                    (s) =>
-                      s.territory === selectedLeadForDispatch.territory &&
-                      s.status === "Active"
-                  )
+                  .filter((s) => s.status === "Active")
                   .map((broker) => (
                     <div
                       key={broker.id}
@@ -2813,25 +3064,22 @@ export default function AdminClient() {
                           {broker.brokerName}
                         </div>
                         <div className="text-[11px] text-slate-500 font-mono">
-                          Quota: {broker.deliveredToday} / {broker.quotaDaily} today
+                          Market: {broker.territory} • Quota: {broker.deliveredToday}/{broker.quotaDaily}
                         </div>
                       </div>
                       <Button
                         type="primary"
                         size="small"
-                        className="bg-amber-600 hover:bg-amber-500 text-xs"
+                        className="bg-amber-600 hover:bg-amber-500 text-xs font-semibold"
                       >
-                        Route Now
+                        Route Ticket
                       </Button>
                     </div>
                   ))}
-                {subscriptions.filter(
-                  (s) =>
-                    s.territory === selectedLeadForDispatch.territory &&
-                    s.status === "Active"
-                ).length === 0 && (
+
+                {subscriptions.filter((s) => s.status === "Active").length === 0 && (
                   <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-500 text-center">
-                    No active broker in this market. Lead will be queued.
+                    No active broker subscriptions found.
                   </div>
                 )}
               </div>
@@ -2994,7 +3242,7 @@ export default function AdminClient() {
           </Form.Item>
 
           <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-900 mb-3">
-            This notice will be transmitted instantly to WhatsApp & Telegram channels of all 6 active broker partners.
+            This notice will be transmitted instantly to WhatsApp & Telegram channels of all 6 active coordinators and brokers.
           </div>
 
           <div className="flex justify-end gap-2">
@@ -3091,6 +3339,266 @@ export default function AdminClient() {
             </div>
           </div>
         </div>
+      </Modal>
+
+      {/* ================= DRAWER: NESTED LEAD DOSSIER & 5-LEVEL LOCATION ================= */}
+      <Drawer
+        title="Lead Dossier & 5-Level Geographic Hierarchy"
+        open={leadDrawerOpen}
+        onClose={() => setLeadDrawerOpen(false)}
+        size={520}
+      >
+        {inspectedLead && (
+          <div className="space-y-5">
+            {/* Lead Header */}
+            <div className="p-4 rounded-xl bg-slate-900 text-white space-y-2">
+              <div className="flex items-center justify-between">
+                <Tag color="cyan" className="font-mono font-bold text-xs m-0">
+                  {inspectedLead.ticketId || `TKT-${inspectedLead.id.slice(-6).toUpperCase()}`}
+                </Tag>
+                <div className="flex items-center gap-1">
+                  {inspectedLead.needsMovingService && (
+                    <Tag color="volcano" className="font-bold text-[10px] m-0">
+                      🚚 Mover Requested
+                    </Tag>
+                  )}
+                  {inspectedLead.leadCategory === "room_rental" && (
+                    <Tag color="purple" className="font-bold text-[10px] m-0">
+                      Room Rental
+                    </Tag>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <div className="text-base font-bold">{inspectedLead.fullName}</div>
+                <div className="text-xs text-slate-400 font-mono flex items-center gap-2 mt-0.5">
+                  <span>{inspectedLead.whatsapp}</span>
+                  <Button
+                    type="text"
+                    size="small"
+                    icon={<CopyOutlined className="text-slate-400 hover:text-white text-xs" />}
+                    onClick={() => copyToClipboard(inspectedLead.whatsapp)}
+                    className="h-4 w-4 p-0"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center text-xs pt-1 border-t border-slate-800">
+                <span className="text-slate-400">Budget Bracket:</span>
+                <span className="font-bold text-emerald-400">{inspectedLead.budget}</span>
+              </div>
+            </div>
+
+            {/* 5-Level Geographical Hierarchy */}
+            <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-800 uppercase tracking-wide">
+                  5-Level Geographic Location Hierarchy
+                </span>
+                <Tag color="gold" className="text-[10px] m-0 font-mono">
+                  {inspectedLead.territory}
+                </Tag>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200/80">
+                  <div className="text-[10px] text-slate-400 uppercase font-semibold">1. Country</div>
+                  <div className="font-bold text-slate-900 mt-0.5">
+                    {inspectedLead.locationDetails?.countryCode || (inspectedLead.territory.includes("Qatar") ? "Qatar (QA)" : inspectedLead.territory.includes("Portugal") ? "Portugal (PT)" : inspectedLead.territory.includes("UAE") ? "UAE (AE)" : "Global")}
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200/80">
+                  <div className="text-[10px] text-slate-400 uppercase font-semibold">2. Division / State</div>
+                  <div className="font-bold text-slate-900 mt-0.5">
+                    {inspectedLead.locationDetails?.divisionOrState || "Primary Division / Region"}
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200/80">
+                  <div className="text-[10px] text-slate-400 uppercase font-semibold">3. District / City</div>
+                  <div className="font-bold text-slate-900 mt-0.5">
+                    {inspectedLead.locationDetails?.districtOrCity || inspectedLead.territory.split(",")[1]?.trim() || "City Center"}
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200/80">
+                  <div className="text-[10px] text-slate-400 uppercase font-semibold">4. Upazila / Thana / Zone</div>
+                  <div className="font-bold text-amber-700 mt-0.5">
+                    {inspectedLead.locationDetails?.upazilaOrThana || inspectedLead.territory.split(",")[0] || "Target Zone"}
+                  </div>
+                </div>
+
+                <div className="col-span-2 p-2.5 rounded-lg bg-white border border-slate-200/80">
+                  <div className="text-[10px] text-slate-400 uppercase font-semibold">5. MicroZone / Landmark</div>
+                  <div className="font-semibold text-slate-800 mt-0.5">
+                    {inspectedLead.locationDetails?.microZone || "Metro Transit Corridor / Landmark Sector"}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Relocation & Moving Assistance */}
+            <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-amber-950 flex items-center gap-1.5">
+                  <CarOutlined className="text-amber-700 text-sm" />
+                  <span>Luggage & Relocation Van Service</span>
+                </span>
+                <Tag color={inspectedLead.needsMovingService ? "green" : "default"}>
+                  {inspectedLead.needsMovingService ? "Active Request" : "Not Required"}
+                </Tag>
+              </div>
+
+              {inspectedLead.needsMovingService ? (
+                <div className="space-y-1.5 text-xs text-slate-700">
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Moving From:</span>
+                    <span className="font-semibold">{inspectedLead.movingDetails?.currentArea || "Local Area"}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Target Date:</span>
+                    <span className="font-semibold">{inspectedLead.moveIn}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Assigned Van Driver:</span>
+                    <span className="font-bold text-slate-900">{inspectedLead.movingDetails?.assignedMover || "Unassigned"}</span>
+                  </div>
+                  <div className="pt-2 flex justify-end">
+                    <Button
+                      size="small"
+                      onClick={() => setAssignMoverModalOpen(true)}
+                      className="text-xs font-semibold bg-amber-600 text-white hover:bg-amber-500"
+                    >
+                      Assign / Update Mover Partner
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-xs text-slate-500">Tenant did not request luggage moving assistance.</div>
+              )}
+            </div>
+
+            {/* Anti-Cheat Verification & Status Actions */}
+            <div className="p-4 rounded-xl border border-slate-200 bg-white space-y-3">
+              <span className="text-xs font-bold text-slate-800 block">
+                Anti-Cheat Verification & Deal Status:
+              </span>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                <Button
+                  size="small"
+                  onClick={() => handleUpdateLeadFeedback(inspectedLead.id, "viewing_arranged")}
+                  className={`text-xs font-medium ${inspectedLead.feedbackStatus === "viewing_arranged" ? "bg-blue-600 text-white" : ""}`}
+                >
+                  Viewing Scheduled
+                </Button>
+                <Button
+                  size="small"
+                  onClick={() => handleUpdateLeadFeedback(inspectedLead.id, "deal_closed")}
+                  className={`text-xs font-semibold ${inspectedLead.feedbackStatus === "deal_closed" ? "bg-emerald-600 text-white" : "text-emerald-700 border-emerald-300 hover:bg-emerald-50"}`}
+                >
+                  Mark Deal Closed (Won)
+                </Button>
+                <Button
+                  size="small"
+                  danger
+                  onClick={() => handleUpdateLeadFeedback(inspectedLead.id, "rejected")}
+                  className="text-xs"
+                >
+                  Mark Lost / Rejected
+                </Button>
+              </div>
+            </div>
+
+            {/* One-Click Anti-Cheat Copy Scripts */}
+            <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+              <span className="text-xs font-bold text-slate-800 block">
+                Pre-Composed WhatsApp Routing Scripts:
+              </span>
+              <div className="space-y-1.5">
+                <Button
+                  block
+                  size="small"
+                  onClick={() => {
+                    const tId = inspectedLead.ticketId || `TKT-${inspectedLead.id.slice(-6).toUpperCase()}`;
+                    const script = `Hello, verified room lead from PropGrowth Lab:\n• Ticket: #${tId}\n• Tenant: ${inspectedLead.fullName}\n• Phone: ${inspectedLead.whatsapp}\n• Location: ${inspectedLead.territory}\n• Room: ${inspectedLead.propertyType}\n• Budget: ${inspectedLead.budget}\n• Move-in: ${inspectedLead.moveIn}\n*Important:* Please introduce yourself quoting Ticket #${tId}.`;
+                    copyToClipboard(script);
+                    message.success("Broker handoff script copied!");
+                  }}
+                  className="text-xs text-left"
+                >
+                  Copy Broker Hand-off Script
+                </Button>
+                <Button
+                  block
+                  size="small"
+                  onClick={() => {
+                    const tId = inspectedLead.ticketId || `TKT-${inspectedLead.id.slice(-6).toUpperCase()}`;
+                    const script = `Hello ${inspectedLead.fullName}, this is PropGrowth Lab quality control regarding Ticket #${tId}. Did our assigned room broker connect with you and arrange a viewing? Confirm with us to claim your partner moving van voucher!`;
+                    copyToClipboard(script);
+                    message.success("48h Tenant Verification script copied!");
+                  }}
+                  className="text-xs text-left"
+                >
+                  Copy 48h Tenant Anti-Cheat Audit Script
+                </Button>
+                {inspectedLead.needsMovingService && (
+                  <Button
+                    block
+                    size="small"
+                    onClick={() => {
+                      const tId = inspectedLead.ticketId || `TKT-${inspectedLead.id.slice(-6).toUpperCase()}`;
+                      const script = `Hello Mover Partner, luggage shifting request under Ticket #${tId}:\n• Client: ${inspectedLead.fullName}\n• Phone: ${inspectedLead.whatsapp}\n• Destination: ${inspectedLead.territory}\n• Target Date: ${inspectedLead.moveIn}\nPlease schedule priority pickup with partner discount rate.`;
+                      copyToClipboard(script);
+                      message.success("Mover Partner script copied!");
+                    }}
+                    className="text-xs text-left bg-emerald-50 text-emerald-800 border-emerald-300"
+                  >
+                    Copy Mover Van Partner Script
+                  </Button>
+                )}
+              </div>
+            </div>
+
+          </div>
+        )}
+      </Drawer>
+
+      {/* ================= MODAL: ASSIGN MOVER PARTNER ================= */}
+      <Modal
+        title="Assign Luggage & Relocation Mover Partner"
+        open={assignMoverModalOpen}
+        onCancel={() => setAssignMoverModalOpen(false)}
+        footer={null}
+        destroyOnHidden
+      >
+        <Form form={moverForm} layout="vertical" onFinish={handleAssignMover}>
+          <Form.Item
+            name="moverName"
+            label="Moving Partner / Driver Name"
+            rules={[{ required: true, message: "Please provide mover or driver name" }]}
+          >
+            <Input placeholder="e.g. Doha Express Van Transport or Madeira Island Cargo" />
+          </Form.Item>
+
+          <Form.Item
+            name="moverCommission"
+            label="Referral Commission Earned (QAR / EUR / USD)"
+            rules={[{ required: true, message: "Please enter commission amount" }]}
+            initialValue={35}
+          >
+            <Input type="number" placeholder="e.g. 35" />
+          </Form.Item>
+
+          <div className="flex justify-end gap-2 pt-2">
+            <Button onClick={() => setAssignMoverModalOpen(false)}>Cancel</Button>
+            <Button type="primary" htmlType="submit" className="bg-amber-600 hover:bg-amber-500 font-semibold">
+              Confirm & Assign Mover
+            </Button>
+          </div>
+        </Form>
       </Modal>
     </div>
   );

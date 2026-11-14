@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     template: "%s | PropGrowth Lab",
   },
   description:
-    "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 co-broker closing network across the USA, UK, Canada, Australia, EU, and UAE.",
+    "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 territory coordinator closing network across the USA, UK, Canada, Australia, EU, and UAE.",
   keywords: [
     "PropGrowth Lab",
     "PropTech",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     "Next.js Real Estate",
     "Hospitality Growth Agency",
     "Eliminate Airbnb Fees",
-    "Co-Broker Network 70/30",
+    "Territory Coordinator Network 70/30",
   ],
   authors: [{ name: "PropGrowth Lab" }],
   creator: "PropGrowth Lab",
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "PropGrowth Lab | 360° PropTech Systems & Hospitality Growth Engine",
     description:
-      "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 co-broker closing network.",
+      "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 territory coordinator closing network.",
     url: siteUrl,
     siteName: "PropGrowth Lab",
     images: [
@@ -102,7 +102,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "PropGrowth Lab | 360° PropTech Systems & Hospitality Growth Engine",
     description:
-      "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 co-broker closing network.",
+      "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 territory coordinator closing network.",
     images: ["/og.png"],
     creator: "@propgrowthlab",
   },

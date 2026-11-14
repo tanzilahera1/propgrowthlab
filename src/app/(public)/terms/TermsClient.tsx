@@ -7,7 +7,7 @@ import { FileText, Zap, DollarSign, RefreshCw, Award, Scale, HelpCircle } from "
 const TOC = [
   { id: "acceptance-terms", label: "1. Acceptance of Terms" },
   { id: "turnkey-sla", label: "2. 48-Hour Turnkey Deployment SLA" },
-  { id: "co-broker-splits", label: "3. 70/30 Co-Broker Commission Split" },
+  { id: "co-broker-splits", label: "3. 70/30 Coordinator Commission Split" },
   { id: "lead-quotas", label: "4. Lead Quota & Replacement Guarantee" },
   { id: "billing-cancellation", label: "5. Billing, Rollover & Cancellations" },
   { id: "ip-code-ownership", label: "6. Code Ownership & Intellectual Property" },
@@ -18,10 +18,10 @@ export function TermsClient() {
   return (
     <LegalLayout
       title="Terms of Service & Operational Agreements"
-      subtitle="The contractual framework governing PropTech engineering deliverables, 70/30 co-broker commission splits, and broker lead quotas."
+      subtitle="The contractual framework governing PropTech engineering deliverables, 70/30 coordinator commission splits, and broker lead quotas."
       effectiveDate="March 1, 2026"
       badge="Enterprise Master Service Agreement"
-      summary="These Terms of Service govern all services provided by PropGrowth Lab. Key provisions include our guaranteed 48-hour turnkey website deployment SLA, the 70/30 Co-Broker commission split agreement, and our 100% instant lead replacement guarantee."
+      summary="These Terms of Service govern all services provided by PropGrowth Lab. Key provisions include our guaranteed 48-hour turnkey website deployment SLA, the 70/30 Territory Coordinator commission split agreement, and our 100% instant lead replacement guarantee."
       toc={TOC}
     >
       <div className="space-y-12 text-stone-700 leading-relaxed text-sm sm:text-base">
@@ -34,7 +34,7 @@ export function TermsClient() {
             </h2>
           </div>
           <p>
-            By accessing PropGrowth Lab, booking an audit, purchasing turnkey Next.js PropTech platforms, subscribing to daily lead quotas, or submitting a Co-Broker territory partnership application, you enter into a binding master agreement with PropGrowth Lab.
+            By accessing PropGrowth Lab, booking an audit, purchasing turnkey Next.js PropTech platforms, subscribing to daily lead quotas, or submitting a Coordinator application, you enter into a binding master agreement with PropGrowth Lab.
           </p>
           <p className="text-xs sm:text-sm text-stone-600">
             These terms apply equally to luxury property hosts, villa management companies, and licensed real estate brokers worldwide.
@@ -65,22 +65,22 @@ export function TermsClient() {
           </p>
         </section>
 
-        {/* Section 3: CO-BROKER 70/30 SPLIT */}
+        {/* Section 3: COORDINATOR 70/30 SPLIT */}
         <section id="co-broker-splits" className="space-y-4">
           <div className="flex items-center gap-2.5 pb-2 border-b border-stone-200">
             <DollarSign className="w-5 h-5 text-amber-600 shrink-0" />
             <h2 className="text-xl sm:text-2xl font-black text-stone-900 tracking-tight">
-              3. 70/30 Co-Broker Commission Split Agreement
+              3. 70/30 Territory Coordinator Commission Split Agreement
             </h2>
           </div>
           <p>
-            Under our exclusive territory partnership agreements (`/partners`), the contractual economics operate strictly on a 70/30 revenue split:
+            Under our exclusive territory coordinator agreements (`/coordinators`), the contractual economics operate strictly on a 70/30 revenue split:
           </p>
           <div className="space-y-2.5 text-xs sm:text-sm">
             <div className="p-4 rounded-xl bg-white border border-stone-200 flex items-start gap-3">
               <span className="font-bold text-base text-amber-600 shrink-0">70%</span>
               <div>
-                <strong className="text-stone-900">Partner Broker Payout:</strong> The local licensed broker retains a guaranteed 70% of the total earned broker commission on all property leases, corporate lets, and sales initiated through our dispatch engine.
+                <strong className="text-stone-900">Coordinator Payout:</strong> The local coordinator retains a guaranteed 70% of the total earned commission on all property leases, room rentals, corporate lets, and sales initiated through our dispatch engine.
               </div>
             </div>
             <div className="p-4 rounded-xl bg-white border border-stone-200 flex items-start gap-3">
@@ -91,7 +91,7 @@ export function TermsClient() {
             </div>
           </div>
           <p className="text-xs sm:text-sm text-stone-600">
-            Brokers are obligated to report deal closings within 5 business days of contract execution. Payouts are settled through verified escrow or direct international wire transfer.
+            Coordinators are obligated to report deal closings within 5 business days of contract execution. Payouts are settled through verified escrow or direct international wire transfer.
           </p>
         </section>
 

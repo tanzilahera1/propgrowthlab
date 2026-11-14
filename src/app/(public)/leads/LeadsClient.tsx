@@ -395,7 +395,7 @@ export function LeadsClient() {
 
               <CardFooter className="p-4 sm:p-5 border-t border-stone-100 bg-stone-50/70 rounded-b-3xl">
                 <a
-                  href={`https://wa.me/8801540505122?text=${encodeURIComponent(
+                  href={`https://wa.me/8801330807372?text=${encodeURIComponent(
                     `Hi PropGrowth Lab, I want to subscribe to the ${plan.name} ($${plan.priceMonthly}/mo) for territory: ${selectedTerritory.name}`
                   )}`}
                   target="_blank"
@@ -443,7 +443,7 @@ export function LeadsClient() {
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full sm:w-auto relative z-10">
               <a
-                href={`https://wa.me/8801540505122?text=${encodeURIComponent(
+                href={`https://wa.me/8801330807372?text=${encodeURIComponent(
                   `Hi PropGrowth Lab, I want to lock in territory lead quota for: ${selectedTerritory.name}`
                 )}`}
                 target="_blank"
@@ -455,9 +455,9 @@ export function LeadsClient() {
                   <ArrowRight className="w-4 h-4 shrink-0" />
                 </Button>
               </a>
-              <Link href="/partners" className="w-full sm:w-auto">
+              <Link href="/coordinators" className="w-full sm:w-auto">
                 <Button className="w-full sm:w-auto min-h-[48px] h-auto py-3 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold bg-stone-900 hover:bg-stone-800 text-white border border-stone-800 shadow-md transition-colors cursor-pointer flex items-center justify-center">
-                  Explore Co-Broker Partnership
+                  Explore Coordinator Network
                 </Button>
               </Link>
             </div>

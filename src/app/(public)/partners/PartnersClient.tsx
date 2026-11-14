@@ -32,7 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const PARTNER_TERRITORIES = [
+const COORDINATOR_TERRITORIES = [
   { value: "United States (USA)", label: "United States (USA · FL, NY, CA)" },
   { value: "United Kingdom (UK)", label: "United Kingdom (London & England)" },
   { value: "Canada", label: "Canada (Toronto, Vancouver, Montreal)" },
@@ -42,13 +42,15 @@ const PARTNER_TERRITORIES = [
   { value: "Other Worldwide Hub", label: "Other International Hub (Worldwide)" },
 ];
 
+export const PARTNER_TERRITORIES = COORDINATOR_TERRITORIES;
+
 const EXPERIENCE_OPTIONS = [
   { value: "1-2 years", label: "1 - 2 years" },
   { value: "3-5 years", label: "3 - 5 years" },
   { value: "5+ years", label: "5+ years (Senior Broker)" },
 ];
 
-export function PartnersClient() {
+export function CoordinatorsClient() {
   const [fullName, setFullName] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
@@ -65,10 +67,10 @@ export function PartnersClient() {
     setIsSubmitting(true);
 
     try {
-      // Fallback open WhatsApp direct partnership channel
-      const waMsg = `Hi PropGrowth Lab team, I want to apply as a Co-Broker Partner Agent in ${territory}. Name: ${fullName}, Experience: ${experience}, WhatsApp: ${whatsapp}, Email: ${email}`;
-      window.open(`https://wa.me/8801540505122?text=${encodeURIComponent(waMsg)}`, "_blank");
-      toast.success("Application submitted! Our partnership director will review your profile within 24 hours.");
+      // Direct WhatsApp coordinator application channel
+      const waMsg = `Hi PropGrowth Lab team, I want to apply as a Coordinator in ${territory}. Name: ${fullName}, Experience: ${experience}, WhatsApp: ${whatsapp}, Email: ${email}`;
+      window.open(`https://wa.me/8801330807372?text=${encodeURIComponent(waMsg)}`, "_blank");
+      toast.success("Application submitted! Our coordinator team will review your profile within 24 hours.");
       setFullName("");
       setWhatsapp("");
       setEmail("");
@@ -92,7 +94,7 @@ export function PartnersClient() {
               Transparent Economics
             </Badge>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">
-              Traditional Brokerage vs. PropGrowth Co-Broker Model
+              Traditional Agency vs. PropGrowth Coordinator Model
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2">
               Why independent top-producing agents choose to partner with our digital engine.
@@ -137,7 +139,7 @@ export function PartnersClient() {
               </div>
               <div className="pb-4 border-b border-amber-200/70">
                 <span className="text-xs font-bold text-amber-800 font-mono uppercase tracking-wider">
-                  PropGrowth Co-Broker Partner
+                  PropGrowth Territory Coordinator
                 </span>
                 <h3 className="text-xl font-bold text-stone-900 mt-1">Direct Deal Partnership</h3>
               </div>
@@ -235,8 +237,9 @@ export function PartnersClient() {
         </div>
       </section>
 
-      {/* ================= PARTNER APPLICATION FORM ================= */}
-      <section id="partner-form" className="py-16 sm:py-24 bg-gradient-to-b from-[#fbfbfa] via-[#f6f3eb] to-[#fbfbfa] text-stone-900 relative overflow-hidden border-t border-stone-200/90">
+      {/* ================= COORDINATOR APPLICATION FORM ================= */}
+      <section id="coordinator-form" className="py-16 sm:py-24 bg-gradient-to-b from-[#fbfbfa] via-[#f6f3eb] to-[#fbfbfa] text-stone-900 relative overflow-hidden border-t border-stone-200/90">
+        <div id="partner-form" className="absolute -top-20" />
         {/* Ambient warm gold glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/12 blur-[130px] pointer-events-none" />
 
@@ -250,7 +253,7 @@ export function PartnersClient() {
                 Agent Application
               </Badge>
               <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-stone-950">
-                Apply to Become an Exclusive Co-Broker Partner
+                Apply to Become an Exclusive Territory Coordinator
               </h2>
               <p className="text-xs sm:text-sm text-stone-600 mt-2">
                 We accept only 2 licensed agents per city territory to prevent internal competition and guarantee deal volume.
@@ -365,7 +368,7 @@ export function PartnersClient() {
                 disabled={isSubmitting}
                 className="w-full h-11 sm:h-12 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold rounded-xl text-xs sm:text-sm mt-4 shadow-lg shadow-amber-500/25 cursor-pointer flex items-center justify-center gap-2 border-0 transition-transform active:scale-95"
               >
-                <span>{isSubmitting ? "Submitting Application..." : "Submit Partner Agent Application"}</span>
+                <span>{isSubmitting ? "Submitting Application..." : "Submit Coordinator Application"}</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
               </Button>
 
@@ -380,4 +383,5 @@ export function PartnersClient() {
   );
 }
 
-export default PartnersClient;
+export const PartnersClient = CoordinatorsClient;
+export default CoordinatorsClient;

@@ -72,14 +72,17 @@ import {
 // ================= DUMMY USER & CLIENT DATA =================
 interface LeadRecord {
   id: string;
+  ticketId?: string;
   name: string;
   phone: string;
   maskedPhone: string;
   property: string;
+  leadCategory?: string;
   neighborhood: string;
   budget: string;
-  dealType: "Purchase" | "Luxury Lease";
+  dealType: "Purchase" | "Luxury Lease" | "Room Rental";
   moveIn: string;
+  needsMovingService?: boolean;
   qualification: string;
   timestamp: string;
   status: "new" | "contacted" | "scheduled" | "replaced";
@@ -219,21 +222,21 @@ const PERSONAS: Record<PersonaType, PersonaConfig> = {
   },
   escrow: {
     id: "escrow",
-    label: "🤝 Co-Broker Partner",
-    roleBadge: "70/30 Partner Network",
+    label: "🤝 Territory Coordinator",
+    roleBadge: "70/30 Coordinator Network",
     clientName: "David Sterling",
     organization: "Sterling Prime Real Estate (Lic. 98124)",
     territoryOrAsset: "London & Prime Commuter Ring (UK)",
     allowedTabs: ["escrow", "leads", "routing", "settings"],
     defaultTab: "escrow",
-    tagline: "Licensed co-broker partner in the 70/30 commission split escrow network.",
+    tagline: "Verified territory coordinator in the 70/30 commission split escrow network.",
   },
 };
 
 const ALL_DASHBOARD_TABS: TabCategory[] = [
   { id: "leads", label: "Broker Lead Quota", badge: "84/120" },
   { id: "stays", label: "Direct Stay Engine", badge: "3 Villas" },
-  { id: "escrow", label: "Co-Broker Escrow", badge: "$48k In Pipeline" },
+  { id: "escrow", label: "Coordinator Escrow", badge: "$48k In Pipeline" },
   { id: "templates", label: "Codebase & Licenses", badge: "2 Active" },
   { id: "routing", label: "WhatsApp Routing", badge: "Active" },
   { id: "settings", label: "Account & Security", badge: "Settings" },
@@ -634,9 +637,16 @@ export function DashboardClient() {
   // Filter leads
   const filteredLeads = leads.filter((lead) => {
     const matchesFilter =
-      leadFilter === "all" ? true : lead.status === leadFilter;
+      leadFilter === "all"
+        ? true
+        : leadFilter === "room_rental"
+        ? lead.dealType === "Room Rental" || lead.leadCategory === "room_rental"
+        : leadFilter === "mover"
+        ? !!lead.needsMovingService
+        : lead.status === leadFilter;
     const matchesSearch =
       lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (lead.ticketId && lead.ticketId.toLowerCase().includes(searchQuery.toLowerCase())) ||
       lead.property.toLowerCase().includes(searchQuery.toLowerCase()) ||
       lead.neighborhood.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
@@ -677,7 +687,7 @@ export function DashboardClient() {
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-extrabold text-sm text-stone-900 truncate">
-                      {session.user.name || "Authenticated Partner"}
+                      {session.user.name || "Authenticated Coordinator"}
                     </span>
                     <span className="px-2 py-0.5 rounded-md bg-stone-900 text-amber-400 text-[10px] font-mono font-bold tracking-wider uppercase">
                       {displayRole}
@@ -800,7 +810,7 @@ export function DashboardClient() {
             <div>
               <div className="flex items-center gap-2.5 flex-wrap">
                 <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
-                  Client & Partner Portal
+                  Client & Coordinator Portal
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-[4px] bg-stone-900 text-amber-400 text-[11px] font-mono font-bold tracking-wider uppercase border border-stone-800">
                   {currentPersona.roleBadge}
@@ -972,8 +982,10 @@ export function DashboardClient() {
                   {/* Filter Pills */}
                   <div className="flex items-center gap-1.5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-1">
                     {[
-                      { id: "all", label: "All Leads" },
-                      { id: "new", label: "New (Uncontacted)" },
+                      { id: "all", label: "All Inflow" },
+                      { id: "room_rental", label: "🏠 Room Rentals" },
+                      { id: "mover", label: "🚚 Mover Requested" },
+                      { id: "new", label: "New Leads" },
                       { id: "contacted", label: "In Discussion" },
                       { id: "scheduled", label: "Showing Set" },
                       { id: "replaced", label: "Replaced" },
@@ -1022,8 +1034,8 @@ export function DashboardClient() {
                       {/* Left: Lead Core Data */}
                       <div className="space-y-2 flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-xs font-bold text-stone-500">
-                            #{lead.id}
+                          <span className="font-mono text-xs font-bold text-cyan-800 bg-cyan-50 border border-cyan-200 px-2 py-0.5 rounded">
+                            {lead.ticketId ? `#${lead.ticketId}` : `#${lead.id}`}
                           </span>
                           <h2 className="text-base font-bold text-stone-900">
                             {lead.name}
@@ -1031,6 +1043,11 @@ export function DashboardClient() {
                           <span className="px-2 py-0.5 rounded-[4px] text-[10px] font-bold bg-amber-500/10 text-amber-800 border border-amber-600/20">
                             {lead.dealType}
                           </span>
+                          {lead.needsMovingService && (
+                            <span className="px-2 py-0.5 rounded-[4px] text-[10px] font-bold bg-amber-500/15 text-amber-900 border border-amber-500/30 flex items-center gap-1">
+                              🚚 Mover Requested
+                            </span>
+                          )}
                           {lead.status === "new" && (
                             <span className="px-2 py-0.5 rounded-[4px] text-[10px] font-bold bg-emerald-500/10 text-emerald-800 border border-emerald-600/20 flex items-center gap-1">
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -1085,7 +1102,7 @@ export function DashboardClient() {
                       <div className="flex items-center gap-2 shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-stone-100 w-full lg:w-auto justify-between lg:justify-end">
                         <a
                           href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-                            `Hello ${lead.name}, this is Marcus Vance from Premier Florida Realty. I received your inquiry regarding ${lead.property}. When would you like to arrange a private viewing?`
+                            `Hello ${lead.name}, this is your verified property specialist regarding your inquiry${lead.ticketId ? ` (Ticket #${lead.ticketId})` : ""} for ${lead.property}. When would you like to arrange a viewing?`
                           )}`}
                           target="_blank"
                           rel="noreferrer"
@@ -1309,7 +1326,7 @@ export function DashboardClient() {
         )}
 
         {/* ============================================================== */}
-        {/* TAB 3: CO-BROKER ESCROW & DEALS                                */}
+        {/* TAB 3: COORDINATOR ESCROW & DEALS                            */}
         {/* ============================================================== */}
         {activeTab === "escrow" && (
           <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-300">
@@ -1328,7 +1345,7 @@ export function DashboardClient() {
                   $64,000
                 </div>
                 <p className="mt-3 text-[11px] text-stone-500">
-                  70% broker commission share directly wired to your escrow.
+                  70% coordinator commission share directly wired to your escrow.
                 </p>
                 <div className="mt-2 text-[11px] text-stone-400">
                   Last payout: 10 days ago ($24,500)
@@ -1358,7 +1375,7 @@ export function DashboardClient() {
               <div className="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200/80 shadow-xs">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-stone-500">
-                    Partner Split Ratio
+                    Coordinator Split Ratio
                   </span>
                   <span className="px-2 py-0.5 rounded-[4px] bg-stone-100 text-stone-700 text-[10px] font-bold border border-stone-200">
                     Standard
@@ -1368,7 +1385,7 @@ export function DashboardClient() {
                   70% / 30%
                 </div>
                 <p className="mt-3 text-[11px] text-stone-500">
-                  70% to local closing broker · 30% PropGrowth inbound lead origination.
+                  70% to local coordinator · 30% PropGrowth inbound lead origination.
                 </p>
                 <div className="mt-2 text-[11px] text-stone-400">
                   Zero desk or tech fees deducted
@@ -1401,7 +1418,7 @@ export function DashboardClient() {
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div>
                   <h2 className="text-lg font-bold text-stone-900">
-                    Active Co-Broker Escrow Ledger
+                    Active Coordinator Escrow Ledger
                   </h2>
                   <p className="text-xs text-stone-500">
                     Live deal status, title escrow verification, and scheduled settlement dates.
@@ -1428,7 +1445,7 @@ export function DashboardClient() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => showToast("Downloading Escrow Co-Broker PDF Agreement...")}
+                    onClick={() => showToast("Downloading Coordinator Escrow Agreement (70/30 Split)...")}
                     className="rounded-full text-xs font-semibold border-stone-300 h-8.5 px-3.5 gap-1.5 cursor-pointer hover:bg-stone-50"
                   >
                     <FileSpreadsheet className="w-3.5 h-3.5 text-stone-500" />
@@ -2326,18 +2343,25 @@ export function DashboardClient() {
             <div className="space-y-4">
               <DialogHeader>
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono font-bold text-stone-500">
-                    CLIENT DOSSIER #{selectedLead.id}
+                  <span className="text-[11px] font-mono font-bold text-cyan-800 bg-cyan-50 border border-cyan-200 px-2 py-0.5 rounded">
+                    TICKET #{selectedLead.ticketId || selectedLead.id}
                   </span>
-                  <span className="px-2 py-0.5 rounded-[4px] text-[10px] font-bold bg-amber-500/10 text-amber-800">
-                    {selectedLead.dealType}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    {selectedLead.needsMovingService && (
+                      <span className="px-2 py-0.5 rounded-[4px] text-[10px] font-bold bg-amber-500/15 text-amber-900 border border-amber-500/30">
+                        🚚 Mover Requested
+                      </span>
+                    )}
+                    <span className="px-2 py-0.5 rounded-[4px] text-[10px] font-bold bg-amber-500/10 text-amber-800">
+                      {selectedLead.dealType}
+                    </span>
+                  </div>
                 </div>
                 <DialogTitle className="text-xl font-bold text-stone-900">
                   {selectedLead.name}
                 </DialogTitle>
                 <DialogDescription className="text-xs text-stone-500">
-                  Pre-screened verified lead dispatched to your Miami Tier-1 quota.
+                  Pre-screened verified inquiry allocated to your active territory quota.
                 </DialogDescription>
               </DialogHeader>
 
@@ -2345,38 +2369,46 @@ export function DashboardClient() {
                 <div className="flex justify-between py-1 border-b border-stone-200/60">
                   <span className="text-stone-500">Direct WhatsApp</span>
                   <span className="font-bold text-stone-900 font-mono">
-                    {selectedLead.maskedPhone}
+                    {selectedLead.phone || selectedLead.maskedPhone}
                   </span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-stone-200/60">
-                  <span className="text-stone-500">Target Property</span>
+                  <span className="text-stone-500">Target Area / Territory</span>
+                  <span className="font-semibold text-stone-900 text-right">
+                    {selectedLead.neighborhood || selectedLead.property}
+                  </span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-stone-200/60">
+                  <span className="text-stone-500">Accommodation Type</span>
                   <span className="font-semibold text-stone-900 text-right">
                     {selectedLead.property}
                   </span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-stone-200/60">
-                  <span className="text-stone-500">Budget Bracket</span>
+                  <span className="text-stone-500">Monthly Budget</span>
                   <span className="font-bold text-emerald-700">
                     {selectedLead.budget}
                   </span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-stone-200/60">
-                  <span className="text-stone-500">Move-in Timeframe</span>
+                  <span className="text-stone-500">Move-in Timeline</span>
                   <span className="font-semibold text-stone-900">
                     {selectedLead.moveIn}
                   </span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-stone-500">Proof of Funds</span>
+                  <span className="text-stone-500">Relocation Moving Van</span>
                   <span className="font-semibold text-stone-900">
-                    {selectedLead.qualification}
+                    {selectedLead.needsMovingService ? "✅ Active Request (Luggage & Van Assistance)" : "Not Requested"}
                   </span>
                 </div>
               </div>
 
               <div className="flex items-center gap-2 pt-2">
                 <a
-                  href={`https://wa.me/${selectedLead.phone.replace(/[^0-9]/g, "")}`}
+                  href={`https://wa.me/${selectedLead.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
+                    `Hello ${selectedLead.name}, I am your verified property specialist regarding your enquiry (Ticket #${selectedLead.ticketId || selectedLead.id}) in ${selectedLead.neighborhood || selectedLead.property}. When would you like to arrange a viewing?`
+                  )}`}
                   target="_blank"
                   rel="noreferrer"
                   className="flex-1"
@@ -2486,7 +2518,7 @@ export function DashboardClient() {
               Request Escrow Commission Wire
             </DialogTitle>
             <DialogDescription className="text-xs text-stone-600">
-              Disburse your verified 70% co-broker commission shares directly to your firm escrow account under our Title Guarantee SLA.
+              Disburse your verified 70% coordinator commission shares directly to your firm escrow account under our Title Guarantee SLA.
             </DialogDescription>
           </DialogHeader>
 

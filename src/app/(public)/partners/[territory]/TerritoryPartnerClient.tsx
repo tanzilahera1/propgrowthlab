@@ -78,14 +78,14 @@ export function TerritoryPartnerClient({ territory }: Props) {
     }
     setIsSubmitting(true);
 
-    const waMsg = `Hi PropGrowth Lab team, I want to lock in the exclusive Co-Broker Partner allocation for ${territory.name}.
+    const waMsg = `Hi PropGrowth Lab team, I want to lock in the exclusive Territory Coordinator allocation for ${territory.name}.
 Name: ${fullName}
 Brokerage: ${brokerageName || "Independent Broker"}
 Experience: ${experience}
 WhatsApp: ${whatsapp}
 Email: ${email}`;
 
-    window.open(`https://wa.me/8801540505122?text=${encodeURIComponent(waMsg)}`, "_blank");
+    window.open(`https://wa.me/8801330807372?text=${encodeURIComponent(waMsg)}`, "_blank");
     toast.success("Allocation application initiated! Opening WhatsApp direct concierge.");
     setIsSubmitting(false);
   };
@@ -98,11 +98,11 @@ Email: ${email}`;
           {/* Left: Breadcrumb Trail (Zero squishing or wrapping on middle devices) */}
           <div className="flex items-center gap-2 text-xs sm:text-sm text-stone-500 shrink-0">
             <Link
-              href="/partners"
+              href="/coordinators"
               className="inline-flex items-center gap-1.5 font-medium hover:text-stone-950 transition-colors shrink-0"
             >
               <ChevronLeft className="w-4 h-4 text-stone-400" />
-              <span>Partner Network</span>
+              <span>Coordinator Network</span>
             </Link>
             <span className="text-stone-300">/</span>
             <span className="font-semibold text-stone-900 truncate">{territory.shortName} Allocation</span>
@@ -113,7 +113,7 @@ Email: ${email}`;
             <StandalonePillTabBar
               categories={territoryTabs}
               activeTab={territory.id}
-              onTabChange={(id) => router.push(`/partners/${id}`)}
+              onTabChange={(id) => router.push(`/coordinators/${id}`)}
             />
           </div>
         </div>
@@ -125,7 +125,7 @@ Email: ${email}`;
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-8 space-y-4">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-stone-950 tracking-tight leading-[1.15]">
-                {territory.name} Partner Portal
+                {territory.name} Coordinator Portal
               </h1>
               <p className="text-base sm:text-lg text-stone-600 max-w-2xl leading-relaxed">
                 Represent pre-screened luxury buyers and high-ticket tenants across {territory.cities.join(", ")}. We supply qualified inbound inquiries; you conduct showings, negotiate, and close.
@@ -379,3 +379,6 @@ Email: ${email}`;
     </div>
   );
 }
+
+export const TerritoryCoordinatorClient = TerritoryPartnerClient;
+export default TerritoryPartnerClient;

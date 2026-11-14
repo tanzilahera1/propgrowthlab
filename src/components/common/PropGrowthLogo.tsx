@@ -38,7 +38,7 @@ export function PropGrowthLogo({
   return (
     <Link
       href="/"
-      className={`inline-flex items-center gap-2 sm:gap-3 group transition-opacity hover:opacity-95 active:scale-[0.98] ${
+      className={`inline-flex items-center gap-1.5 sm:gap-2 xl:gap-2.5 group transition-opacity hover:opacity-95 active:scale-[0.98] ${
         layout === "vertical" ? "flex-col text-center" : "flex-row"
       } ${className}`}
       aria-label="PropGrowth Lab"

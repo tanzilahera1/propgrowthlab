@@ -53,12 +53,18 @@ export async function GET() {
 
     const leads = dbLeads.map((l) => ({
       id: l._id.toString(),
+      ticketId: l.ticketId || `TKT-${l._id.toString().slice(-6).toUpperCase()}`,
       fullName: l.fullName,
       whatsapp: l.whatsapp,
       territory: l.territory,
       propertyType: l.propertyType,
+      leadCategory: l.leadCategory || "room_rental",
       budget: l.budget,
       moveIn: l.moveInTimeframe || "Immediate",
+      needsMovingService: !!l.needsMovingService,
+      movingDetails: l.movingDetails,
+      locationDetails: l.locationDetails,
+      feedbackStatus: l.feedbackStatus || "pending",
       status: (l.status === "viewing_scheduled" || l.status === "archived"
         ? "closed"
         : l.status) as "new" | "dispatched" | "closed",
@@ -292,15 +298,60 @@ export async function POST(request: NextRequest) {
           {
             status: "dispatched",
             assignedBroker: payload.brokerName,
+            feedbackStatus: "viewing_arranged",
           },
           { new: true }
         );
 
         await AuditLog.create({
-          title: "Lead Dispatched",
-          detail: `Lead routed to ${payload.brokerName}.`,
+          title: "Lead Dispatched to Broker",
+          detail: `Lead ${updated?.ticketId || updated?.fullName} routed to ${payload.brokerName}.`,
           tag: "DISPATCH",
           color: "blue",
+          actorEmail: session.user.email,
+        });
+
+        return NextResponse.json({ success: true, lead: updated });
+      }
+
+      case "dispatch_mover": {
+        const updated = await Lead.findByIdAndUpdate(
+          payload.leadId,
+          {
+            "movingDetails.assignedMover": payload.moverName,
+            "movingDetails.moverCommission": payload.moverCommission || 0,
+          },
+          { new: true }
+        );
+
+        await AuditLog.create({
+          title: "Mover Assigned to Lead",
+          detail: `Luggage & Shifting partner ${payload.moverName} assigned to Lead ${updated?.ticketId || updated?.fullName}. Commission: ${payload.moverCommission || 0}`,
+          tag: "MOVER_DISPATCH",
+          color: "green",
+          actorEmail: session.user.email,
+        });
+
+        return NextResponse.json({ success: true, lead: updated });
+      }
+
+      case "update_lead_feedback": {
+        const isClosed = payload.feedbackStatus === "deal_closed";
+        const updated = await Lead.findByIdAndUpdate(
+          payload.leadId,
+          {
+            feedbackStatus: payload.feedbackStatus,
+            status: isClosed ? "closed" : payload.status || "dispatched",
+            brokerCommissionShare: payload.brokerCommissionShare || 0,
+          },
+          { new: true }
+        );
+
+        await AuditLog.create({
+          title: "Lead Feedback / Audit Updated",
+          detail: `Lead ${updated?.ticketId || updated?.fullName} status set to: ${payload.feedbackStatus}. Deal Closed: ${isClosed ? "YES" : "NO"}.`,
+          tag: "FEEDBACK",
+          color: isClosed ? "green" : "blue",
           actorEmail: session.user.email,
         });
 

@@ -44,4 +44,7 @@ export const PartnerApplication: Model<IPartnerApplication> =
     PartnerApplicationSchema
   );
 
+export type ICoordinatorApplication = IPartnerApplication;
+export const CoordinatorApplication = PartnerApplication;
+
 export default PartnerApplication;

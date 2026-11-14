@@ -172,12 +172,12 @@ export function UserNavDropdown({
                 </Link>
 
                 <Link
-                  href="/partners"
+                  href="/coordinators"
                   onClick={() => setIsOpen(false)}
                   className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors"
                 >
                   <Users className="w-4 h-4 text-slate-500 shrink-0" />
-                  <span>Partner Network</span>
+                  <span>Coordinator Network</span>
                 </Link>
               </div>
 

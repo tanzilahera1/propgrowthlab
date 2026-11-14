@@ -15,7 +15,7 @@ async function runTests() {
     { email: "user@gmail.com", expectedRole: "USER", shouldAccessAdmin: false },
     { email: "broker@gmail.com", expectedRole: "BROKER", shouldAccessAdmin: false },
     { email: "client@gmail.com", expectedRole: "CLIENT", shouldAccessAdmin: false },
-    { email: "partner@gmail.com", expectedRole: "PARTNER", shouldAccessAdmin: false },
+    { email: "partner@gmail.com", expectedRole: ["PARTNER", "COORDINATOR"], shouldAccessAdmin: false },
     { email: "operator@gmail.com", expectedRole: "OPERATOR", shouldAccessAdmin: true },
   ];
 
@@ -37,7 +37,10 @@ async function runTests() {
   for (const acc of testAccounts) {
     const user = await db.collection("users").findOne({ email: acc.email });
     assert(Boolean(user), `User ${acc.email} exists in database`);
-    assert(user && user.role === acc.expectedRole, `User ${acc.email} has role '${acc.expectedRole}'`);
+    const roleMatches = Array.isArray(acc.expectedRole)
+      ? acc.expectedRole.includes(user?.role)
+      : user?.role === acc.expectedRole;
+    assert(user && roleMatches, `User ${acc.email} has valid role (${user?.role})`);
 
     const isMatch = await bcrypt.compare("Aa123456", user.password);
     assert(isMatch, `Password 'Aa123456' successfully verified for ${acc.email}`);

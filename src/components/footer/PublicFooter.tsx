@@ -26,7 +26,7 @@ export function PublicFooter() {
             <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
               The 360° Tech & Performance Growth Engine for Luxury Stays, Villas & Real Estate.
               We build sub-second direct booking platforms, drive high-paying guests, and dispatch
-              verified tenant leads to licensed broker partners.
+              verified tenant leads to licensed coordinators and brokers.
             </p>
 
             {/* Global Territory Chips */}
@@ -70,7 +70,7 @@ export function PublicFooter() {
                 <LinkedInIcon size="16" />
               </a>
               <a
-                href="https://wa.me/8801540505122"
+                href="https://wa.me/8801330807372"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
@@ -125,11 +125,20 @@ export function PublicFooter() {
               </li>
               <li>
                 <Link
-                  href="/partners"
+                  href="/coordinators"
                   className="hover:text-amber-400 transition-colors flex items-center gap-2"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                  <span>Co-Broker Partner Network</span>
+                  <span>Coordinator Network (70/30 Split)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/find-room"
+                  className="hover:text-amber-400 transition-colors flex items-center gap-2"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                  <span>Find Room (Verified Rentals)</span>
                 </Link>
               </li>
             </ul>

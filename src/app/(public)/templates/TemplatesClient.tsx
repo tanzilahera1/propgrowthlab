@@ -625,7 +625,7 @@ export function TemplatesClient() {
               </a>
 
               <a
-                href="https://wa.me/8801540505122?text=Hi%20PropGrowth%20Lab%2C%20I%20want%20to%20order%20the%20All%20105%2B%20Pass%20(%24149%20%2F%20Tk%2016%2C000)%20or%20request%20a%20turnkey%20launch."
+                href="https://wa.me/8801330807372?text=Hi%20PropGrowth%20Lab%2C%20I%20want%20to%20order%20the%20All%20105%2B%20Pass%20(%24149%20%2F%20Tk%2016%2C000)%20or%20request%20a%20turnkey%20launch."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"
@@ -851,7 +851,7 @@ export function TemplatesClient() {
 
             <div className="pt-1">
               <a
-                href={`https://wa.me/8801540505122?text=${encodeURIComponent(
+                href={`https://wa.me/8801330807372?text=${encodeURIComponent(
                   `Hi PropGrowth Lab team, I want to ${
                     orderType === "code"
                       ? `buy source code ($${selectedTemplate?.codePrice} / Tk ${selectedTemplate?.codePriceBDT.toLocaleString()})`

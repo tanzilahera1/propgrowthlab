@@ -12,6 +12,7 @@ import {
   TrendingUp,
   Handshake,
   Layers,
+  MapPinHouse,
   User,
 } from "lucide-react";
 
@@ -38,11 +39,18 @@ const NAV_LINKS = [
     badge: "Daily Quotas",
   },
   {
-    name: "Partners",
-    href: "/partners",
-    tagline: "Co-brokering & guaranteed 70/30 split",
+    name: "Coordinators",
+    href: "/coordinators",
+    tagline: "Territory coordinators & guaranteed 70/30 split",
     icon: Handshake,
-    badge: "Co-Broker",
+    badge: "70/30 Split",
+  },
+  {
+    name: "Find Room",
+    href: "/find-room",
+    tagline: "Verified executive room search & relocation",
+    icon: MapPinHouse,
+    badge: "Verified Rooms",
   },
 ];
 
@@ -88,11 +96,11 @@ export function PublicNavbar() {
           : "bg-[#fbfbfa]/85 backdrop-blur-lg border-b border-stone-200/60"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-3 lg:px-4 xl:px-8">
         <div className="flex items-center justify-between h-12 sm:h-13.5 lg:h-14">
           {/* ================= LEFT: SINGLE-LINE LOGO ================= */}
           <div className="flex-shrink-0">
-            <PropGrowthLogo size="sm" />
+            <PropGrowthLogo size="sm" className="gap-1.5 sm:gap-2 xl:gap-2.5" />
           </div>
 
           {/* ================= CENTER: DESKTOP PILLAR NAVIGATION ================= */}
@@ -106,14 +114,14 @@ export function PublicNavbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`group relative px-2.5 lg:px-3 py-1 rounded-full text-[11px] lg:text-xs font-semibold tracking-wide transition-all duration-200 whitespace-nowrap flex items-center gap-1.5 ${
+                  className={`group relative px-2 md:px-2 lg:px-2 xl:px-2.5 py-1 rounded-full text-[10.5px] md:text-[11px] lg:text-[11.5px] xl:text-xs font-semibold tracking-tight lg:tracking-normal transition-all duration-200 whitespace-nowrap flex items-center gap-1 lg:gap-1.5 ${
                     isActive
                       ? "bg-stone-900 text-white font-bold shadow-xs"
                       : "text-stone-600 hover:text-stone-900 hover:bg-white/90"
                   }`}
                 >
                   <Icon
-                    className={`w-3.5 h-3.5 transition-colors shrink-0 ${
+                    className={`hidden lg:inline-block w-3 h-3 lg:w-3.5 lg:h-3.5 transition-colors shrink-0 ${
                       isActive
                         ? "text-amber-400"
                         : "text-stone-400 group-hover:text-stone-700"
@@ -129,14 +137,14 @@ export function PublicNavbar() {
           </nav>
 
           {/* ================= RIGHT: PRIMARY CTA & USER PROFILE PLACEHOLDER ================= */}
-          <div className="hidden md:flex items-center gap-2 shrink-0">
+          <div className="hidden md:flex items-center gap-1 md:gap-1.5 lg:gap-2 shrink-0">
             <Link href="/agency#audit-form">
               <Button
                 size="sm"
-                className="rounded-full text-[11px] font-bold px-3 h-8 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-xs border border-amber-600/30 transition-all active:scale-95 whitespace-nowrap gap-1.5 cursor-pointer"
+                className="rounded-full text-[10.5px] md:text-[11px] lg:text-xs font-bold px-2 md:px-2 lg:px-2.5 xl:px-3 h-7.5 lg:h-8 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white shadow-xs border border-amber-600/30 transition-all active:scale-95 whitespace-nowrap gap-1 lg:gap-1.5 cursor-pointer"
               >
                 <span>Book Audit</span>
-                <Sparkles className="w-3.5 h-3.5 text-white" />
+                <Sparkles className="hidden lg:inline w-3 h-3 lg:w-3.5 lg:h-3.5 text-white shrink-0" />
               </Button>
             </Link>
 
@@ -170,7 +178,7 @@ export function PublicNavbar() {
         isVisible ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0 pointer-events-none"
       }`}
     >
-      <div className="bg-[#fbfbfa]/95 text-stone-700 backdrop-blur-xl border border-stone-200/90 shadow-xl shadow-stone-950/12 rounded-full py-1 px-2 flex items-center justify-between gap-1">
+      <div className="bg-[#fbfbfa]/95 text-stone-700 backdrop-blur-xl border border-stone-200/90 shadow-xl shadow-stone-950/12 rounded-full py-1 px-1.5 flex items-center justify-between gap-0.5">
         {NAV_LINKS.map((link) => {
           const Icon = link.icon;
           const isActive =
@@ -180,7 +188,7 @@ export function PublicNavbar() {
             <Link
               key={link.name}
               href={link.href}
-              className={`flex-1 h-10 rounded-full flex flex-col items-center justify-center transition-all duration-200 ${
+              className={`flex-1 h-10 rounded-full flex flex-col items-center justify-center transition-all duration-200 px-0.5 ${
                 isActive
                   ? "bg-stone-900 text-white font-bold shadow-xs"
                   : "text-stone-500 hover:text-stone-900 hover:bg-stone-100/80"
@@ -197,7 +205,7 @@ export function PublicNavbar() {
                 )}
               </div>
               <span
-                className={`text-[9.5px] mt-0.5 tracking-tight leading-none ${
+                className={`text-[9px] mt-0.5 tracking-tight leading-none truncate max-w-full ${
                   isActive ? "font-bold text-white" : "font-semibold text-stone-600"
                 }`}
               >

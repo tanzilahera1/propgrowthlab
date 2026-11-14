@@ -8,7 +8,7 @@ export const instant = false;
 export const metadata: Metadata = {
   title: "Operations Console | PropGrowth Lab",
   description:
-    "Enterprise command center for PropGrowth Lab operations: Daily lead dispatch, broker quota subscriptions, 48-hour turnkey SLA tracking, and co-broker commission splits.",
+    "Enterprise command center for PropGrowth Lab operations: Daily lead dispatch, broker quota subscriptions, 48-hour turnkey SLA tracking, and coordinator commission splits.",
   robots: {
     index: false,
     follow: false,

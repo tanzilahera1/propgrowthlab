@@ -36,7 +36,7 @@ export function CaseStudyClient({ study }: Props) {
     label: s.title,
   }));
 
-  const auditWhatsAppUrl = `https://wa.me/8801540505122?text=${encodeURIComponent(
+  const auditWhatsAppUrl = `https://wa.me/8801330807372?text=${encodeURIComponent(
     `Hi PropGrowth Lab team, I reviewed the ${study.title} case study. I own/manage a luxury stay and want a free direct booking audit to stop OTA commission bleed.`
   )}`;
 
