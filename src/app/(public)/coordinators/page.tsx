@@ -62,6 +62,14 @@ export const metadata: Metadata = {
       "Coordinate pre-qualified high-budget property leases and rooms on the ground and keep a guaranteed 70% commission.",
     url: "https://propgrowthlab.com/coordinators",
     siteName: "PropGrowth Lab",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "PropGrowth Lab",
+      },
+    ],
     locale: "en_US",
     type: "website",
   },

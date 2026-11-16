@@ -29,6 +29,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${data.name} Real Estate Leads | PropGrowth Lab`,
       description: `Exclusive broker allocation for ${data.name}. Average deal size ${data.avgDealSize} with guaranteed 90-sec WhatsApp delivery.`,
+      images: [
+        {
+          url: "/og.png",
+          width: 1200,
+          height: 630,
+          alt: "PropGrowth Lab",
+        },
+      ],
     },
   };
 }

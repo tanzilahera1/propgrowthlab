@@ -25,6 +25,14 @@ export const metadata: Metadata = {
       "Replace slow WordPress sites with sub-second Next.js platforms. 99+ PageSpeed and 48-hour turnkey launch.",
     url: "https://propgrowthlab.com/templates",
     siteName: "PropGrowth Lab",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "PropGrowth Lab",
+      },
+    ],
     locale: "en_US",
     type: "website",
   },

@@ -6,6 +6,23 @@ export const metadata: Metadata = {
   title: "Find Verified Rooms & Co-Living | Doha, Madeira, Dubai | PropGrowth Lab",
   description:
     "Search verified rooms, bedspaces, partitions, and digital nomad co-living stays across Doha (Qatar), Madeira (Portugal), and Dubai (UAE) with anti-cheat tickets and luggage moving assistance.",
+  openGraph: {
+    title: "Find Verified Rooms & Co-Living | PropGrowth Lab",
+    description:
+      "Search verified rooms, bedspaces, partitions, and co-living stays across Doha, Madeira & Dubai with anti-cheat tickets.",
+    url: "https://propgrowthlab.com/find-room",
+    siteName: "PropGrowth Lab",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "PropGrowth Lab",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function FindRoomHubPage() {

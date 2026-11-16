@@ -61,6 +61,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${data.name} Coordinator Allocation | PropGrowth Lab`,
       description: `Exclusive territory allocation in ${data.name}. Keep 70% commission on pre-screened luxury transactions with zero upfront desk fees.`,
       url: `https://propgrowthlab.com/coordinators/${data.id}`,
+      images: [
+        {
+          url: "/og.png",
+          width: 1200,
+          height: 630,
+          alt: "PropGrowth Lab",
+        },
+      ],
     },
   };
 }

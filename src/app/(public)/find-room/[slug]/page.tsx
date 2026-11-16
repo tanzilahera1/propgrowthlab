@@ -87,6 +87,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: config.heroSubheadline,
       siteName: "PropGrowth Lab Global Rental Network",
       type: "website",
+      images: [
+        {
+          url: "/og.png",
+          width: 1200,
+          height: 630,
+          alt: "PropGrowth Lab",
+        },
+      ],
     },
   };
 }
