@@ -1,11 +1,39 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getTerritoryById, getAllTerritoryIds } from "@/data/territories";
 import TerritoryCoordinatorClient from "./TerritoryCoordinatorClient";
 
 interface Props {
   params: Promise<{ territory: string }>;
+}
+
+function buildTerritorySchema(data: ReturnType<typeof getTerritoryById>) {
+  if (!data) return null;
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://propgrowthlab.com";
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: `${data.name} Exclusive Coordinator Allocation`,
+    description: `70/30 commission split real estate and room coordinator network for ${data.name}. Zero upfront desk fees.`,
+    provider: {
+      "@type": "Organization",
+      name: "PropGrowth Lab",
+      url: baseUrl,
+    },
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: data.name,
+    },
+    offers: {
+      "@type": "Offer",
+      description: "70/30 Commission Split Partnership",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  };
 }
 
 export async function generateStaticParams() {
@@ -45,7 +73,14 @@ async function TerritoryCoordinatorContent({ params }: Props) {
     notFound();
   }
 
-  return <TerritoryCoordinatorClient territory={data} />;
+  const schema = buildTerritorySchema(data);
+
+  return (
+    <>
+      {schema && <JsonLd data={schema} />}
+      <TerritoryCoordinatorClient territory={data} />
+    </>
+  );
 }
 
 export default function TerritoryCoordinatorPage({ params }: Props) {

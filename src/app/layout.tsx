@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { JsonLd } from "@/components/seo/JsonLd";
 import "@/styles/globals.css";
 
 const geistSans = Geist({
@@ -109,6 +110,43 @@ export const metadata: Metadata = {
 };
 
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "PropGrowth Lab",
+  alternateName: "PGL",
+  url: siteUrl,
+  logo: `${siteUrl}/logo.png`,
+  description:
+    "The 360° Tech & Performance Growth Engine for Luxury Stays, Villas & Real Estate.",
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+8801330807372",
+    contactType: "customer service",
+    contactOption: "WhatsApp",
+    availableLanguage: ["English", "Arabic", "Portuguese"],
+  },
+  sameAs: [
+    "https://twitter.com/propgrowthlab",
+    "https://github.com/tanzilahera1/propgrowthlab",
+  ],
+};
+
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "PropGrowth Lab",
+  url: siteUrl,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${siteUrl}/find-room?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -119,6 +157,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <JsonLd data={organizationSchema} />
+        <JsonLd data={webSiteSchema} />
+      </head>
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
         <QueryProvider>{children}</QueryProvider>
         <Toaster richColors position="top-right" />
