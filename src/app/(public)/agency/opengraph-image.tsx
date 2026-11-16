@@ -78,26 +78,9 @@ export default function Image() {
             }}
           >
             <div style={{ display: "flex", alignItems: "center" }}>
-              <div
-                style={{
-                  width: "38px",
-                  height: "38px",
-                  borderRadius: "50%",
-                  background: "linear-gradient(135deg, #f59e0b, #d97706)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 900,
-                  fontSize: "19px",
-                  color: "#0c0a09",
-                  marginRight: "10px",
-                }}
-              >
-                P
-              </div>
-              <div style={{ display: "flex", fontSize: "24px", fontWeight: 800, letterSpacing: "-0.5px" }}>
+              <div style={{ display: "flex", fontSize: "26px", fontWeight: 800, letterSpacing: "-0.5px" }}>
                 <span>PropGrowth</span>
-                <span style={{ color: "#f59e0b", marginLeft: "5px" }}>Lab</span>
+                <span style={{ color: "#f59e0b", marginLeft: "6px" }}>Lab</span>
               </div>
             </div>
 
