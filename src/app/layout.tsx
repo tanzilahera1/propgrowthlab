@@ -88,14 +88,6 @@ export const metadata: Metadata = {
       "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 territory coordinator closing network.",
     url: siteUrl,
     siteName: "PropGrowth Lab",
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: "PropGrowth Lab - 360° PropTech & Hospitality Growth Engine",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -104,7 +96,6 @@ export const metadata: Metadata = {
     title: "PropGrowth Lab | 360° PropTech Systems & Hospitality Growth Engine",
     description:
       "48-hour turnkey booking engines, direct guest acquisition (0% Airbnb fees), daily verified broker lead quotas, and 70/30 territory coordinator closing network.",
-    images: ["/og.png"],
     creator: "@propgrowthlab",
   },
 };
