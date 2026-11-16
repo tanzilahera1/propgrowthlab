@@ -29,168 +29,204 @@ export default async function Image({ params }: Props) {
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          padding: "60px 70px",
+          alignItems: "center",
+          justifyContent: "center",
           backgroundColor: "#0c0a09",
           backgroundImage:
-            "radial-gradient(circle at 85% 15%, rgba(16, 185, 129, 0.2) 0%, transparent 55%), radial-gradient(circle at 10% 90%, rgba(245, 158, 11, 0.18) 0%, transparent 45%)",
+            "radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.16) 0%, transparent 65%), radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 45%), radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 45%)",
           fontFamily: "sans-serif",
           color: "#ffffff",
-          border: "2px solid rgba(245, 158, 11, 0.3)",
+          position: "relative",
         }}
       >
-        {/* Top Header Bar */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-          <div style={{ display: "flex", alignItems: "center" }}>
+        {/* Left Wing Ambient Decorator */}
+        <div
+          style={{
+            position: "absolute",
+            left: "50px",
+            top: "50px",
+            bottom: "50px",
+            width: "3px",
+            borderRadius: "2px",
+            background: "linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.35), transparent)",
+            display: "flex",
+          }}
+        />
+        {/* Right Wing Ambient Decorator */}
+        <div
+          style={{
+            position: "absolute",
+            right: "50px",
+            top: "50px",
+            bottom: "50px",
+            width: "3px",
+            borderRadius: "2px",
+            background: "linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.35), transparent)",
+            display: "flex",
+          }}
+        />
+
+        {/* 630x630 SAFE ZONE CONTAINER */}
+        <div
+          style={{
+            width: "600px",
+            height: "540px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            textAlign: "center",
+            padding: "36px 30px",
+            borderRadius: "28px",
+            backgroundColor: "rgba(18, 16, 15, 0.92)",
+            border: "1.5px solid rgba(16, 185, 129, 0.38)",
+          }}
+        >
+          {/* 1. Header */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #10b981, #059669)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 900,
+                  fontSize: "19px",
+                  color: "#0c0a09",
+                  marginRight: "10px",
+                }}
+              >
+                P
+              </div>
+              <div style={{ display: "flex", fontSize: "24px", fontWeight: 800, letterSpacing: "-0.5px" }}>
+                <span>PropGrowth</span>
+                <span style={{ color: "#10b981", marginLeft: "5px" }}>Lab</span>
+              </div>
+            </div>
+
             <div
               style={{
-                width: "44px",
-                height: "44px",
-                borderRadius: "50%",
-                background: "linear-gradient(135deg, #f59e0b, #d97706)",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                fontWeight: 900,
-                fontSize: "22px",
-                color: "#0c0a09",
-                marginRight: "14px",
+                padding: "6px 14px",
+                borderRadius: "9999px",
+                backgroundColor: "rgba(16, 185, 129, 0.14)",
+                border: "1px solid rgba(16, 185, 129, 0.35)",
+                color: "#34d399",
+                fontSize: "11px",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "1.2px",
               }}
             >
-              P
-            </div>
-            <div style={{ display: "flex", fontSize: "28px", fontWeight: 800, letterSpacing: "-0.5px" }}>
-              <span>PropGrowth</span>
-              <span style={{ color: "#f59e0b", marginLeft: "6px" }}>Lab</span>
+              {cityName.toUpperCase()} - {countryName.toUpperCase()}
             </div>
           </div>
 
+          {/* 2. Headline & Value Prop */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                fontSize: "36px",
+                fontWeight: 900,
+                lineHeight: 1.15,
+                letterSpacing: "-1px",
+                color: "#ffffff",
+                marginBottom: "14px",
+              }}
+            >
+              <span>Verified Rooms in</span>
+              <span style={{ color: "#10b981", marginLeft: "8px" }}>{cityName}</span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                fontSize: "16px",
+                lineHeight: 1.45,
+                color: "#a8a29e",
+                maxWidth: "500px",
+                textAlign: "center",
+              }}
+            >
+              {subheadline}
+            </div>
+          </div>
+
+          {/* 3. Safe-Zone Highlights Footer */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              padding: "8px 18px",
-              borderRadius: "9999px",
-              backgroundColor: "rgba(16, 185, 129, 0.15)",
-              border: "1px solid rgba(16, 185, 129, 0.4)",
-              color: "#34d399",
-              fontSize: "13px",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "1px",
-            }}
-          >
-            LIVE RENTAL NETWORK
-          </div>
-        </div>
-
-        {/* Center Headline & Location */}
-        <div style={{ display: "flex", flexDirection: "column", maxWidth: "1000px" }}>
-          <div
-            style={{
-              display: "flex",
-              fontSize: "20px",
-              color: "#f59e0b",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "2px",
-              marginBottom: "12px",
-            }}
-          >
-            {cityName.toUpperCase()} - {countryName.toUpperCase()}
-          </div>
-          <div
-            style={{
-              display: "flex",
+              justifyContent: "center",
+              gap: "8px",
               flexWrap: "wrap",
-              fontSize: "52px",
-              fontWeight: 900,
-              lineHeight: 1.12,
-              letterSpacing: "-1.5px",
-              color: "#ffffff",
-              marginBottom: "16px",
             }}
           >
-            <span>Find Verified Rooms & Co-Living in</span>
-            <span style={{ color: "#f59e0b", marginLeft: "14px" }}>{cityName}</span>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: "20px",
-              lineHeight: 1.45,
-              color: "#a8a29e",
-            }}
-          >
-            {subheadline}
-          </div>
-        </div>
-
-        {/* Bottom Highlights */}
-        <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "12px 20px",
-              borderRadius: "14px",
-              backgroundColor: "#1c1917",
-              border: "1px solid #292524",
-              color: "#fbbf24",
-              fontSize: "15px",
-              fontWeight: 700,
-              marginRight: "16px",
-            }}
-          >
-            ANTI-CHEAT TICKETS
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "12px 20px",
-              borderRadius: "14px",
-              backgroundColor: "#1c1917",
-              border: "1px solid #292524",
-              color: "#34d399",
-              fontSize: "15px",
-              fontWeight: 700,
-              marginRight: "16px",
-            }}
-          >
-            MOVER VOUCHER
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "12px 20px",
-              borderRadius: "14px",
-              backgroundColor: "#1c1917",
-              border: "1px solid #292524",
-              color: "#ffffff",
-              fontSize: "15px",
-              fontWeight: 700,
-              marginRight: "16px",
-            }}
-          >
-            ZERO FAKE DEPOSITS
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "12px 20px",
-              borderRadius: "14px",
-              backgroundColor: "#1c1917",
-              border: "1px solid #292524",
-              color: "#f59e0b",
-              fontSize: "15px",
-              fontWeight: 700,
-            }}
-          >
-            RATES IN {currency}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "8px 14px",
+                borderRadius: "10px",
+                backgroundColor: "#1c1917",
+                border: "1px solid #292524",
+                color: "#34d399",
+                fontSize: "12px",
+                fontWeight: 700,
+              }}
+            >
+              ANTI-CHEAT TICKETS
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "8px 14px",
+                borderRadius: "10px",
+                backgroundColor: "#1c1917",
+                border: "1px solid #292524",
+                color: "#ffffff",
+                fontSize: "12px",
+                fontWeight: 700,
+              }}
+            >
+              MOVER VOUCHER
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "8px 14px",
+                borderRadius: "10px",
+                backgroundColor: "#1c1917",
+                border: "1px solid #292524",
+                color: "#fbbf24",
+                fontSize: "12px",
+                fontWeight: 700,
+              }}
+            >
+              RATES IN {currency}
+            </div>
           </div>
         </div>
       </div>

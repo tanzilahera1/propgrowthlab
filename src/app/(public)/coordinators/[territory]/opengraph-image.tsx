@@ -27,167 +27,204 @@ export default async function Image({ params }: Props) {
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          padding: "60px 70px",
+          alignItems: "center",
+          justifyContent: "center",
           backgroundColor: "#0c0a09",
           backgroundImage:
-            "radial-gradient(circle at 85% 15%, rgba(245, 158, 11, 0.25) 0%, transparent 55%), radial-gradient(circle at 10% 90%, rgba(217, 119, 6, 0.18) 0%, transparent 45%)",
+            "radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.16) 0%, transparent 65%), radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.08) 0%, transparent 45%), radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.08) 0%, transparent 45%)",
           fontFamily: "sans-serif",
           color: "#ffffff",
-          border: "2px solid rgba(245, 158, 11, 0.3)",
+          position: "relative",
         }}
       >
-        {/* Top Header Bar */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-          <div style={{ display: "flex", alignItems: "center" }}>
+        {/* Left Wing Ambient Decorator */}
+        <div
+          style={{
+            position: "absolute",
+            left: "50px",
+            top: "50px",
+            bottom: "50px",
+            width: "3px",
+            borderRadius: "2px",
+            background: "linear-gradient(to bottom, transparent, rgba(245, 158, 11, 0.35), transparent)",
+            display: "flex",
+          }}
+        />
+        {/* Right Wing Ambient Decorator */}
+        <div
+          style={{
+            position: "absolute",
+            right: "50px",
+            top: "50px",
+            bottom: "50px",
+            width: "3px",
+            borderRadius: "2px",
+            background: "linear-gradient(to bottom, transparent, rgba(245, 158, 11, 0.35), transparent)",
+            display: "flex",
+          }}
+        />
+
+        {/* 630x630 SAFE ZONE CONTAINER */}
+        <div
+          style={{
+            width: "600px",
+            height: "540px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            textAlign: "center",
+            padding: "36px 30px",
+            borderRadius: "28px",
+            backgroundColor: "rgba(18, 16, 15, 0.92)",
+            border: "1.5px solid rgba(245, 158, 11, 0.38)",
+          }}
+        >
+          {/* 1. Header */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #f59e0b, #d97706)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 900,
+                  fontSize: "19px",
+                  color: "#0c0a09",
+                  marginRight: "10px",
+                }}
+              >
+                P
+              </div>
+              <div style={{ display: "flex", fontSize: "24px", fontWeight: 800, letterSpacing: "-0.5px" }}>
+                <span>PropGrowth</span>
+                <span style={{ color: "#f59e0b", marginLeft: "5px" }}>Lab</span>
+              </div>
+            </div>
+
             <div
               style={{
-                width: "44px",
-                height: "44px",
-                borderRadius: "50%",
-                background: "linear-gradient(135deg, #f59e0b, #d97706)",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                fontWeight: 900,
-                fontSize: "22px",
-                color: "#0c0a09",
-                marginRight: "14px",
+                padding: "6px 14px",
+                borderRadius: "9999px",
+                backgroundColor: "rgba(245, 158, 11, 0.14)",
+                border: "1px solid rgba(245, 158, 11, 0.35)",
+                color: "#fbbf24",
+                fontSize: "11px",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "1.2px",
               }}
             >
-              P
-            </div>
-            <div style={{ display: "flex", fontSize: "28px", fontWeight: 800, letterSpacing: "-0.5px" }}>
-              <span>PropGrowth</span>
-              <span style={{ color: "#f59e0b", marginLeft: "6px" }}>Lab</span>
+              {slotsRemaining} SLOTS OPEN - {shortName.toUpperCase()}
             </div>
           </div>
 
+          {/* 2. Headline & Value Prop */}
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              padding: "8px 18px",
-              borderRadius: "9999px",
-              backgroundColor: "rgba(245, 158, 11, 0.15)",
-              border: "1px solid rgba(245, 158, 11, 0.4)",
-              color: "#fbbf24",
-              fontSize: "13px",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "1px",
             }}
           >
-            {slotsRemaining} SLOTS OPEN - {shortName.toUpperCase()}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                fontSize: "36px",
+                fontWeight: 900,
+                lineHeight: 1.15,
+                letterSpacing: "-1px",
+                color: "#ffffff",
+                marginBottom: "14px",
+              }}
+            >
+              <span>{territoryName}</span>
+              <span style={{ color: "#f59e0b", marginLeft: "8px" }}>Portal</span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                fontSize: "16px",
+                lineHeight: 1.45,
+                color: "#a8a29e",
+                maxWidth: "500px",
+                textAlign: "center",
+              }}
+            >
+              Represent pre-screened luxury buyers and high-ticket tenants. Guaranteed 70% commission split with zero upfront desk fees.
+            </div>
           </div>
-        </div>
 
-        {/* Center Headline */}
-        <div style={{ display: "flex", flexDirection: "column", maxWidth: "1000px" }}>
-          <div
-            style={{
-              display: "flex",
-              fontSize: "20px",
-              color: "#f59e0b",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "2px",
-              marginBottom: "12px",
-            }}
-          >
-            EXCLUSIVE TERRITORY ALLOCATION
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: "52px",
-              fontWeight: 900,
-              lineHeight: 1.12,
-              letterSpacing: "-1.5px",
-              color: "#ffffff",
-              marginBottom: "16px",
-            }}
-          >
-            {territoryName} Coordinator Portal
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: "20px",
-              lineHeight: 1.45,
-              color: "#a8a29e",
-            }}
-          >
-            Represent pre-screened luxury buyers and high-ticket tenants. Guaranteed 70% commission
-            split with zero upfront desk fees.
-          </div>
-        </div>
-
-        {/* Bottom Highlights */}
-        <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+          {/* 3. Safe-Zone Highlights Footer */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              padding: "12px 20px",
-              borderRadius: "14px",
-              backgroundColor: "#1c1917",
-              border: "1px solid #292524",
-              color: "#fbbf24",
-              fontSize: "15px",
-              fontWeight: 700,
-              marginRight: "16px",
+              justifyContent: "center",
+              gap: "8px",
+              flexWrap: "wrap",
             }}
           >
-            AVG COMMISSION: {avgCommission}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "12px 20px",
-              borderRadius: "14px",
-              backgroundColor: "#1c1917",
-              border: "1px solid #292524",
-              color: "#10b981",
-              fontSize: "15px",
-              fontWeight: 700,
-              marginRight: "16px",
-            }}
-          >
-            70% PAYOUT TO YOU
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "12px 20px",
-              borderRadius: "14px",
-              backgroundColor: "#1c1917",
-              border: "1px solid #292524",
-              color: "#ffffff",
-              fontSize: "15px",
-              fontWeight: 700,
-              marginRight: "16px",
-            }}
-          >
-            DIRECT TITLE ESCROW SLA
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "12px 20px",
-              borderRadius: "14px",
-              backgroundColor: "#1c1917",
-              border: "1px solid #292524",
-              color: "#f59e0b",
-              fontSize: "15px",
-              fontWeight: 700,
-            }}
-          >
-            MAX 2 COORDINATORS
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "8px 14px",
+                borderRadius: "10px",
+                backgroundColor: "#1c1917",
+                border: "1px solid #292524",
+                color: "#fbbf24",
+                fontSize: "12px",
+                fontWeight: 700,
+              }}
+            >
+              AVG: {avgCommission}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "8px 14px",
+                borderRadius: "10px",
+                backgroundColor: "#1c1917",
+                border: "1px solid #292524",
+                color: "#10b981",
+                fontSize: "12px",
+                fontWeight: 700,
+              }}
+            >
+              70% PAYOUT
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "8px 14px",
+                borderRadius: "10px",
+                backgroundColor: "#1c1917",
+                border: "1px solid #292524",
+                color: "#ffffff",
+                fontSize: "12px",
+                fontWeight: 700,
+              }}
+            >
+              ESCROW SLA PROTECTED
+            </div>
           </div>
         </div>
       </div>
