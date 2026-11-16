@@ -17,58 +17,54 @@ export default function Image() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#0c0a09",
+          backgroundColor: "#09090b",
           backgroundImage:
-            "radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.16) 0%, transparent 65%), radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 45%), radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 45%)",
+            "radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.22) 0%, transparent 65%), radial-gradient(circle at 10% 20%, rgba(5, 150, 105, 0.12) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 40%)",
           fontFamily: "sans-serif",
           color: "#ffffff",
           position: "relative",
         }}
       >
-        {/* Left Wing Ambient Decorator */}
+        {/* Ambient Side Accent Brackets */}
         <div
           style={{
             position: "absolute",
-            left: "50px",
-            top: "50px",
-            bottom: "50px",
-            width: "3px",
+            left: "60px",
+            top: "60px",
+            bottom: "60px",
+            width: "4px",
             borderRadius: "2px",
-            background: "linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.35), transparent)",
+            background: "linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.45), transparent)",
             display: "flex",
           }}
         />
-        {/* Right Wing Ambient Decorator */}
         <div
           style={{
             position: "absolute",
-            right: "50px",
-            top: "50px",
-            bottom: "50px",
-            width: "3px",
+            right: "60px",
+            top: "60px",
+            bottom: "60px",
+            width: "4px",
             borderRadius: "2px",
-            background: "linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.35), transparent)",
+            background: "linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.45), transparent)",
             display: "flex",
           }}
         />
 
-        {/* 630x630 SAFE ZONE CONTAINER (Perfect 1:1 WhatsApp crop & 16:9 Landscape) */}
+        {/* 630x630 HIGH-IMPACT THUMBNAIL SAFE ZONE */}
         <div
           style={{
-            width: "600px",
-            height: "540px",
+            width: "630px",
+            height: "630px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "space-between",
             textAlign: "center",
-            padding: "36px 30px",
-            borderRadius: "28px",
-            backgroundColor: "rgba(18, 16, 15, 0.92)",
-            border: "1.5px solid rgba(16, 185, 129, 0.38)",
+            padding: "44px 28px",
           }}
         >
-          {/* 1. Header */}
+          {/* Top: Brand & Pill */}
           <div
             style={{
               display: "flex",
@@ -77,124 +73,116 @@ export default function Image() {
               gap: "12px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ display: "flex", fontSize: "26px", fontWeight: 800, letterSpacing: "-0.5px" }}>
-                <span>PropGrowth</span>
-                <span style={{ color: "#10b981", marginLeft: "6px" }}>Lab</span>
-              </div>
+            <div style={{ display: "flex", fontSize: "34px", fontWeight: 900, letterSpacing: "-0.5px" }}>
+              <span>PropGrowth</span>
+              <span style={{ color: "#10b981", marginLeft: "7px" }}>Lab</span>
             </div>
 
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                padding: "6px 14px",
+                padding: "6px 18px",
                 borderRadius: "9999px",
-                backgroundColor: "rgba(16, 185, 129, 0.14)",
-                border: "1px solid rgba(16, 185, 129, 0.35)",
+                backgroundColor: "rgba(16, 185, 129, 0.2)",
+                border: "1.5px solid rgba(16, 185, 129, 0.5)",
                 color: "#34d399",
-                fontSize: "11px",
-                fontWeight: 700,
+                fontSize: "14px",
+                fontWeight: 800,
+                letterSpacing: "1.5px",
                 textTransform: "uppercase",
-                letterSpacing: "1.2px",
               }}
             >
-              BROKER DAILY LEAD QUOTAS
+              EXCLUSIVE BROKER ALLOCATION
             </div>
           </div>
 
-          {/* 2. Headline & Value Prop */}
+          {/* Center: GIANT BOLD HEADLINES FOR MAXIMUM READABILITY */}
           <div
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              gap: "6px",
             }}
           >
             <div
               style={{
                 display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                fontSize: "36px",
+                fontSize: "52px",
                 fontWeight: 900,
-                lineHeight: 1.15,
-                letterSpacing: "-1px",
+                lineHeight: 1.05,
                 color: "#ffffff",
-                marginBottom: "14px",
+                letterSpacing: "-1.5px",
               }}
             >
-              <span>Stop Buying Cold Lists.</span>
-              <span style={{ color: "#10b981", marginLeft: "8px" }}>Get Verified Leads.</span>
+              DAILY VERIFIED
             </div>
             <div
               style={{
                 display: "flex",
-                fontSize: "16px",
-                lineHeight: 1.45,
-                color: "#a8a29e",
-                maxWidth: "500px",
-                textAlign: "center",
+                fontSize: "58px",
+                fontWeight: 900,
+                lineHeight: 1.05,
+                color: "#10b981",
+                letterSpacing: "-1.5px",
               }}
             >
-              Pre-screened, high-budget tenant and buyer inquiries dispatched directly to your WhatsApp across USA, UK, EU & UAE.
+              BROKER LEADS
+            </div>
+            <div
+              style={{
+                display: "flex",
+                fontSize: "26px",
+                fontWeight: 800,
+                lineHeight: 1.2,
+                color: "#e5e7eb",
+                letterSpacing: "-0.5px",
+                marginTop: "6px",
+              }}
+            >
+              DISPATCHED TO WHATSAPP
             </div>
           </div>
 
-          {/* 3. Safe-Zone Highlights Footer */}
+          {/* Bottom: 2 LARGE PROMINENT STAT BADGES */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: "8px",
-              flexWrap: "wrap",
+              gap: "14px",
             }}
           >
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                padding: "8px 14px",
-                borderRadius: "10px",
-                backgroundColor: "#1c1917",
-                border: "1px solid #292524",
+                padding: "12px 22px",
+                borderRadius: "14px",
+                backgroundColor: "#18181b",
+                border: "1.5px solid rgba(16, 185, 129, 0.4)",
                 color: "#34d399",
-                fontSize: "12px",
-                fontWeight: 700,
+                fontSize: "18px",
+                fontWeight: 800,
               }}
             >
-              DAILY WHATSAPP QUOTAS
+              VERIFIED BUYERS
             </div>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                padding: "8px 14px",
-                borderRadius: "10px",
-                backgroundColor: "#1c1917",
-                border: "1px solid #292524",
+                padding: "12px 22px",
+                borderRadius: "14px",
+                backgroundColor: "#18181b",
+                border: "1.5px solid #27272a",
                 color: "#ffffff",
-                fontSize: "12px",
-                fontWeight: 700,
+                fontSize: "18px",
+                fontWeight: 800,
               }}
             >
-              VERIFIED INQUIRIES
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "8px 14px",
-                borderRadius: "10px",
-                backgroundColor: "#1c1917",
-                border: "1px solid #292524",
-                color: "#fbbf24",
-                fontSize: "12px",
-                fontWeight: 700,
-              }}
-            >
-              EXCLUSIVE TERRITORY LOCK
+              EXCLUSIVE SLOTS
             </div>
           </div>
         </div>
