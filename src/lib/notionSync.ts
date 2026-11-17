@@ -19,6 +19,7 @@ interface CreateNotionLeadParams {
   budget?: string | number;
   notes?: string;
   source?: string;
+  amenities?: string[];
 }
 
 /**
@@ -117,6 +118,13 @@ export async function createNotionLead(params: CreateNotionLeadParams): Promise<
             },
           ],
         },
+        ...(params.amenities && params.amenities.length > 0
+          ? {
+              "Amenities & Inclusions": {
+                multi_select: params.amenities.map((name) => ({ name })),
+              },
+            }
+          : {}),
       },
     };
 
@@ -189,6 +197,7 @@ export async function getNotionLeads() {
       const status = props["Status"]?.status?.name || "New Lead";
       const commission = props["Commission QAR"]?.number || 0;
       const notes = props["Notes"]?.rich_text?.[0]?.plain_text || "";
+      const amenities = props["Amenities & Inclusions"]?.multi_select?.map((m: any) => m.name) || [];
 
       return {
         id: page.id,
@@ -204,6 +213,7 @@ export async function getNotionLeads() {
         category,
         commission,
         notes,
+        amenities,
         createdTime: page.created_time,
       };
     });
