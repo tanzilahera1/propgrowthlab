@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { ChevronRight, ChevronDown, Check, X, MapPin } from "lucide-react";
+import { ChevronRight, ChevronDown, Check, MapPin } from "lucide-react";
 import { MunicipalityGroup, DistrictOption } from "@/data/rentalCities";
 
 export interface AntdStyleCascaderProps {
@@ -66,13 +66,6 @@ export function AntdStyleCascader({
     setIsOpen(false);
   };
 
-  const handleClear = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (municipalities[0]?.districts?.[0]) {
-      onSelect(municipalities[0].name, municipalities[0].districts[0].fullName);
-    }
-  };
-
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
       
@@ -103,16 +96,7 @@ export function AntdStyleCascader({
           )}
         </div>
 
-        <div className="flex items-center gap-1.5 shrink-0 text-stone-400">
-          {displayText && (
-            <span
-              onClick={handleClear}
-              className="p-1 hover:text-stone-700 hover:bg-stone-100 rounded-full transition-colors cursor-pointer"
-              title="Reset selection"
-            >
-              <X className="w-3.5 h-3.5" />
-            </span>
-          )}
+        <div className="flex items-center shrink-0 text-stone-400">
           <ChevronDown
             className={`w-4 h-4 text-stone-500 transition-transform duration-200 ${
               isOpen ? "rotate-180 text-blue-600" : ""
