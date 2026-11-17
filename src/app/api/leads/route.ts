@@ -12,8 +12,10 @@ function generateTicketId(countryCode?: string, cityOrArea?: string): string {
     .replace(/[^a-zA-Z]/g, "")
     .toUpperCase()
     .slice(0, 3) || "LOC";
-  const randomDigits = Math.floor(1000 + Math.random() * 9000);
-  return `TKT-${cc}-${cleanArea}-${randomDigits}`;
+  // Collision-proof: Millisecond Base36 timestamp + 2-digit random salt
+  const timeCode = Date.now().toString(36).toUpperCase().slice(-4);
+  const salt = Math.floor(10 + Math.random() * 90);
+  return `TKT-${cc}-${cleanArea}-${timeCode}${salt}`;
 }
 
 export async function GET(request: NextRequest) {

@@ -173,9 +173,10 @@ export async function getNotionLeads() {
     const data = await res.json();
     return data.results.map((page: any) => {
       const props = page.properties;
-      const ticketIdProp = props["Listing / Ticket ID"]?.rich_text?.[0]?.plain_text || "";
       const titleProp = props["Ticket / Title"]?.title?.[0]?.plain_text || "Untitled";
-      const cleanTicketId = ticketIdProp || (titleProp.includes("|") ? titleProp.split("|")[0]?.trim() : page.id.slice(0, 8));
+      const autoId = props["ID"]?.unique_id ? `${props["ID"].unique_id.prefix || "PGL"}-${props["ID"].unique_id.number}` : "";
+      const ticketIdProp = props["Listing / Ticket ID"]?.rich_text?.[0]?.plain_text || "";
+      const cleanTicketId = ticketIdProp || autoId || (titleProp.includes("|") ? titleProp.split("|")[0]?.trim() : page.id.slice(0, 8));
       const cleanTitle = titleProp.includes("|") ? titleProp.split("|")[1]?.trim() : titleProp;
       const contactName = props["Contact Name"]?.rich_text?.[0]?.plain_text || cleanTitle;
       const whatsapp = props["WhatsApp"]?.phone_number || "";
