@@ -91,8 +91,8 @@ export function LocalRentClient({ slug }: LocalRentClientProps) {
   const [customRoomType, setCustomRoomType] = useState<string>("");
   const [isCustomRoomType, setIsCustomRoomType] = useState<boolean>(false);
   const defaultBudgetValue =
-    config.budgetPresets.find((bp) => bp.label.includes("1500") || bp.label.includes("1,500"))?.value ||
-    config.budgetPresets[2]?.value ||
+    config.budgetPresets.find((bp) => bp.label === "1500")?.value ||
+    config.budgetPresets[5]?.value ||
     config.budgetPresets[0]?.value ||
     "";
 
@@ -180,8 +180,8 @@ export function LocalRentClient({ slug }: LocalRentClientProps) {
   useEffect(() => {
     setSelectedRoomType(config.roomTypes[0]?.label || "Single Room");
     const defBudget =
-      config.budgetPresets.find((bp) => bp.label.includes("1500") || bp.label.includes("1,500"))?.value ||
-      config.budgetPresets[2]?.value ||
+      config.budgetPresets.find((bp) => bp.label === "1500")?.value ||
+      config.budgetPresets[5]?.value ||
       config.budgetPresets[0]?.value ||
       "";
     setBudget(defBudget);
@@ -587,7 +587,7 @@ export function LocalRentClient({ slug }: LocalRentClientProps) {
               </div>
 
               {!isCustomBudget ? (
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
                   {config.budgetPresets.map((bp) => {
                     const isSelected = budget === bp.value;
                     return (
@@ -595,7 +595,7 @@ export function LocalRentClient({ slug }: LocalRentClientProps) {
                         type="button"
                         key={bp.value}
                         onClick={() => setBudget(bp.value)}
-                        className={`py-2 px-1.5 rounded-full text-xs sm:text-sm font-bold transition-all min-h-[38px] flex items-center justify-center text-center cursor-pointer ${
+                        className={`py-2 px-1 rounded-full text-xs sm:text-sm font-bold transition-all min-h-[38px] flex items-center justify-center text-center cursor-pointer ${
                           isSelected
                             ? "bg-stone-900 text-white shadow-xs ring-2 ring-stone-900/10"
                             : "bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-200/80"
