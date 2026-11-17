@@ -57,6 +57,23 @@ export function CoordinatorsClient() {
     setIsSubmitting(true);
 
     try {
+      // 1. Log lead in DB, sync to Notion CRM & trigger Telegram/Discord alert
+      await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          whatsapp,
+          email,
+          territory,
+          propertyType: "Territory Coordinator Allocation",
+          leadCategory: "partner_application",
+          budget: "70/30 Commission Split",
+          notes: `Experience: ${experience}. Role: Territory Coordinator. Email: ${email}`,
+          source: "Coordinator Portal",
+        }),
+      });
+
       const waMsg = `Hi PropGrowth Lab team, I want to apply as a Coordinator in ${territory}. Name: ${fullName}, Experience: ${experience}, WhatsApp: ${whatsapp}, Email: ${email}`;
       window.open(`https://wa.me/8801330807372?text=${encodeURIComponent(waMsg)}`, "_blank");
       toast.success("Application submitted! Our coordinator team will review your profile within 24 hours.");

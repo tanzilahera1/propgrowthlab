@@ -11,6 +11,7 @@ import EscrowDeal from "@/models/EscrowDeal";
 import AgencyProperty from "@/models/AgencyProperty";
 import AuditLog from "@/models/AuditLog";
 import Territory from "@/models/Territory";
+import { createNotionLead, getNotionLeads } from "@/lib/notionSync";
 
 export async function GET() {
   await connection();
@@ -35,6 +36,7 @@ export async function GET() {
       dbUsers,
       dbAuditLogs,
       dbTerritories,
+      notionLeads,
     ] = await Promise.all([
       Lead.find({}).sort({ createdAt: -1 }).limit(100),
       Subscription.find({}).sort({ createdAt: -1 }).limit(50),
@@ -49,6 +51,7 @@ export async function GET() {
       Territory.find({ status: "active" })
         .sort({ countryName: 1, upazilaOrThana: 1 })
         .limit(100),
+      getNotionLeads(),
     ]);
 
     const leads = dbLeads.map((l) => ({
@@ -76,6 +79,43 @@ export async function GET() {
         minute: "2-digit",
       }),
     }));
+
+    // Merge Notion leads into staff admin view
+    const mappedNotionLeads = (notionLeads || []).map((nl: any) => ({
+      id: nl.id,
+      ticketId: nl.ticketId,
+      fullName: nl.name,
+      whatsapp: nl.phone,
+      territory: nl.neighborhood,
+      propertyType: nl.property,
+      leadCategory: nl.category.toLowerCase().replace(/\s+/g, "_"),
+      budget: nl.budget,
+      moveIn: "Immediate",
+      needsMovingService: false,
+      movingDetails: undefined,
+      locationDetails: undefined,
+      feedbackStatus: "pending",
+      status: (nl.status === "deal_closed" || nl.status === "lost"
+        ? "closed"
+        : nl.status === "viewing_scheduled" || nl.status === "3-way_bridge_active"
+        ? "dispatched"
+        : "new") as "new" | "dispatched" | "closed",
+      assignedBroker: "Notion CRM Pipeline",
+      date: nl.createdTime
+        ? new Date(nl.createdTime).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        : "Recent",
+    }));
+
+    const existingTicketIds = new Set(mappedNotionLeads.map((nl: any) => nl.ticketId));
+    const mergedLeads = [
+      ...mappedNotionLeads,
+      ...leads.filter((l) => !existingTicketIds.has(l.ticketId)),
+    ];
 
     const subscriptions = dbSubs.map((s) => ({
       id: s._id.toString(),
@@ -232,7 +272,7 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       data: {
-        leads,
+        leads: mergedLeads,
         subscriptions,
         templates,
         agencyProperties,
@@ -269,7 +309,9 @@ export async function POST(request: NextRequest) {
 
     switch (action) {
       case "create_lead": {
+        const ticketId = payload.ticketId || `TKT-ADM-${Math.floor(1000 + Math.random() * 9000)}`;
         const newLead = await Lead.create({
+          ticketId,
           fullName: payload.fullName,
           whatsapp: payload.whatsapp,
           email: payload.email || "",
@@ -288,6 +330,23 @@ export async function POST(request: NextRequest) {
           color: "blue",
           actorEmail: session.user.email,
         });
+
+        // Auto-sync to Notion CRM Database
+        try {
+          await createNotionLead({
+            ticketId,
+            fullName: newLead.fullName,
+            whatsapp: newLead.whatsapp,
+            territory: newLead.territory,
+            propertyType: newLead.propertyType,
+            budget: newLead.budget,
+            category: "Tenant Ticket",
+            source: "Staff Entry",
+            notes: `Staff Entry logged by ${session.user.email}`,
+          });
+        } catch (notionErr) {
+          console.warn("[Admin API] Notion sync warning:", notionErr);
+        }
 
         return NextResponse.json({ success: true, lead: newLead });
       }

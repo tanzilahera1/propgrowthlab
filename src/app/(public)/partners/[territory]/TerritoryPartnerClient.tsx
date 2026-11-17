@@ -70,13 +70,33 @@ export function TerritoryPartnerClient({ territory }: Props) {
   const [experience, setExperience] = useState("3-5 years");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !whatsapp || !email) {
       toast.error("Please fill in your name, WhatsApp, and email.");
       return;
     }
     setIsSubmitting(true);
+
+    try {
+      await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          whatsapp,
+          email,
+          territory: territory.name,
+          propertyType: "Exclusive Territory Partner Allocation",
+          leadCategory: "partner_application",
+          budget: "70/30 Commission Split",
+          notes: `Experience: ${experience}. Brokerage: ${brokerageName || "Independent"}. Role: Exclusive Territory Partner. Email: ${email}`,
+          source: "Territory Partner Portal",
+        }),
+      });
+    } catch {
+      // Continue to WhatsApp even if network fails
+    }
 
     const waMsg = `Hi PropGrowth Lab team, I want to lock in the exclusive Territory Coordinator allocation for ${territory.name}.
 Name: ${fullName}

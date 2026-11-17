@@ -4,6 +4,7 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Lead from "@/models/Lead";
 import AuditLog from "@/models/AuditLog";
 import { sendNotification } from "@/lib/notifications";
+import { createNotionLead, getNotionLeads } from "@/lib/notionSync";
 
 function generateTicketId(countryCode?: string, cityOrArea?: string): string {
   const cc = (countryCode || "GLB").toUpperCase().slice(0, 2);
@@ -18,6 +19,17 @@ function generateTicketId(countryCode?: string, cityOrArea?: string): string {
 export async function GET(request: NextRequest) {
   await connection();
   try {
+    // 1. If Notion CRM is configured and returns data, prioritize Notion as Headless CMS
+    const notionLeads = await getNotionLeads();
+    if (notionLeads && notionLeads.length > 0) {
+      return NextResponse.json({
+        success: true,
+        source: "notion_crm",
+        count: notionLeads.length,
+        leads: notionLeads,
+      });
+    }
+
     await connectToDatabase();
 
     const { searchParams } = new URL(request.url);
@@ -168,15 +180,43 @@ export async function POST(request: NextRequest) {
           "Ticket ID": ticketId,
           "Tenant Name": lead.fullName,
           "WhatsApp": lead.whatsapp,
+          "Target Hub": countryCode === "QA" ? "🇶🇦 Doha, Qatar" : countryCode === "PT" ? "🇵🇹 Madeira, Portugal" : "🇦🇪 Dubai, UAE",
           "Target Area": lead.territory,
           "Room Type": lead.propertyType,
           "Budget": lead.budget,
-          "Move-in Date": lead.moveInTimeframe,
-          "Luggage Van": lead.needsMovingService ? "YES (Requested)" : "NO",
+          "Move-in Timeframe": lead.moveInTimeframe,
+          "Luggage Van Voucher": lead.needsMovingService ? "✅ YES (Free Mover Assistance)" : "❌ NO",
+          "Anti-Cheat Shield": "🛡️ Active (Zero Fake Deposit Guarantee)",
+          "Next Founder Action": "1-Click WhatsApp Concierge Bridge",
         },
       });
     } catch (notifErr) {
       console.warn("[API /leads] Notification dispatch error:", notifErr);
+    }
+
+    // Auto-sync directly to Notion Headless CRM Database
+    try {
+      const notionCategory =
+        leadCategory === "partner_application"
+          ? "Coordinator Partner"
+          : leadCategory === "direct_owner"
+          ? "Owner Listing"
+          : "Tenant Ticket";
+
+      await createNotionLead({
+        ticketId,
+        fullName: lead.fullName,
+        whatsapp: lead.whatsapp,
+        territory: lead.territory,
+        category: notionCategory,
+        microZone: locationDetails?.upazilaOrThana || locationDetails?.microZone || "Mansoura",
+        propertyType: lead.propertyType,
+        budget: lead.budget,
+        notes: lead.notes,
+        source: lead.source,
+      });
+    } catch (notionErr) {
+      console.warn("[API /leads] Notion sync error:", notionErr);
     }
 
     return NextResponse.json({
