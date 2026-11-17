@@ -58,11 +58,18 @@ export async function createNotionLead(params: CreateNotionLeadParams): Promise<
     const payload = {
       parent: { database_id: NOTION_RENTAL_DATABASE_ID },
       properties: {
+        "Listing / Ticket ID": {
+          rich_text: [
+            {
+              text: { content: params.ticketId },
+            },
+          ],
+        },
         "Ticket / Title": {
           title: [
             {
               text: {
-                content: `${params.ticketId} | ${params.fullName}`,
+                content: params.fullName,
               },
             },
           ],
@@ -166,8 +173,11 @@ export async function getNotionLeads() {
     const data = await res.json();
     return data.results.map((page: any) => {
       const props = page.properties;
+      const ticketIdProp = props["Listing / Ticket ID"]?.rich_text?.[0]?.plain_text || "";
       const titleProp = props["Ticket / Title"]?.title?.[0]?.plain_text || "Untitled";
-      const contactName = props["Contact Name"]?.rich_text?.[0]?.plain_text || "";
+      const cleanTicketId = ticketIdProp || (titleProp.includes("|") ? titleProp.split("|")[0]?.trim() : page.id.slice(0, 8));
+      const cleanTitle = titleProp.includes("|") ? titleProp.split("|")[1]?.trim() : titleProp;
+      const contactName = props["Contact Name"]?.rich_text?.[0]?.plain_text || cleanTitle;
       const whatsapp = props["WhatsApp"]?.phone_number || "";
       const waLink = props["WhatsApp Link"]?.url || "";
       const category = props["Category"]?.select?.name || "Tenant Ticket";
@@ -181,7 +191,7 @@ export async function getNotionLeads() {
 
       return {
         id: page.id,
-        ticketId: titleProp.split("|")[0]?.trim() || page.id.slice(0, 8),
+        ticketId: cleanTicketId,
         name: contactName || titleProp,
         phone: whatsapp,
         waLink,
