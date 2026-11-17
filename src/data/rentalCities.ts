@@ -765,7 +765,7 @@ export const CITY_CONFIGS: Record<string, CityConfig> = {
       { label: "1800", value: "1800 QAR / mo" },
       { label: "1900", value: "1900 QAR / mo" },
       { label: "2000", value: "2000 QAR / mo" },
-      { label: "2200", value: "2200 QAR / mo" },
+      { label: "2000+", value: "2000+ QAR / mo" },
     ],
     roomTypes: [
       { id: "single_room", label: "Single Room", icon: "🚪", desc: "Private room with shared kitchen & hall" },
@@ -950,7 +950,7 @@ export const CITY_CONFIGS: Record<string, CityConfig> = {
       { label: "1800", value: "1800 QAR / mo" },
       { label: "1900", value: "1900 QAR / mo" },
       { label: "2000", value: "2000 QAR / mo" },
-      { label: "2200", value: "2200 QAR / mo" },
+      { label: "2000+", value: "2000+ QAR / mo" },
     ],
     roomTypes: [
       { id: "single_room", label: "Single Room", icon: "🚪", desc: "Private room with shared kitchen & hall" },
